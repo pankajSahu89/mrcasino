@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Casinos from "./pages/casinos";
@@ -16,6 +16,8 @@ import CreateBlog from "./pages/CreateBlog";
 import EditCasino from "./pages/EditCasino";
 import EditBlog from "./pages/EditBlog";
 import CasinoDetail from "./pages/CasinoDetail";
+import { useDispatch } from "react-redux";
+import { setCountryCode } from "./store/countrySlice";
 
 import Login from "./pages/Login";
 
@@ -27,20 +29,34 @@ import ResponsibleGambling from "./pages/ResponsibleGambling";
 import { trackPageView } from "./utils/analytics";
 function App() {
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Track initial pageview
-    trackPageView(location.pathname);
+   useEffect(() => {
+    const fetchUserCountry = async () => {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
 
-    // Cleanup function
-    return () => {
-      // Add any cleanup logic here if needed
+        if (data?.country) {
+          console.log("🌍 Country Code:", data.country);
+          dispatch(setCountryCode(data.country)); // Save to Redux
+        }
+      } catch (error) {
+        console.error("Error fetching country:", error);
+      }
     };
+
+    fetchUserCountry();
+  }, []);
+
+  // 2️⃣ Track page view
+  useEffect(() => {
+    trackPageView(location.pathname);
   }, [location.pathname]);
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+     <Route path="/" element={<Home />} />
       <Route path="/casinos" element={<Casinos />} />
       <Route path="/bonuses" element={<Bonuses />} />
       <Route path="/games" element={<Games />} />

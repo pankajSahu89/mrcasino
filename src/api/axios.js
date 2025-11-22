@@ -3,7 +3,7 @@ import axios from "axios";
 const API = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
-      ? "https://casino-backened.onrender.com/api"
+      ? "https://backend.mrgamblers.com/api"
       : "http://localhost:4000/api",
 
   withCredentials: true,

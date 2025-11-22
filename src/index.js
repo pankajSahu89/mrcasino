@@ -3,15 +3,24 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
-import { initGA } from './utils/analytics';
+import { initGA } from "./utils/analytics";
 import { AuthProvider } from "./context/AuthContext";
+
+// Redux
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
+// Initialize Google Analytics
 initGA();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <BrowserRouter>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </Provider>
 );

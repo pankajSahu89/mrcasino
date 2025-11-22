@@ -150,7 +150,7 @@ const navigate = useNavigate();
 
           <h2 className="text-3xl font-bold text-white mb-10 mt-40 text-2xl md:text-3xl lg:text-4xl">RECOMMENDED BY OUR EXPERTS</h2>
           <div className="flex justify-center items-center">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {expertSlots.slice(0, 6).map((casino, index) => (
                <Card key={index} name={casino.name} rating={casino.rating} bgImage={casino.logo} onClick={() => handlePlayClick(casino.name)} />
               ))}
@@ -167,7 +167,7 @@ const navigate = useNavigate();
               <h2 className="text-3xl font-bold text-white mb-6 text-2xl md:text-4xl lg:text-5xl">Certified Slots</h2>
             </div>
             <div className="flex justify-center items-center">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                 {certifiedSlots.slice(0, 6).map((casino, index) => (
                   <Card key={index} name={casino.name} rating={casino.rating} bgImage={casino.logo} onClick={() => handlePlayClick(casino.name)} />
                 ))}

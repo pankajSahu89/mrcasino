@@ -200,7 +200,7 @@ const filterCasinos = (data) => {
           </h2>
 
           <div className="flex justify-center items-center">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {loading ? (
                 <p>Loading...</p>
               ) : error ? (
@@ -238,7 +238,7 @@ const filterCasinos = (data) => {
             <div className="flex justify-center items-center">
              
               <div className="flex justify-center items-center">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                   {loading ? (
                     <p>Loading...</p>
                   ) : error ? (

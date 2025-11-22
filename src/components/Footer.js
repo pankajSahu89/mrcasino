@@ -1,112 +1,190 @@
-import React from 'react';
-import footerbg from '../assets/images/footer-bg.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faFacebook, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faTelegram, faWhatsapp, faMicrosoft } from "@fortawesome/free-brands-svg-icons";
-import logo from '../assets/images/mr_logo.png';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { COLORS } from "../constants/colors";
 
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
-    <footer className="bg-cover bg-center py-10 text-white" style={{ backgroundImage: `url(${footerbg})` }}>
-      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 mb-5 gap-12">
+    <footer
+      className="w-full text-white"
+      style={{
+        backgroundColor: COLORS.black,
+        borderTop: `1px solid ${COLORS.primary}`,
+      }}
+    >
+      <div className="max-w-[1440px] mx-auto px-6 py-14">
 
-        {/* Left Column: Newsletter */}
-        <div >
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-10 text-white max-w-full">
-            MR GAMBLERS
-          </h2>
-          <p className="mt-2 text-lg font-semibold">SUBSCRIBE TO OUR NEWS LETTER</p>
-          <form className="mt-6 space-y-4 max-w-lg">
-            <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0">
-              <input
-                type="email"
-                placeholder="Email ID"
-                className="flex-1 bg-white bg-opacity-20 py-3 px-4 rounded-md text-white placeholder-white focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-gradient-to-r from-red-600 to-red-500 text-white py-3 px-6 rounded-md font-bold whitespace-nowrap"
+        {/* ---------- MAIN 2-COLUMN LAYOUT ---------- */}
+        <div className="grid grid-cols-1 md:grid-cols-[1.5fr_3fr] gap-12">
+
+          {/* ---------- LEFT COLUMN ---------- */}
+          <div className="flex flex-col gap-4">
+            <h2
+              className="flex items-center justify-center w-fit"
+              style={{
+                height: "38px",
+                background: COLORS.white,
+                borderTopLeftRadius: "20px",
+                borderBottomRightRadius: "20px",
+                padding: "8px 20px",
+                fontFamily: "BigNoodleTitling",
+                fontSize: "28px",
+                fontWeight: "300",
+                letterSpacing: "0.1em",
+                color: COLORS.primary,
+              }}
+            >
+              MR GAMBLERS
+            </h2>
+
+            <p className="text-gray-300 leading-6 max-w-[360px]">
+              Your Gateway to the Best Online Casinos & Big Wins!
+              <br />
+              Compare top-rated casino platforms, claim exclusive bonuses, and
+              start playing today!
+            </p>
+
+            {/* SOCIAL ICONS */}
+            <div className="flex space-x-4 mt-2">
+              {[faFacebook, faInstagram, faYoutube].map((icon, idx) => (
+                <a
+                  key={idx}
+                  href="#"
+                  className="w-[34px] h-[34px] rounded-full bg-white flex items-center justify-center"
+                >
+                  <FontAwesomeIcon
+                    icon={icon}
+                    style={{ color: COLORS.primary, fontSize: "18px" }}
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* ---------- RIGHT SECTION WITH 3 COLUMNS ---------- */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+            {/* About Us */}
+            <div>
+              <h3 className="font-semibold text-lg mb-5">About Us</h3>
+              <ul className="space-y-3 text-gray-300">
+                {["Casino", "Bonus", "Games", "Betting", "Slots", "Sitemap"].map((item) => (
+                  <li
+                    key={item}
+                    style={{
+                      fontFamily: "Poppins",
+                      fontWeight: 400,
+                      fontSize: "16px",
+                      lineHeight: "100%",
+                      letterSpacing: "0.04em",
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h3 className="font-semibold text-lg mb-5">Support</h3>
+              <ul className="space-y-3 text-gray-300">
+                {[
+                  "Contact Us",
+                  "Responsible Gambling",
+                  "Whistleblowing Policy",
+                  "Conflicts of Interest",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    style={{
+                      fontFamily: "Poppins",
+                      fontWeight: 400,
+                      fontSize: "16px",
+                      lineHeight: "100%",
+                      letterSpacing: "0.04em",
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h3 className="font-semibold text-lg mb-5">Contact Us</h3>
+
+              <p
+                className="flex items-center gap-3 text-gray-300"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 400,
+                  fontSize: "16px",
+                  lineHeight: "100%",
+                  letterSpacing: "0.04em",
+                  verticalAlign: "middle",
+                }}
               >
-                SUBSCRIBE
-              </button>
+                <FontAwesomeIcon icon={faEnvelope} />
+                support@mrgamblers.com
+              </p>
+
+              <p
+                className="flex items-center gap-3 text-gray-300 mt-3"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 400,
+                  fontSize: "16px",
+                  lineHeight: "100%",
+                  letterSpacing: "0.04em",
+                  verticalAlign: "middle",
+                }}
+              >
+                <FontAwesomeIcon icon={faPhone} />
+                +44 7537 105417
+              </p>
             </div>
 
-            <div className="space-y-2 text-sm text-white" >
-              <label className="flex items-start space-x-2">
-                <input type="checkbox" className="mt-1 accent-red-600" />
-                <span>I confirm I am over 18–24 years old, depending on my location.</span>
-              </label>
-              <label className="flex items-start space-x-2">
-                <input type="checkbox" className="mt-1 accent-red-600" />
-                <span>I agree that my contact data may be used to keep me informed about casino and sports betting products, services, and offerings.</span>
-              </label>
-            </div>
-          </form>
+          </div>
+
         </div>
 
-        {/* Right Column: Links, Countries, Contact */}
-        <div className="flex flex-col md:flex-row gap-8 mt-10 mb-5 md:gap-12 lg:gap-16">
-          {/* Quick Links */}
-          <div className="flex-1">
-            <h3 className="font-bold text-lg mb-4">Links</h3>
-            <ul className="space-y-3">
-              <li><a href="#" className="hover:text-gray-300">Casino</a></li>
-              <li><a href="#" className="hover:text-gray-300">Bonus</a></li>
-              <li><a href="#" className="hover:text-gray-300">Games</a></li>
-              <li><a href="#" className="hover:text-gray-300">Betting</a></li>
-              <li><a href="#" className="hover:text-gray-300">Slots</a></li>
-            </ul>
-          </div>
+        {/* ---------- BOTTOM SECTION ---------- */}
+        <div className="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between text-gray-400 text-sm">
+          <p className="font-poppins font-normal text-[14px] leading-none">
+            © 2025 Mr Gamblers. All rights reserved. Gambling can be addictive
+          </p>
 
-          {/* Countries */}
-          <div className="flex-1">
-            <h3 className="font-bold text-lg mb-4">Links</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link>
-              </li>
-              <li>
-                <Link to="/terms-and-conditions" className="hover:underline">Terms & Conditions</Link>
-              </li>
-              <li>
-                <Link to="/cookies-policy" className="hover:underline">Cookie Policy</Link>
-              </li>
-              <li>
-                <Link to="/responsible-gambling" className="hover:underline">Responsible Gambling</Link>
-              </li>
-            </ul>
-          </div>
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <Link
+              to="/terms-of-service"
+              className=" font-normal text-[14px] leading-none hover:text-white"
+            >
+              Terms of Service
+            </Link>
 
-          {/* Contact & Social */}
-          <div className="flex-1">
-            <div className="mb-6">
-              <h3 className="font-bold text-lg mb-4">Contact Us</h3>
-              <p className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faEnvelope} /> support@mrgamblers.com
-              </p>
-              <p className="flex items-center gap-2 mt-2">
-                <FontAwesomeIcon icon={faPhone} /> +91-12345 67890
-              </p>
-            </div>
+            <Link
+              to="/privacy-policy"
+              className="font-poppins font-normal text-[14px] leading-none hover:text-white"
+            >
+              Privacy Policy
+            </Link>
 
-            <div className="flex space-x-6 text-2xl mb-6">
-              <a href="#" className="hover:opacity-80"><FontAwesomeIcon icon={faTelegram} /></a>
-              <a href="#" className="hover:opacity-80"><FontAwesomeIcon icon={faFacebook} /></a>
-              <a href="#" className="hover:opacity-80"><FontAwesomeIcon icon={faMicrosoft} /></a>
-              <a href="#" className="hover:opacity-80"><FontAwesomeIcon icon={faWhatsapp} /></a>
-            </div>
-
-            {/* <div className="space-y-1">
-              <a href="#" className="block text-sm hover:text-gray-300">Privacy Policy</a>
-              <a href="#" className="block text-sm hover:text-gray-300">Terms & Conditions</a>
-            </div> */}
           </div>
         </div>
 
       </div>
     </footer>
+
   );
 };
 

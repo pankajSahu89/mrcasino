@@ -9,10 +9,10 @@ import API from "../api/axios";
 import ExpertCard from '../components/ExpertCard';
 
 import categoriesImg1 from '../assets/images/image15.png';
-import categoriesImg2 from '../assets/images/image 16.png';
+import categoriesImg2 from '../assets/images/image 18.png';
 import categoriesImg3 from '../assets/images/image 17.png';
 import categoriesImg4 from '../assets/images/image 18.png';
-import categoriesImg5 from '../assets/images/image 19.png';
+import categoriesImg5 from '../assets/images/image15.png';
 import categoriesImg6 from '../assets/images/image 20.png';
 
 import certified from '../assets/images/Certified.png';
@@ -139,7 +139,7 @@ const Casinos = ({ type }) => {
       <section className="py-10 bg-black100 text-center">
         <h2 className="text-3xl text-white font-semibold mb-6">Top Casinos</h2>
         <div className="flex justify-center items-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 m-10 mt-0">
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-8 m-10 mt-0">
             {loading ? (
               <p className="text-white">Loading...</p>
             ) : error ? (
@@ -202,7 +202,7 @@ const Casinos = ({ type }) => {
           </h2>
 
           <div className="flex justify-center items-center">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {loading ? (
                 <p>Loading...</p>
               ) : error ? (
@@ -240,7 +240,7 @@ const Casinos = ({ type }) => {
             <div className="flex justify-center items-center">
 
               <div className="flex justify-center items-center">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                   {loading ? (
                     <p>Loading...</p>
                   ) : error ? (

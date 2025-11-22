@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance with base URL
 // const API_URL = "http://localhost:4000/api";
-const API_URL = "https://casino-backened.onrender.com/api";
+const API_URL = "https://backend.mrgamblers.com/api";
 
 const api = axios.create({
   baseURL: API_URL,

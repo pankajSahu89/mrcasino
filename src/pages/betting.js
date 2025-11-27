@@ -3,14 +3,14 @@ import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SearchBox from "../components/searchbox";
-import Card from "../components/Card";
-import ExpertCard from "../components/ExpertCard";
 import Footer from "../components/Footer";
-
+import RecentlyAddedSection from "../components/RecentlyAddedSection";
+import CertifiedCasinosSection from "../components/CertifiedCasino";
+import RecommendedByExpertSection from "../components/RecommendedByExpert";
+import TopCasinos from "../components/TopCasinos.js";
+import SubscribeSection from "../components/SubscribeSection.js";
 import bettingBg from "../assets/images/betting-bg.png";
 import certified from "../assets/images/Certified.png";
-import leftCircle from "../assets/images/lefteclipse.png";
-import rightCircle from "../assets/images/righteclipse.png";
 
 const BETTING_TYPE_TAGS = {
     sports: "Sports Betting",
@@ -54,18 +54,18 @@ const Betting = ({ type }) => {
 
         fetchBettingSites();
     }, [type]);
- const handlePlayClick = (name) => {
-    navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
-  };
+    const handlePlayClick = (name) => {
+        navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
+    };
     const filterDataByType = (data) => {
         const tag = BETTING_TYPE_TAGS[type];
         const filtered = data.filter(
             (item) => Array.isArray(item.tags) && item.tags.includes(tag)
         );
-        setFilteredData(filtered);
-        setHot(filtered.filter((item) => item.hotCasino));
-        setExpert(filtered.filter((item) => item.recommendedByExperts));
-        setCertifiedData(filtered.filter((item) => item.certifiedCasino));
+        setFilteredData(filtered.slice(0, 5));
+        setHot(filtered.filter((item) => item.hotCasino).slice(0, 5));
+        setExpert(filtered.filter((item) => item.recommendedByExperts).slice(0, 4));
+        setCertifiedData(filtered.filter((item) => item.certifiedCasino).slice(0, 4));
     };
 
     return (
@@ -84,87 +84,35 @@ const Betting = ({ type }) => {
                 </div>
             </header>
 
-            <section className="py-10 bg-black100 text-center">
-                <h2 className="text-3xl text-white font-semibold mb-6">Top Betting Sites</h2>
-                <div className="flex justify-center items-center">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 m-10 mt-0">
-                        {loading ? (
-                            <p className="text-white">Loading...</p>
-                        ) : error ? (
-                            <p className="text-red-500">Error: {error}</p>
-                        ) : (
-                            filteredData.slice(0, 5).map((item, index) => (
-                                <Card key={index} name={item.name} rating={item.rating} bgImage={item.logo} onClick={() => handlePlayClick(item.name)} />
-                            ))
-                        )}
-                    </div>
-                </div>
-            </section>
 
-            <section className="relative bg-black100 text-center py-12 overflow-hidden">
-                <div
-                    className="absolute inset-0 z-0"
-                    style={{
-                        backgroundImage: `url(${leftCircle}), url(${rightCircle})`,
-                        backgroundPosition: "0 100%, 100% 0",
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "800px 600px, 800px 600px",
-                    }}
-                />
-                <div className="relative z-10">
-                    <h2 className="text-3xl font-bold text-white mb-6 text-2xl md:text-4xl lg:text-6xl">HOT BETTING SITES</h2>
-                    <div className="flex justify-center mb-10 rounded-2xl mx-auto max-w-[900px] p-10 bg-green-800">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
-                            {hot.slice(0, 4).map((item, index) => (
 
-                                <ExpertCard key={index} bgImage={item.logo} name={item.name} onClick={() => handlePlayClick(item.name)} />
-                            ))}
-                        </div>
-                    </div>
 
-                    <h2 className="text-3xl font-bold text-white mb-10 mt-40 text-2xl md:text-3xl lg:text-4xl">RECOMMENDED BY EXPERTS</h2>
-                    <div className="flex justify-center items-center">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                            {expert.slice(0, 6).map((item, index) => (
-                                <ExpertCard key={index} logo={item.logo} name={item.name} onClick={() => handlePlayClick(item.name)} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section className="py-10 bg-black100 text-center">
-                <div className="flex flex-col items-center">
-                    <div className="relative text-white p-10 w-full" style={{ background: "linear-gradient(to right, #1A008E, #070028)" }}>
-                        <div className="flex flex-row justify-center items-center text-center mb-10">
-                            <img src={certified} alt="Certified" className="w-12 h-12 sm:w-24 sm:h-24 sm:mr-4 mb-4 sm:mb-4" />
-                            <h2 className="text-3xl font-bold text-white mb-6 text-2xl md:text-4xl lg:text-5xl">Certified Betting Sites</h2>
-                        </div>
-                        <div className="flex justify-center items-center">
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                                {certifiedData.slice(0, 6).map((item, index) => (
-                                    <ExpertCard key={index} logo={item.logo} name={item.name} onClick={() => handlePlayClick(item.name)}/>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section className="py-10 bg-black100 text-center">
-                <div className="flex flex-col items-center">
-                    <div className="relative text-white bg-black100 p-10 w-full max-w-full">
-                        <h2 className="text-3xl font-bold text-white mb-6 text-2xl md:text-4xl lg:text-5xl">Recently Added </h2>
-                        <div className="flex justify-center items-center">
-                            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8">
-                                {filteredData.slice(0, 6).map((casino, index) => (
-                                    <Card key={index} name={casino.name} rating={casino.rating} bgImage={casino.logo}/>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <TopCasinos
+                recentCasinos={filteredData}
+                handlePlayClick={handlePlayClick}
+            />
+
+            <RecommendedByExpertSection
+                certifiedCasinos={expert}
+                handlePlayClick={handlePlayClick}
+
+            />
+
+            <CertifiedCasinosSection
+                certifiedCasinos={certifiedData}
+                handlePlayClick={handlePlayClick}
+                certified={certified}
+            />
+
+            <RecentlyAddedSection
+                recentCasinos={filteredData}
+                handlePlayClick={handlePlayClick}
+            />
+
+
+            <SubscribeSection />
 
             <Footer />
         </>

@@ -18,7 +18,7 @@ const AllOnlineCasinosSection = ({
                 {/* Title */}
                 <div className="flex flex-row sm:flex-row justify-center items-center text-center">
                     <h2
-                        className="text-white text-center mb-3 text-4xl sm:text-5xl md:text-6xl"
+                        className="text-white text-center mb-4 text-4xl sm:text-5xl md:text-6xl"
                         style={{
                             fontFamily: "Jaini",
                             fontStyle: "normal",
@@ -43,21 +43,23 @@ const AllOnlineCasinosSection = ({
                             welcomeBonus={casino.welcomeBonus || "200% Match Bonus"}
                             rating={casino.rating}
                             visits={`${casino.visits || 0}`}
+                            overview={casino.overview || "Explore a wide range of games and exciting bonuses at this top-rated online casino."}
+                            minimumDeposit={casino.paymentInfo?.minimumDeposit || "$0"}
+
+
                         />
                     ))}
                 </div>
 
                 {/* Pagination */}
-                <div className="flex justify-between items-center mt-2 w-full px-44">
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-2 w-full px-4 sm:px-32 gap-2 sm:gap-0">
 
                     {/* Left Side - Current Page */}
                     <p
-                        className="text-white"
+                        className="text-white text-sm sm:text-base text-center sm:text-left"
                         style={{
                             fontFamily: "Poppins",
                             fontWeight: 500,
-                            fontStyle: "normal",
-                            fontSize: "16px",
                             lineHeight: "20px",
                             letterSpacing: "0.5%",
                         }}
@@ -66,20 +68,18 @@ const AllOnlineCasinosSection = ({
                     </p>
 
                     {/* Right Side - Navigation */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-2 mt-2 sm:mt-0">
 
                         {/* Prev Button */}
                         <button
                             onClick={handlePrevPage}
                             disabled={currentPage === 1}
-                            className="w-8 h-8 flex items-center justify-center rounded-md 
-               bg-white border hover:bg-blue-50 disabled:opacity-40 transition"
-                            style={{
-                                borderColor: COLORS.primary,
-                            }}
+                            className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-md 
+                 bg-white border hover:bg-blue-50 disabled:opacity-40 transition"
+                            style={{ borderColor: COLORS.primary }}
                         >
                             <FaChevronLeft
-                                className="w-4 h-4"
+                                className="w-3 h-3 sm:w-4 sm:h-4"
                                 style={{ color: COLORS.primary }}
                             />
                         </button>
@@ -93,7 +93,7 @@ const AllOnlineCasinosSection = ({
                                 <button
                                     key={pageNum}
                                     onClick={() => setCurrentPage(pageNum)}
-                                    className={`w-8 h-8 flex items-center justify-center rounded-md border transition`}
+                                    className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border text-sm sm:text-base transition"
                                     style={{
                                         background: isActive ? COLORS.primary : "white",
                                         color: isActive ? "white" : COLORS.primary,
@@ -106,12 +106,12 @@ const AllOnlineCasinosSection = ({
                         })}
 
                         {/* Ellipsis */}
-                        <span className="w-8 h-8 flex items-center justify-center text-white">…</span>
+                        <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-white text-sm sm:text-base">…</span>
 
                         {/* Last Page Button */}
                         <button
                             onClick={() => setCurrentPage(totalPages)}
-                            className="w-8 h-8 flex items-center justify-center rounded-md border transition"
+                            className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border text-sm sm:text-base transition"
                             style={{
                                 background: currentPage === totalPages ? COLORS.primary : "white",
                                 color: currentPage === totalPages ? "white" : COLORS.primary,
@@ -121,25 +121,22 @@ const AllOnlineCasinosSection = ({
                             {totalPages}
                         </button>
 
-
                         {/* Next Button */}
                         <button
-                            onClick={handlePrevPage}
+                            onClick={handleNextPage}
                             disabled={currentPage === totalPages}
-                            className="w-8 h-8 flex items-center justify-center rounded-md 
-                            bg-white border hover:bg-blue-50 disabled:opacity-40 transition"
-                            style={{
-                                borderColor: COLORS.primary,
-                            }}
+                            className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-md 
+                 bg-white border hover:bg-blue-50 disabled:opacity-40 transition"
+                            style={{ borderColor: COLORS.primary }}
                         >
                             <FaChevronRight
-                                className="w-4 h-4"
+                                className="w-3 h-3 sm:w-4 sm:h-4"
                                 style={{ color: COLORS.primary }}
                             />
                         </button>
                     </div>
-
                 </div>
+
 
             </div>
         </section>

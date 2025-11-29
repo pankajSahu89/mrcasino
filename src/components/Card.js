@@ -8,20 +8,7 @@ const Card = ({ rating, bgImage, flagCode, onClick }) => {
       onClick={onClick}
     >
       {/* Flag or fallback crown inside circle */}
-      <div
-        className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white w-12 h-12 rounded-full border-4 border-black z-10 flex items-center justify-center"
-        style={{ boxShadow: "inset 0 0 0 3px red" }}
-      >
-        {flagCode ? (
-          <img
-            src={`https://flagcdn.com/w40/${flagCode.toLowerCase()}.png`}
-            alt="Flag"
-            className="w-6 h-4 rounded-sm"
-          />
-        ) : (
-          <img src={crown} alt="Crown" className="w-6 h-6" />
-        )}
-      </div>
+       
 
       {/* Background image */}
       <div

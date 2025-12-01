@@ -76,19 +76,30 @@ const NewOnMrGamblers = ({
 
 
             {/* Cards */}
-            <div className="flex justify-center items-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 m-10 mt-5">
-                    {getCurrentSectionData().map((casino) => (
-                        <Card
-                            key={casino.name}
-                            name={casino.name}
-                            rating={casino.rating}
-                            bgImage={casino.logo}
-                            onClick={() => handlePlayClick(casino.name)}
-                        />
-                    ))}
+            <div className="flex justify-center px-4 items-center">
+                <div className="w-full overflow-x-auto scroll-smooth hide-scrollbar">
+                    <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 m-10 mt-5">
+                        {getCurrentSectionData().map((casino) => (
+                            <div className="flex-shrink-0 w-80 sm:w-auto">
+                                <Card
+                                    title={casino.name}
+                                    name={casino.name}
+                                    rating={casino.rating}
+                                    bgImage={casino.logo}
+                                    depositBonus={casino.depositBonus || "Up to €1000 + 200 Free Spins"}
+                                    welcomeBonus={casino.welcomeBonus || "200% Match Bonus"}
+                                    minimumDeposit={casino.paymentInfo?.minimumDeposit || "$0"}
+                                    visits={`${casino.visits || 0}`}
+                                    licences={casino.generalInfo?.licences || "Curacao"}
+                                    onClick={() => handlePlayClick(casino.name)}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
+
+
         </section>
     );
 };

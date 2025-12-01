@@ -50,7 +50,7 @@ const Home = () => {
       gtag("config", "G-J8M10SL43W");
     }
     // Change body background color
-    document.body.style.backgroundColor = "#1e1e1e";
+    document.body.style.backgroundColor = COLORS.black;
     let scrollTracked = false;
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
@@ -199,15 +199,15 @@ const Home = () => {
     );
 
     // Set filtered data
-    setCasinoFilteredData(filteredCasinos.slice(0, 5));
-    setBonusFilteredData(filteredBonuses.slice(0, 5));
-    setGameFilteredData(filteredGames.slice(0, 5));
-    setSlotFilteredData(filteredSlots.slice(0, 5));
-    setBettingFilteredData(filteredBetting.slice(0, 5));
+    setCasinoFilteredData(filteredCasinos.slice(0, 4));
+    setBonusFilteredData(filteredBonuses.slice(0, 4));
+    setGameFilteredData(filteredGames.slice(0, 4));
+    setSlotFilteredData(filteredSlots.slice(0, 4));
+    setBettingFilteredData(filteredBetting.slice(0, 4));
     setRecommendCasinos(filteredRecommend.slice(0, 4));
 
     setCertifiedCasinos(filteredCertified.slice(0, 4));
-    setRecentCasinos(sortedByDate.slice(0, 5));
+    setRecentCasinos(sortedByDate.slice(0, 4));
   };
 
   const handlePlayClick = (name) => {

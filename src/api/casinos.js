@@ -2,7 +2,7 @@ import API from "./axios";
 
 export const getCasinos = async () => {
   try {
-    const response = await API.get("/casinos");
+    const response = await API.get("/casinos/homecasino");
     return response.data;
   } catch (error) {
     if (error.message.includes("ERR_BLOCKED_BY_CLIENT")) {

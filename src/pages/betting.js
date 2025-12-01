@@ -62,8 +62,8 @@ const Betting = ({ type }) => {
         const filtered = data.filter(
             (item) => Array.isArray(item.tags) && item.tags.includes(tag)
         );
-        setFilteredData(filtered.slice(0, 5));
-        setHot(filtered.filter((item) => item.hotCasino).slice(0, 5));
+        setFilteredData(filtered.slice(0, 4));
+        setHot(filtered.filter((item) => item.hotCasino).slice(0, 4));
         setExpert(filtered.filter((item) => item.recommendedByExperts).slice(0, 4));
         setCertifiedData(filtered.filter((item) => item.certifiedCasino).slice(0, 4));
     };

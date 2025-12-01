@@ -103,8 +103,8 @@ const filterCasinos = (data) => {
   }
 
   // Set all filtered results based on tag-matched data
-  setFilteredData(tagFiltered.slice(0, 5));
-  setHotCasinos(tagFiltered.filter(casino => casino.hotCasino === true).slice(0, 5));
+  setFilteredData(tagFiltered.slice(0, 4));
+  setHotCasinos(tagFiltered.filter(casino => casino.hotCasino === true).slice(0, 4));
   setrecommendedByExperts(tagFiltered.filter(casino => casino.recommendedByExperts === true).slice(0, 4));
   setcertifiedCasinos(tagFiltered.filter(casino => casino.certifiedCasino === true).slice(0, 4));
 };

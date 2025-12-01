@@ -82,8 +82,8 @@ const navigate = useNavigate();
     );
   }
 
-  setFilteredData(tagFiltered.slice(0, 5));
-  setHotSlots(tagFiltered.filter(slot => slot.hotCasino === true).slice(0, 5));
+  setFilteredData(tagFiltered.slice(0, 4));
+  setHotSlots(tagFiltered.filter(slot => slot.hotCasino === true).slice(0, 4));
   setExpertSlots(tagFiltered.filter(slot => slot.recommendedByExperts === true).slice(0, 4));
   setCertifiedSlots(tagFiltered.filter(slot => slot.certifiedCasino === true).slice(0, 4));
 };

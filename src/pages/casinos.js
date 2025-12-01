@@ -69,8 +69,8 @@ const Casinos = ({ type }) => {
     const recExperts = tagFiltered.filter(casino => casino.recommendedByExperts === true);
     const certified = tagFiltered.filter(casino => casino.certifiedCasino === true);
 
-    setFilteredData(tagFiltered.slice(0, 5));
-    setHotCasinos(hot.slice(0, 5));
+    setFilteredData(tagFiltered.slice(0, 4));
+    setHotCasinos(hot.slice(0, 4));
     setrecommendedByExperts(recExperts.slice(0, 4));
     setcertifiedCasinos(certified.slice(0, 4));
   }

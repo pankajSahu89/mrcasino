@@ -2,7 +2,7 @@ import React, { useEffect, useState, Suspense, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
-import certified from "../assets/images/Certified.png";
+import certified from "../assets/images/Certified.png"; 
 import { COLORS } from "../constants/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHomeCasinos, fetchAllCasinos } from "../redux/casinosSlice";
@@ -69,7 +69,7 @@ const Home = () => {
     const casinoTags = [
       "Crypto Casino",
       "Online Casino",
-      "Mobile Casino",
+      "Online Casino",
       "Newest Casino",
     ];
     const bonusTags = [
@@ -151,8 +151,18 @@ const Home = () => {
 
   if (loadingHome) {
     return (
-      <div className="flex items-center justify-center h-screen" style={{ backgroundColor: COLORS.black }}>
-        <div className="text-white text-2xl">Loading casinos...</div>
+      <div className="flex items-center justify-center h-screen bg-black">
+        <div className="flex flex-col items-center space-y-6">
+
+
+        
+          <div className="text-white text-2xl font-bold tracking-wide animate-pulse">
+            Loading casinos...
+          </div>
+
+         
+          <div className="w-32 h-1 bg-red-600 rounded-full opacity-50 animate-pulse"></div>
+        </div>
       </div>
     );
   }
@@ -174,7 +184,6 @@ const Home = () => {
       <Suspense
         fallback={
           <div className="p-10 space-y-6 bg-black text-white">
-            <div className="w-40 h-6 bg-gray-700 rounded-lg animate-pulse"></div>
             <div className="w-full h-40 bg-gray-800 rounded-xl animate-pulse"></div>
             <div className="w-full h-40 bg-gray-800 rounded-xl animate-pulse"></div>
             <div className="w-full h-40 bg-gray-800 rounded-xl animate-pulse"></div>
@@ -199,7 +208,7 @@ const Home = () => {
         <CertifiedCasinosSection
           certifiedCasinos={sections.certified}
           handlePlayClick={handlePlayClick}
-          certified={certified}
+          certified={certified} // This prop should ideally be an image URL/path, not an imported object
         />
 
         <RecentlyAddedSection
@@ -230,3 +239,4 @@ const Home = () => {
 };
 
 export default Home;
+

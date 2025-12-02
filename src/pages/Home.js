@@ -1,128 +1,157 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
-import NewOnMrGamblers from "../components/NewOnMrGamblers.js";
-import AreYouIn from "../components/AreYouIn.js";
-import HotCasinoSection from "../components/HotCasinoSection.js";
-import CertifiedCasinosSection from "../components/CertifiedCasino.js";
-import RecommendedByExpertSection from "../components/RecommendedByExpert.js";
-import RecentlyAddedSection from "../components/RecentlyAddedSection.js";
-import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
-import SubscribeSection from "../components/SubscribeSection.js";
-import Footer from "../components/Footer";
-import CookieConsent from "../components/CookieConsent";
-
 import certified from "../assets/images/Certified.png";
 import { COLORS } from "../constants/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHomeCasinos, fetchAllCasinos } from "../redux/casinosSlice";
 
+const NewOnMrGamblers = React.lazy(() =>
+  import("../components/NewOnMrGamblers.js")
+);
+const AreYouIn = React.lazy(() => import("../components/AreYouIn.js"));
+const HotCasinoSection = React.lazy(() =>
+  import("../components/HotCasinoSection.js")
+);
+const RecommendedByExpertSection = React.lazy(() =>
+  import("../components/RecommendedByExpert.js")
+);
+const CertifiedCasinosSection = React.lazy(() =>
+  import("../components/CertifiedCasino.js")
+);
+const RecentlyAddedSection = React.lazy(() =>
+  import("../components/RecentlyAddedSection.js")
+);
+const AllOnlineCasinosSection = React.lazy(() =>
+  import("../components/AllOnlineCasinosSection.js")
+);
+const SubscribeSection = React.lazy(() =>
+  import("../components/SubscribeSection.js")
+);
+const Footer = React.lazy(() => import("../components/Footer"));
+const CookieConsent = React.lazy(() => import("../components/CookieConsent"));
+
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-const { homeCasinos, allCasinos, loadingHome, loadingAll, error } =
-  useSelector((state) => state.casinos || {});
+  const { homeCasinos, allCasinos, loadingHome, error } = useSelector(
+    (state) => state.casinos || {}
+  );
 
   const [activeSection, setActiveSection] = useState("casinos");
-
-  // Filtered states
-  const [casinoFilteredData, setCasinoFilteredData] = useState([]);
-  const [bonusFilteredData, setBonusFilteredData] = useState([]);
-  const [gameFilteredData, setGameFilteredData] = useState([]);
-  const [slotFilteredData, setSlotFilteredData] = useState([]);
-  const [bettingFilteredData, setBettingFilteredData] = useState([]);
-  const [certifiedCasinos, setCertifiedCasinos] = useState([]);
-  const [recommendCasinos, setRecommendCasinos] = useState([]);
-  const [recentCasinos, setRecentCasinos] = useState([]);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const casinosPerPage = 10;
   const totalPages = Math.ceil(allCasinos.length / casinosPerPage);
-  const indexOfLastCasino = currentPage * casinosPerPage;
-  const indexOfFirstCasino = indexOfLastCasino - casinosPerPage;
-  const currentCasinos = allCasinos.slice(indexOfFirstCasino, indexOfLastCasino);
+
+  const currentCasinos = useMemo(() => {
+    const start = (currentPage - 1) * casinosPerPage;
+    return allCasinos.slice(start, start + casinosPerPage);
+  }, [allCasinos, currentPage]);
 
   useEffect(() => {
-    // Fetch home casinos first for fast render
     dispatch(fetchHomeCasinos());
-
-    // Fetch all casinos in background
     dispatch(fetchAllCasinos());
 
-    // Change body background
     document.body.style.backgroundColor = COLORS.black;
-
     return () => {
       document.body.style.backgroundColor = null;
     };
   }, [dispatch]);
 
-  // Filter casinos once homeCasinos are loaded
-  useEffect(() => {
-    if (homeCasinos.length > 0) {
-      filterCasinosData(homeCasinos);
-    }
+
+  const sections = useMemo(() => {
+    if (homeCasinos.length === 0) return {};
+
+    const casinoTags = [
+      "Crypto Casino",
+      "Online Casino",
+      "Mobile Casino",
+      "Newest Casino",
+    ];
+    const bonusTags = [
+      "Latest Bonus",
+      "Exclusive Bonus",
+      "Welcome Bonus",
+      "No Deposit",
+      "Free Spins Bonus",
+      "Cashback Bonus",
+      "No Wagering Bonus",
+    ];
+    const gameTags = [
+      "Casino Games",
+      "Table Games",
+      "Card Games",
+      "Dice Games",
+      "Real Money Online Slots",
+      "Poker",
+      "Bingo",
+      "Lottery Games",
+      "Video Slots",
+      "Classic Slots",
+      "Progressive Slots",
+      "New Slots",
+    ];
+    const slotTags = [
+      "Video Slots",
+      "Classic Slots",
+      "Progressive Slots",
+      "New Slots",
+      "Real Money Online Slots",
+    ];
+    const bettingTags = [
+      "Sports Betting",
+      "New Betting Sites",
+      "Bet Types",
+      "Betting Bonuses",
+      "Free Bets",
+    ];
+
+    const filterByTags = (tags) =>
+      homeCasinos.filter((c) => c.tags?.some((t) => tags.includes(t))).slice(0, 4);
+
+    return {
+      casinos: filterByTags(casinoTags),
+      bonuses: filterByTags(bonusTags),
+      games: filterByTags(gameTags),
+      slots: filterByTags(slotTags),
+      betting: filterByTags(bettingTags),
+      certified: homeCasinos.filter((c) => c.certifiedCasino).slice(0, 4),
+      recommended: homeCasinos.filter((c) => c.recommendedByExperts).slice(0, 4),
+      recent: [...homeCasinos]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 4),
+    };
   }, [homeCasinos]);
 
-  // Function to filter casinos based on tags and properties
-  const filterCasinosData = (casinosData) => {
-    const casinoTags = ["Crypto Casino", "Online Casino", "Mobile Casino", "Newest Casino"];
-    const bonusTags = ["Latest Bonus", "Exclusive Bonus", "Welcome Bonus", "No Deposit", "Free Spins Bonus", "Cashback Bonus", "No Wagering Bonus"];
-    const gameTags = ["Casino Games", "Table Games", "Card Games", "Dice Games", "Real Money Online Slots", "Poker", "Bingo", "Lottery Games", "Video Slots", "Classic Slots", "Progressive Slots", "New Slots"];
-    const slotTags = ["Video Slots", "Classic Slots", "Progressive Slots", "New Slots", "Real Money Online Slots"];
-    const bettingTags = ["Sports Betting", "New Betting Sites", "Bet Types", "Betting Bonuses", "Free Bets"];
-
-    const filteredCasinos = casinosData.filter(c => c.tags?.some(tag => casinoTags.includes(tag)));
-    const filteredBonuses = casinosData.filter(c => c.tags?.some(tag => bonusTags.includes(tag)));
-    const filteredGames = casinosData.filter(c => c.tags?.some(tag => gameTags.includes(tag)));
-    const filteredSlots = casinosData.filter(c => c.tags?.some(tag => slotTags.includes(tag)));
-    const filteredBetting = casinosData.filter(c => c.tags?.some(tag => bettingTags.includes(tag)));
-    const filteredCertified = casinosData.filter(c => c.certifiedCasino === true);
-    const filteredRecommend = casinosData.filter(c => c.recommendedByExperts === true);
-
-    const sortedByDate = [...casinosData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    setCasinoFilteredData(filteredCasinos.slice(0, 4));
-    setBonusFilteredData(filteredBonuses.slice(0, 4));
-    setGameFilteredData(filteredGames.slice(0, 4));
-    setSlotFilteredData(filteredSlots.slice(0, 4));
-    setBettingFilteredData(filteredBetting.slice(0, 4));
-    setCertifiedCasinos(filteredCertified.slice(0, 4));
-    setRecommendCasinos(filteredRecommend.slice(0, 4));
-    setRecentCasinos(sortedByDate.slice(0, 4));
+  const getCurrentSectionData = () => {
+    switch (activeSection) {
+      case "casinos":
+        return sections.casinos;
+      case "bonuses":
+        return sections.bonuses;
+      case "games":
+        return sections.games;
+      case "Slot":
+        return sections.slots;
+      case "Betting":
+        return sections.betting;
+      default:
+        return sections.casinos;
+    }
   };
 
   const handlePlayClick = (name) => {
     navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
   };
 
-  const handleSectionChange = (section) => {
-    setActiveSection(section);
-  };
-
-  const getCurrentSectionData = () => {
-    switch (activeSection) {
-      case "casinos":
-        return casinoFilteredData;
-      case "bonuses":
-        return bonusFilteredData;
-      case "games":
-        return gameFilteredData;
-      case "Slot":
-        return slotFilteredData;
-      case "Betting":
-        return bettingFilteredData;
-      default:
-        return casinoFilteredData;
-    }
-  };
 
   if (loadingHome) {
     return (
-      <div className="flex items-center justify-center h-screen bg-black100">
+      <div className="flex items-center justify-center h-screen" style={{ backgroundColor: COLORS.black }}>
         <div className="text-white text-2xl">Loading casinos...</div>
       </div>
     );
@@ -130,56 +159,72 @@ const { homeCasinos, allCasinos, loadingHome, loadingAll, error } =
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen bg-black100">
+      <div className="flex items-center justify-center h-screen" style={{ backgroundColor: COLORS.black }}>
         <div className="text-red-500 text-2xl">{error}</div>
       </div>
     );
   }
+
 
   return (
     <>
       <Navbar />
       <Header />
 
-      <NewOnMrGamblers
-        activeSection={activeSection}
-        handleSectionChange={handleSectionChange}
-        getCurrentSectionData={getCurrentSectionData}
-        handlePlayClick={handlePlayClick}
-      />
+      <Suspense
+        fallback={
+          <div className="p-10 space-y-6 bg-black text-white">
+            <div className="w-40 h-6 bg-gray-700 rounded-lg animate-pulse"></div>
+            <div className="w-full h-40 bg-gray-800 rounded-xl animate-pulse"></div>
+            <div className="w-full h-40 bg-gray-800 rounded-xl animate-pulse"></div>
+            <div className="w-full h-40 bg-gray-800 rounded-xl animate-pulse"></div>
+          </div>
+        }
+      >
+        <NewOnMrGamblers
+          activeSection={activeSection}
+          handleSectionChange={setActiveSection}
+          getCurrentSectionData={getCurrentSectionData}
+          handlePlayClick={handlePlayClick}
+        />
 
-      <AreYouIn />
-      <HotCasinoSection />
+        <AreYouIn />
+        <HotCasinoSection />
 
-      <RecommendedByExpertSection
-        certifiedCasinos={recommendCasinos}
-        handlePlayClick={handlePlayClick}
-      />
+        <RecommendedByExpertSection
+          certifiedCasinos={sections.recommended}
+          handlePlayClick={handlePlayClick}
+        />
 
-      <CertifiedCasinosSection
-        certifiedCasinos={certifiedCasinos}
-        handlePlayClick={handlePlayClick}
-        certified={certified}
-      />
+        <CertifiedCasinosSection
+          certifiedCasinos={sections.certified}
+          handlePlayClick={handlePlayClick}
+          certified={certified}
+        />
 
-      <RecentlyAddedSection
-        recentCasinos={recentCasinos}
-        handlePlayClick={handlePlayClick}
-      />
+        <RecentlyAddedSection
+          recentCasinos={sections.recent}
+          handlePlayClick={handlePlayClick}
+        />
 
-      <AllOnlineCasinosSection
-        currentCasinos={currentCasinos}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        casinosPerPage={casinosPerPage}
-        handlePrevPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-        handleNextPage={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-        setCurrentPage={setCurrentPage}
-      />
+        <AllOnlineCasinosSection
+          currentCasinos={currentCasinos}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          casinosPerPage={casinosPerPage}
+          handlePrevPage={() =>
+            setCurrentPage((prev) => Math.max(prev - 1, 1))
+          }
+          handleNextPage={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          setCurrentPage={setCurrentPage}
+        />
 
-      <SubscribeSection />
-      <Footer />
-      <CookieConsent />
+        <SubscribeSection />
+        <Footer />
+        <CookieConsent />
+      </Suspense>
     </>
   );
 };

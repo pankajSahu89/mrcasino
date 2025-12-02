@@ -3,10 +3,31 @@ import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { COLORS } from "../constants/colors";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setCountryCode } from "../redux/countrySlice";
 
-const Navbar = () => {
+const Navbar = () => {   
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    const fetchCountry = async () => {
+      try {
+        const res = await fetch("https://ipwho.is/");
+        const data = await res.json();
+       
+
+        if (data?.country_code) {
+          dispatch(setCountryCode(data.country_code));
+         
+        }
+      } catch (error) {
+        console.log("Country fetch error:", error);
+      }
+    };
+
+    fetchCountry();
+  }, []);
   const location = useLocation();
-  const country = useSelector((state) => state.country?.code || "US"); 
+  const country = useSelector((state) => state.country?.code);
   const [activeMenuIndex, setActiveMenuIndex] = useState(null);
   const [hoverTimeout, setHoverTimeout] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -112,7 +133,7 @@ const Navbar = () => {
         {/* Mobile Hamburger */}
         <div className="md:hidden text-3xl" onClick={toggleMobileMenu}>
           {mobileOpen ? <FiX /> : <FiMenu />}
-          
+
         </div>
 
 
@@ -179,7 +200,7 @@ const Navbar = () => {
                   className={`absolute left-0 top-full pt-2 transition-all duration-300 ${activeMenuIndex === idx ? "opacity-100 visible" : "opacity-0 invisible"
                     }`}
                 >
-                  
+
                   <div className="bg-black w-64 border border-gray-700 rounded shadow-lg">
                     {item.submenu.map((sub, subIdx) => (
                       <Link
@@ -191,7 +212,7 @@ const Navbar = () => {
                       </Link>
                     ))}
                   </div>
-                  
+
                 </div>
               )}
             </div>
@@ -217,7 +238,7 @@ const Navbar = () => {
         >
           {menuItems.map((item, idx) => (
             <div key={idx}>
-              
+
               <div
                 onClick={() =>
                   item.submenu.length > 0
@@ -246,7 +267,7 @@ const Navbar = () => {
                   ))}
                 </div>
               )}
-              
+
             </div>
           ))}
           {country && (

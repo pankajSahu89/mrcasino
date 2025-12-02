@@ -1,30 +1,31 @@
-// src/redux/casinosSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import API from "../api/axios"; // your existing axios instance
+import { getHomeCasinos, getAllCasinos as apiGetAllCasinos } from "../api/casinos";
 
-// Fetch homepage casinos
 export const fetchHomeCasinos = createAsyncThunk(
   "casinos/fetchHomeCasinos",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await API.get("/casinos/homecasino");
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
+  async (_, { getState }) => {
+    const { homeCasinos } = getState().casinos;
+
+    if (homeCasinos.length > 0) {
+      return { cached: true, data: homeCasinos };
     }
+
+    const response = await getHomeCasinos();
+    return { cached: false, data: response };
   }
 );
 
-// Fetch all casinos
 export const fetchAllCasinos = createAsyncThunk(
   "casinos/fetchAllCasinos",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await API.get("/casinos");
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
+  async (_, { getState }) => {
+    const { allCasinos } = getState().casinos;
+
+    if (allCasinos.length > 0) {
+      return { cached: true, data: allCasinos };
     }
+
+    const response = await apiGetAllCasinos();
+    return { cached: false, data: response };
   }
 );
 
@@ -40,32 +41,34 @@ const casinosSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Home casinos
+      // HOME CASINOS
       .addCase(fetchHomeCasinos.pending, (state) => {
         state.loadingHome = true;
-        state.error = null;
       })
       .addCase(fetchHomeCasinos.fulfilled, (state, action) => {
-        state.homeCasinos = action.payload;
         state.loadingHome = false;
+        if (!action.payload.cached) {
+          state.homeCasinos = action.payload.data;
+        }
       })
       .addCase(fetchHomeCasinos.rejected, (state, action) => {
         state.loadingHome = false;
-        state.error = action.payload;
+        state.error = action.error.message;
       })
 
-      // All casinos
+      // ALL CASINOS
       .addCase(fetchAllCasinos.pending, (state) => {
         state.loadingAll = true;
-        state.error = null;
       })
       .addCase(fetchAllCasinos.fulfilled, (state, action) => {
-        state.allCasinos = action.payload;
         state.loadingAll = false;
+        if (!action.payload.cached) {
+          state.allCasinos = action.payload.data;
+        }
       })
       .addCase(fetchAllCasinos.rejected, (state, action) => {
         state.loadingAll = false;
-        state.error = action.payload;
+        state.error = action.error.message;
       });
   },
 });

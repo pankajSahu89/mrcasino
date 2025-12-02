@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api/axios";
-import Navbar from "../components/Navbar";
-import SearchBox from "../components/searchbox";
+import { useSelector, useDispatch } from "react-redux";
+
+import Navbar from '../components/Navbar';
+import SearchBox from '../components/searchbox';
 import Footer from "../components/Footer";
 import RecentlyAddedSection from "../components/RecentlyAddedSection";
 import CertifiedCasinosSection from "../components/CertifiedCasino";
@@ -10,8 +11,8 @@ import RecommendedByExpertSection from "../components/RecommendedByExpert";
 import TopCasinos from "../components/TopCasinos.js";
 import SubscribeSection from "../components/SubscribeSection.js";
 import slotBg from "../assets/images/slots-bg.png";
-import certified from "../assets/images/Certified.png";
-
+import certified from '../assets/images/Certified.png';
+import { fetchAllCasinos } from "../redux/casinosSlice";
 
 const SLOT_TYPE_TAGS = {
   video: "Video Slots",
@@ -21,73 +22,78 @@ const SLOT_TYPE_TAGS = {
 };
 
 const Slots = ({ type }) => {
-  const [casinosData, setCasinosData] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
+
   const [filteredData, setFilteredData] = useState([]);
   const [hotSlots, setHotSlots] = useState([]);
   const [expertSlots, setExpertSlots] = useState([]);
   const [certifiedSlots, setCertifiedSlots] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-const navigate = useNavigate();
+
+  // Set body background
   useEffect(() => {
     document.body.style.backgroundColor = "#1e1e1e";
-    return () => {
-      document.body.style.backgroundColor = null;
-    };
+    return () => { document.body.style.backgroundColor = null; };
   }, []);
 
+  // Fetch all casinos if Redux store is empty
   useEffect(() => {
-    const fetchSlots = async () => {
-      setLoading(true);
-      try {
-        const response = await API.get("/casinos");
-        setCasinosData(response.data);
-        filterSlots(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+    if (!allCasinos || allCasinos.length === 0) {
+      dispatch(fetchAllCasinos());
+    }
+  }, [allCasinos, dispatch]);
+
+  // Filter slots whenever allCasinos or type changes
+  useEffect(() => {
+    if (!allCasinos || allCasinos.length === 0) return;
+
+    let tagFiltered = [];
+
+    if (!type || typeof type !== "string") {
+      tagFiltered = allCasinos;
+    } else {
+      const tag = SLOT_TYPE_TAGS[type];
+
+      if (!tag) {
+        const normalizedType = type.replace(/-/g, '').toLowerCase();
+        tagFiltered = allCasinos.filter(slot =>
+          Array.isArray(slot.tags) &&
+          slot.tags.some(tag => tag?.replace(/-/g, '').toLowerCase().includes(normalizedType))
+        );
+      } else {
+        tagFiltered = allCasinos.filter(
+          slot => Array.isArray(slot.tags) && slot.tags.includes(tag)
+        );
       }
-    };
+    }
 
-    fetchSlots();
-  }, [type]);
+    setFilteredData(tagFiltered.slice(0, 4));
+    setHotSlots(tagFiltered.filter(slot => slot.hotCasino === true).slice(0, 4));
+    setExpertSlots(tagFiltered.filter(slot => slot.recommendedByExperts === true).slice(0, 4));
+    setCertifiedSlots(tagFiltered.filter(slot => slot.certifiedCasino === true).slice(0, 4));
+  }, [allCasinos, type]);
 
-   const handlePlayClick = (name) => {
+  const handlePlayClick = (name) => {
     navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
   };
- const filterSlots = (data) => {
-  if (!type || typeof type !== "string") {
-    setFilteredData(data);
-    setHotSlots(data.filter(slot => slot.hotCasino === true));
-    setExpertSlots(data.filter(slot => slot.recommendedByExperts === true));
-    setCertifiedSlots(data.filter(slot => slot.certifiedCasino === true));
-    return;
-  }
 
-  const tag = SLOT_TYPE_TAGS[type];
-  let tagFiltered = [];
-
-  if (!tag) {
-    const normalizedType = type.replace(/-/g, '').toLowerCase();
-    tagFiltered = data.filter(slot =>
-      Array.isArray(slot.tags) &&
-      slot.tags.some(tag =>
-        tag?.replace(/-/g, '').toLowerCase().includes(normalizedType)
-      )
-    );
-  } else {
-    tagFiltered = data.filter(slot =>
-      Array.isArray(slot.tags) && slot.tags.includes(tag)
+  if (loadingAll) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black100">
+        <div className="text-white text-2xl">Loading slots...</div>
+      </div>
     );
   }
 
-  setFilteredData(tagFiltered.slice(0, 4));
-  setHotSlots(tagFiltered.filter(slot => slot.hotCasino === true).slice(0, 4));
-  setExpertSlots(tagFiltered.filter(slot => slot.recommendedByExperts === true).slice(0, 4));
-  setCertifiedSlots(tagFiltered.filter(slot => slot.certifiedCasino === true).slice(0, 4));
-};
-
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black100">
+        <div className="text-red-500 text-2xl">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -109,9 +115,6 @@ const navigate = useNavigate();
         </div>
       </header>
 
-     
-
-     
       <TopCasinos
         recentCasinos={filteredData}
         handlePlayClick={handlePlayClick}
@@ -120,7 +123,6 @@ const navigate = useNavigate();
       <RecommendedByExpertSection
         certifiedCasinos={expertSlots}
         handlePlayClick={handlePlayClick}
-
       />
 
       <CertifiedCasinosSection
@@ -134,12 +136,9 @@ const navigate = useNavigate();
         handlePlayClick={handlePlayClick}
       />
 
-
       <SubscribeSection />
-
       <Footer />
     </>
   );
 };
-
 export default Slots;

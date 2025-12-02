@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 // Redux
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { store } from "./redux/store";
 
 // Initialize Google Analytics
 initGA();

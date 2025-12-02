@@ -17,7 +17,7 @@ import EditCasino from "./pages/EditCasino";
 import EditBlog from "./pages/EditBlog";
 import CasinoDetail from "./pages/CasinoDetail";
 import { useDispatch } from "react-redux";
-import { setCountryCode } from "./store/countrySlice";
+import { setCountryCode } from "./redux/countrySlice";
 
 import Login from "./pages/Login";
 

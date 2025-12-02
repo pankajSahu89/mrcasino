@@ -6,7 +6,7 @@ const TopCasinos = ({ recentCasinos, handlePlayClick }) => {
     return (
         <section className="py-10  text-center" style={{ background: COLORS.black }}>
             <div className="flex flex-col items-center">
-                <div className="relative text-white  p-0 md:p-10 w-full max-w-full">
+                <div className="relative text-white  p-0 md:p-5 w-full max-w-full">
                     <div className="flex flex-row sm:flex-row justify-center items-center text-center mb-10">
                         <h2
                             className="text-white text-center mb-3 text-4xl sm:text-5xl md:text-6xl"

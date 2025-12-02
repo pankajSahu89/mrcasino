@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCasinos, deleteCasino, updateCasino } from "../api/casinos";
+import { getAllCasinos, deleteCasino, updateCasino } from "../api/casinos";
 import Sidebar from "../components/Sidebar";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Swal from 'sweetalert2';
@@ -17,7 +17,7 @@ const CasinosAdmin = () => {
   useEffect(() => {
     const fetchCasinos = async () => {
       try {
-        const data = await getCasinos();
+        const data = await getAllCasinos();
         const sortedCasinos = [...data].sort((a, b) => a.order - b.order);
         setCasinos(sortedCasinos);
       } catch (err) {
@@ -105,7 +105,7 @@ const CasinosAdmin = () => {
       await updateCasino(movedCasino._id, { order: newOrder });
 
       // Refresh the list from server to get final order values
-      const data = await getCasinos();
+      const data = await getAllCasinos();
       setCasinos(data.sort((a, b) => a.order - b.order));
     } catch (err) {
       setError(err.message || "Failed to update order");

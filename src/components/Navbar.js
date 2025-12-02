@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const location = useLocation();
-  const country = useSelector((state) => state.country.code);
+  const country = useSelector((state) => state.country?.code || "US"); 
   const [activeMenuIndex, setActiveMenuIndex] = useState(null);
   const [hoverTimeout, setHoverTimeout] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);

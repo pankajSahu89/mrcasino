@@ -124,15 +124,12 @@ const CasinoCard = ({
               </div>
 
               <span
-                className="text-white text-[12px] sm:text-[14px] font-normal underline text-center underline-offset-2 ml-auto sm:ml-0"
+                className="text-white text-[12px] sm:text-[14px] font-normal  text-center  ml-auto sm:ml-0"
                 style={{
                   fontFamily: 'Oswald',
-                  lineHeight: '120%',
-                  textDecorationStyle: 'solid',
-                  textDecorationThickness: '1px',
                 }}
               >
-                Read review
+              {visits}+ Users Rated
               </span>
 
             </div>
@@ -239,9 +236,9 @@ const CasinoCard = ({
         </div>
 
         {/* RIGHT SIDE BUTTON */}
-        <div className="flex flex-col justify-center items-center w-full md:w-auto space-y-3 sm:space-y-4 mt-4 md:mt-0 md:mx-auto">
+        <div className="flex flex-col justify-center items-center w-full md:w-auto space-y-2 sm:space-y-3 mt-4 md:mt-0 md:mx-auto">
           <p
-            className="text-[14px] sm:text-[17px] font-medium text-center"
+            className="text-[12px] sm:text-[14px] underline underline-offset-2  font-medium text-center"
             style={{
               fontFamily: 'Poppins, sans-serif',
               lineHeight: '100%',
@@ -250,7 +247,7 @@ const CasinoCard = ({
             }}
           >
 
-            {visits}+ Has Already Visited!</p>
+            Discover More</p>
 
           <Link
             to={`/casinos/${slug}`}

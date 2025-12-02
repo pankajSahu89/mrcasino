@@ -31,7 +31,7 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          boxShadow: `0 20px 30px -10px ${COLORS.primary}60`, // 80 = 50% opacity
+          boxShadow: `0 20px 30px -10px ${COLORS.primary}60`,
         }}
       ></div>
 
@@ -146,102 +146,55 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
       {/* BONUS SECTION */}
       <div className="mt-4 text-sm text-white">
 
-        <div className="flex justify-between">
+        {/* Titles Row */}
+        <div className="flex justify-between w-full">
+          <p className="flex-1 text-center"
+            style={{ fontFamily: "Oswald", fontWeight: 500, fontSize: 12, color: COLORS.primary }}>
+            W Bonus
+          </p>
 
-          <div className="flex-1 min-w-0">
-            <p
-              className="leading-none text-left"
-              style={{
-                fontFamily: "Oswald",
-                fontWeight: 500,
-                marginBottom: 4,
-                fontSize: "12px",
-                letterSpacing: "0%",
-                color: COLORS.primary,
-              }}
-            >
-              Welcome Bonus
-            </p>
+          <p className="flex-1 text-center"
+            style={{ fontFamily: "Oswald", fontWeight: 500, fontSize: 12, color: COLORS.primary }}>
+            Min Deposit
+          </p>
 
-            <p
-              className="text-gray-300"
-              style={{
-                fontSize: 9,
-                display: '-webkit-box',
-                WebkitLineClamp: '2',
-                lineHeight: '1.1',
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {welcomeBonus}</p>
-          </div>
+          <p className="flex-1 text-center"
+            style={{ fontFamily: "Oswald", fontWeight: 500, fontSize: 12, color: COLORS.primary }}>
+            Wagering
+          </p>
 
-
-          <div className="flex-1 min-w-0">
-            <p
-              className="leading-none text-left"
-              style={{
-                fontFamily: "Oswald",
-                fontWeight: 500,
-                fontSize: "12px",
-                letterSpacing: "0%",
-                color: COLORS.primary,
-              }}
-            >
-              Min Deposit
-            </p>
-            <p className="text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap" style={{ fontSize: 9 }}>{minimumDeposit}</p>
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <p
-              className="leading-none text-left"
-              style={{
-                fontFamily: "Oswald",
-                fontWeight: 500,
-                fontSize: "12px",
-                letterSpacing: "0%",
-                color: COLORS.primary,
-              }}
-            >
-              Wagering
-            </p>
-            <p className="text-gray-300" style={{ fontSize: 9 }}>40x</p>
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <p
-              className="leading-none text-left"
-              style={{
-                fontFamily: "Oswald",
-                fontWeight: 500,
-                fontSize: "12px",
-                marginBottom: 4,
-                letterSpacing: "0%",
-                color: COLORS.primary,
-              }}
-            >
-              Deposit Bonus
-            </p>
-            <p
-              className="text-gray-300"
-              style={{
-                fontSize: 9,
-                display: '-webkit-box',
-                WebkitLineClamp: '2',
-                lineHeight: '1.1',
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {depositBonus}
-            </p>
-          </div>
+          <p className="flex-1 text-center"
+            style={{ fontFamily: "Oswald", fontWeight: 500, fontSize: 12, color: COLORS.primary }}>
+            Deposit Bonus
+          </p>
         </div>
+
+        {/* Description Row */}
+        <div className="flex justify-between w-full">
+
+          <p className="flex-1 text-gray-300 text-center overflow-hidden text-ellipsis"
+            style={{ fontSize: 9, whiteSpace: "nowrap" }}>
+            {welcomeBonus}
+          </p>
+
+          <p className="flex-1 text-gray-300 text-center overflow-hidden text-ellipsis"
+            style={{ fontSize: 9, whiteSpace: "nowrap" }}>
+            {minimumDeposit}
+          </p>
+
+          <p className="flex-1 text-gray-300 text-center" style={{ fontSize: 9 }}>
+            40x
+          </p>
+
+          <p className="flex-1 text-gray-300 text-center overflow-hidden text-ellipsis"
+            style={{ fontSize: 9, whiteSpace: "nowrap" }}>
+            {depositBonus}
+          </p>
+
+        </div>
+
       </div>
+
 
       {/* PLAY NOW BUTTON */}
       <div
@@ -249,7 +202,7 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
         className="
           text-white 
           w-full 
-          py-4 
+          py-3 
           text-lg 
           rounded-xl 
           mt-6 

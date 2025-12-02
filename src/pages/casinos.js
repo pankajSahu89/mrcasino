@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { fetchAllCasinos } from "../redux/casinosSlice";
 import Navbar from '../components/Navbar';
 import casinoBg from '../assets/images/casino-bg.png';
 import SearchBox from '../components/searchbox';
-import API from "../api/axios";
 import RecentlyAddedSection from "../components/RecentlyAddedSection";
 import CertifiedCasinosSection from "../components/CertifiedCasino";
 import RecommendedByExpertSection from "../components/RecommendedByExpert";
 import TopCasinos from "../components/TopCasinos.js";
 import SubscribeSection from "../components/SubscribeSection.js";
-import certified from '../assets/images/Certified.png';
 import Footer from "../components/Footer";
-
-
-
+import certified from '../assets/images/Certified.png';
 
 const Casinos = ({ type }) => {
-  const [casinosData, setCasinosData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
 
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [hotCasinos, setHotCasinos] = useState([]);
+  const [recommendedByExperts, setRecommendedByExperts] = useState([]);
+  const [certifiedCasinos, setCertifiedCasinos] = useState([]);
+  useEffect(() => {
+    // If Redux store is empty, fetch all casinos
+    if (!allCasinos || allCasinos.length === 0) {
+      dispatch(fetchAllCasinos());
+    }
+  }, [allCasinos, dispatch]);
   useEffect(() => {
     document.body.style.backgroundColor = "#1e1e1e";
     return () => {
@@ -29,53 +38,45 @@ const Casinos = ({ type }) => {
   }, []);
 
   useEffect(() => {
-    const fetchCasinos = async () => {
-      setLoading(true);
-      try {
-        const response = await API.get("/casinos");
-        setCasinosData(response.data);
-        filt(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!allCasinos || allCasinos.length === 0) return;
 
-    fetchCasinos();
-  }, [type]);
-
-  const handlePlayClick = (name) => {
-    navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
-  };
-  const [filteredData, setFilteredData] = useState([]);
-  const [hotCasinos, setHotCasinos] = useState([]);
-  const [recommendedByExpertss, setrecommendedByExperts] = useState([]);
-  const [certifiedCasinos, setcertifiedCasinos] = useState([]);
-
-  function filt(data) {
-    if (!type || typeof type !== "string") return;
-
-    // Filter all by tag first
-    const tagFiltered = data.filter(
+    // Filter casinos based on type and flags
+    const tagFiltered = allCasinos.filter(
       casino =>
         Array.isArray(casino.tags) &&
-        casino.tags.some(tag => tag.toLowerCase().includes(type.toLowerCase()))
+        (!type || casino.tags.some(tag => tag.toLowerCase().includes(type.toLowerCase())))
     );
 
-
-    // Now filter by specific flags *within* the tag-matching data
     const hot = tagFiltered.filter(casino => casino.hotCasino === true);
     const recExperts = tagFiltered.filter(casino => casino.recommendedByExperts === true);
     const certified = tagFiltered.filter(casino => casino.certifiedCasino === true);
 
     setFilteredData(tagFiltered.slice(0, 4));
     setHotCasinos(hot.slice(0, 4));
-    setrecommendedByExperts(recExperts.slice(0, 4));
-    setcertifiedCasinos(certified.slice(0, 4));
+    setRecommendedByExperts(recExperts.slice(0, 4));
+    setCertifiedCasinos(certified.slice(0, 4));
+
+  }, [allCasinos, type]);
+
+  const handlePlayClick = (name) => {
+    navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
+  };
+
+  if (loadingAll) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black100">
+        <div className="text-white text-2xl">Loading casinos...</div>
+      </div>
+    );
   }
 
-
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-black100">
+        <div className="text-red-500 text-2xl">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -87,7 +88,6 @@ const Casinos = ({ type }) => {
       >
         <div className="absolute inset-0 bg-black/50 bg-gradient-to-t from-black100 to-transparent" />
         <div className="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
-
           <div className="container mx-auto text-center absolute z-10 top-5 h-full flex flex-col justify-center items-center px-2">
             <h1
               className="text-3xl md:text-5xl lg:text-6xl max-w-4xl text-white"
@@ -120,18 +120,14 @@ const Casinos = ({ type }) => {
         </div>
       </header>
 
-     
-
-
       <TopCasinos
         recentCasinos={filteredData}
         handlePlayClick={handlePlayClick}
       />
 
       <RecommendedByExpertSection
-        certifiedCasinos={recommendedByExpertss}
+        certifiedCasinos={recommendedByExperts}
         handlePlayClick={handlePlayClick}
-
       />
 
       <CertifiedCasinosSection
@@ -144,7 +140,6 @@ const Casinos = ({ type }) => {
         recentCasinos={filteredData}
         handlePlayClick={handlePlayClick}
       />
-
 
       <SubscribeSection />
 

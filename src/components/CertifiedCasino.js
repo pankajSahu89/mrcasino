@@ -6,7 +6,7 @@ const CertifiedCasinosSection = ({ certifiedCasinos, handlePlayClick, certified 
     <section className=" bg-black100 text-center">
       <div className="flex  flex-col items-center">
         <div
-          className="relative text-white p-0 md:p-10 w-full max-w-full"
+          className="relative text-white p-0 md:p-5 w-full max-w-full"
           style={{
             background:
               "linear-gradient(270deg, rgba(38, 62, 220, 0.41) 0.46%, rgba(220, 38, 84, 0.41) 100%)",
@@ -33,7 +33,7 @@ const CertifiedCasinosSection = ({ certifiedCasinos, handlePlayClick, certified 
           </div>
 
           <div className="flex justify-center items-center">
-            <div className="w-full overflow-x-auto scroll-smooth hide-scrollbar">
+            <div className="w-full overflow-x-auto scroll-smooth  hide-scrollbar">
               <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 m-10 mt-5">
                 {certifiedCasinos.map((casino) => (
                   <Card

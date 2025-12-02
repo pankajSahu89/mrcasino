@@ -6,7 +6,7 @@ const RecommendedByExpertSection = ({ certifiedCasinos, handlePlayClick }) => {
         <section className=" bg-black100 text-center">
             <div className="flex flex-col items-center">
                 <div
-                    className="relative text-white p-0 md:p-10 w-full max-w-full"
+                    className="relative text-white p-0 md:p-5 w-full max-w-full"
                     style={{
                         background: "linear-gradient(180deg, rgba(38, 123, 220, 0.41) 0%, #132841 60.1%, #0E1015 99.54%)",
                     }}

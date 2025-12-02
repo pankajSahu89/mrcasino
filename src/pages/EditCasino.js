@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCasinoById, updateCasino, getCasinos } from "../api/casinos";
+import { getCasinoById, updateCasino, getAllCasinos } from "../api/casinos";
 import { uploadImage } from "../api/upload";
 import Sidebar from "../components/Sidebar";
 import { Editor } from "@tinymce/tinymce-react";
@@ -136,7 +136,7 @@ const EditCasino = () => {
         setCasino(casinoData);
 
         // Fetch all casinos to determine max order
-        const allCasinos = await getCasinos();
+        const allCasinos = await getAllCasinos();
         const currentMax = Math.max(...allCasinos.map((c) => c.order), 0);
         setMaxOrder(currentMax);
       } catch (err) {

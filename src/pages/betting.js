@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import SearchBox from "../components/searchbox";
+import { useSelector, useDispatch } from "react-redux";
+
+import Navbar from '../components/Navbar';
+import SearchBox from '../components/searchbox';
 import Footer from "../components/Footer";
 import RecentlyAddedSection from "../components/RecentlyAddedSection";
 import CertifiedCasinosSection from "../components/CertifiedCasino";
@@ -11,6 +12,7 @@ import TopCasinos from "../components/TopCasinos.js";
 import SubscribeSection from "../components/SubscribeSection.js";
 import bettingBg from "../assets/images/betting-bg.png";
 import certified from "../assets/images/Certified.png";
+import { fetchAllCasinos } from "../redux/casinosSlice";
 
 const BETTING_TYPE_TAGS = {
     sports: "Sports Betting",
@@ -21,52 +23,69 @@ const BETTING_TYPE_TAGS = {
 };
 
 const Betting = ({ type }) => {
-    const [bettingData, setBettingData] = useState([]);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
+
     const [filteredData, setFilteredData] = useState([]);
     const [hot, setHot] = useState([]);
     const [expert, setExpert] = useState([]);
     const [certifiedData, setCertifiedData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
+    // Set body background
     useEffect(() => {
         document.body.style.backgroundColor = "#1e1e1e";
-        return () => {
-            document.body.style.backgroundColor = null;
-        };
+        return () => { document.body.style.backgroundColor = null; };
     }, []);
 
+    // Fetch all casinos if Redux store is empty
     useEffect(() => {
-        const fetchBettingSites = async () => {
-            setLoading(true);
-            try {
-                const response = await API.get("/casinos");
-                const data = response.data;
-                setBettingData(data);
-                filterDataByType(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+        if (!allCasinos || allCasinos.length === 0) {
+            dispatch(fetchAllCasinos());
+        }
+    }, [allCasinos, dispatch]);
 
-        fetchBettingSites();
-    }, [type]);
+    // Filter betting data whenever allCasinos or type changes
+    useEffect(() => {
+        if (!allCasinos || allCasinos.length === 0) return;
+
+        const tag = BETTING_TYPE_TAGS[type];
+        let tagFiltered = [];
+
+        if (!type || !tag) {
+            tagFiltered = allCasinos;
+        } else {
+            tagFiltered = allCasinos.filter(
+                item => Array.isArray(item.tags) && item.tags.includes(tag)
+            );
+        }
+
+        setFilteredData(tagFiltered.slice(0, 4));
+        setHot(tagFiltered.filter(item => item.hotCasino).slice(0, 4));
+        setExpert(tagFiltered.filter(item => item.recommendedByExperts).slice(0, 4));
+        setCertifiedData(tagFiltered.filter(item => item.certifiedCasino).slice(0, 4));
+    }, [allCasinos, type]);
+
     const handlePlayClick = (name) => {
         navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);
     };
-    const filterDataByType = (data) => {
-        const tag = BETTING_TYPE_TAGS[type];
-        const filtered = data.filter(
-            (item) => Array.isArray(item.tags) && item.tags.includes(tag)
+
+    if (loadingAll) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-black100">
+                <div className="text-white text-2xl">Loading betting sites...</div>
+            </div>
         );
-        setFilteredData(filtered.slice(0, 4));
-        setHot(filtered.filter((item) => item.hotCasino).slice(0, 4));
-        setExpert(filtered.filter((item) => item.recommendedByExperts).slice(0, 4));
-        setCertifiedData(filtered.filter((item) => item.certifiedCasino).slice(0, 4));
-    };
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-black100">
+                <div className="text-red-500 text-2xl">{error}</div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -84,11 +103,6 @@ const Betting = ({ type }) => {
                 </div>
             </header>
 
-
-
-
-
-
             <TopCasinos
                 recentCasinos={filteredData}
                 handlePlayClick={handlePlayClick}
@@ -97,7 +111,6 @@ const Betting = ({ type }) => {
             <RecommendedByExpertSection
                 certifiedCasinos={expert}
                 handlePlayClick={handlePlayClick}
-
             />
 
             <CertifiedCasinosSection
@@ -111,9 +124,7 @@ const Betting = ({ type }) => {
                 handlePlayClick={handlePlayClick}
             />
 
-
             <SubscribeSection />
-
             <Footer />
         </>
     );

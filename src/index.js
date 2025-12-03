@@ -5,6 +5,7 @@ import App from "./App";
 import "./index.css";
 import { initGA } from "./utils/analytics";
 import { AuthProvider } from "./context/AuthContext";
+import { loadThemeColors } from "./constants/colors";
 
 // Redux
 import { Provider } from "react-redux";

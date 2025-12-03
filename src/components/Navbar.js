@@ -6,18 +6,18 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setCountryCode } from "../redux/countrySlice";
 
-const Navbar = () => {   
+const Navbar = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     const fetchCountry = async () => {
       try {
         const res = await fetch("https://ipwho.is/");
         const data = await res.json();
-       
+
 
         if (data?.country_code) {
           dispatch(setCountryCode(data.country_code));
-         
+
         }
       } catch (error) {
         console.log("Country fetch error:", error);
@@ -123,12 +123,23 @@ const Navbar = () => {
         className="max-w-[1440px] mx-auto flex justify-between items-center px-4 sm:px-6 md:px-16 py-4"
       >
         {/* Logo */}
-        <div
-          className="text-4xl text-red-600"
-          style={{ fontFamily: "BigNoodleTitling", letterSpacing: "0.1em" }}
-        >
-          MR GAMBLERS
-        </div>
+         <h2
+                      className="flex items-center justify-center w-fit"
+                      style={{
+                        height: "38px",
+                        background: COLORS.white,
+                        borderTopLeftRadius: "20px",
+                        borderBottomRightRadius: "20px",
+                        padding: "8px 20px",
+                        fontFamily: "BigNoodleTitling",
+                        fontSize: "28px",
+                        fontWeight: "300",
+                        letterSpacing: "0.1em",
+                        color: COLORS.primary,
+                      }}
+                    >
+                      MR GAMBLERS
+                    </h2>
 
         {/* Mobile Hamburger */}
         <div className="md:hidden text-3xl" onClick={toggleMobileMenu}>
@@ -163,22 +174,28 @@ const Navbar = () => {
                   {item.name}
 
                   {/* MAIN UNDERLINE */}
-                  {location.pathname === item.path && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        left: 0,
-                        bottom: "-6px",
-                        width: "32px",
-                        height: "3px",
-                        backgroundColor: COLORS.primary,
-                        borderRadius: "9999px",
-                      }}
-                    ></span>
-                  )}
+                  {(
+                    item.path === location.pathname ||
+                    item.submenu.some(sub => sub.path === location.pathname)
+                  ) && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: 0,
+                          bottom: "-6px",
+                          width: "32px",
+                          height: "3px",
+                          backgroundColor: COLORS.primary,
+                          borderRadius: "9999px",
+                        }}
+                      ></span>
+                    )}
 
                   {/* DOT */}
-                  {location.pathname === item.path && (
+                  {(
+                    item.path === location.pathname ||
+                    item.submenu.some(sub => sub.path === location.pathname)
+                  ) && (
                     <span
                       style={{
                         position: "absolute",
@@ -194,27 +211,38 @@ const Navbar = () => {
                 </span>
               </Link>
 
+
               {/* Dropdown */}
               {item.submenu.length > 0 && (
                 <div
-                  className={`absolute left-0 top-full pt-2 transition-all duration-300 ${activeMenuIndex === idx ? "opacity-100 visible" : "opacity-0 invisible"
-                    }`}
+                  className={`absolute left-1/2 -translate-x-1/2 top-full pt-4 transition-all duration-300 
+      ${activeMenuIndex === idx ? "opacity-100 visible" : "opacity-0 invisible"}
+    `}
                 >
+                  {/* Arrow Pointer */}
+                  <div className="relative flex justify-center">
+                    <div className="w-4 h-4  rotate-45  absolute -top-2" style={{ background: COLORS.white }}></div>
+                  </div>
 
-                  <div className="bg-black w-64 border border-gray-700 rounded shadow-lg">
+                  {/* Dropdown Container */}
+                  <div className="bg-white text-black w-[380px] grid grid-cols-2 gap-2
+      border border-gray-200 rounded-2xl shadow-xl p-6"
+                  >
                     {item.submenu.map((sub, subIdx) => (
                       <Link
                         key={subIdx}
                         to={sub.path}
-                        className="block px-5 py-3 hover:bg-red-600"
+                        className="flex justify-between items-center px-3 py-3 rounded-xl
+                     hover:bg-gray-100 transition font-medium" style={{ fontWeight: 500, fontSize: 18, }}
                       >
                         {sub.name}
+                        <span className="text-xl" style={{ color: COLORS.primary, fontWeight: 500, fontSize: 18, }}>➜</span>
                       </Link>
                     ))}
                   </div>
-
                 </div>
               )}
+
             </div>
           ))}
 
@@ -233,52 +261,80 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div
-          className="md:hidden bg-black px-6 py-3 space-y-2 text-lg"
-          style={{ fontFamily: "BigNoodleTitling" }}
+          className="md:hidden px-6 py-4 space-y-1"
+          style={{ fontFamily: "Poppins", backgroundColor: "#ffffff" }}
         >
-          {menuItems.map((item, idx) => (
-            <div key={idx}>
+          {menuItems.map((item, idx) => {
+            const isOpen = mobileSubmenuIndex === idx;
 
-              <div
-                onClick={() =>
-                  item.submenu.length > 0
-                    ? toggleMobileSubmenu(idx)
-                    : setMobileOpen(false)
-                }
-                className="flex justify-between py-3 border-b border-gray-700"
-              >
-                <Link to={item.path}>{item.name}</Link>
-                {item.submenu.length > 0 && (
-                  <span>{mobileSubmenuIndex === idx ? "▲" : "▼"}</span>
+            return (
+              <div key={idx}>
+                {/* MAIN ITEM */}
+                <div
+                  onClick={() =>
+                    item.submenu.length > 0
+                      ? toggleMobileSubmenu(idx)
+                      : setMobileOpen(false)
+                  }
+                  className="flex justify-between items-center py-3"
+                >
+                  <Link
+                    to={item.path}
+                    className="text-[16px] font-medium"
+                    style={{
+                      color: isOpen ? COLORS.primary : "#000",
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+
+                  {/* Blue Arrow */}
+                  {item.submenu.length > 0 && (
+                    <span
+                      style={{
+                        color: COLORS.primary,
+                        fontSize: "20px",
+                        fontWeight: 700,
+                        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                        transition: "0.2s ease",
+                      }}
+                    >
+                      ↓
+                    </span>
+                  )}
+                </div>
+
+                {/* SUBMENU */}
+                {isOpen && (
+                  <div className="ml-4 pl-4 border-l border-gray-300 space-y-2">
+                    {item.submenu.map((sub, subIdx) => (
+                      <Link
+                        key={subIdx}
+                        to={sub.path}
+                        className="block py-1 text-[15px] font-medium"
+                        style={{ color: "#000" }}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {sub.name}
+                      </Link>
+                    ))}
+                  </div>
                 )}
               </div>
+            );
+          })}
 
-              {mobileSubmenuIndex === idx && (
-                <div className="ml-4 border-l border-gray-600 overflow-y-auto max-h-56">
-                  {item.submenu.map((sub, subIdx) => (
-                    <Link
-                      key={subIdx}
-                      to={sub.path}
-                      className="block py-2 px-3 hover:bg-red-600"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {sub.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-
-            </div>
-          ))}
+          {/* COUNTRY FLAG */}
           {country && (
             <img
               src={`https://flagsapi.com/${country}/flat/32.png`}
               alt="Country Flag"
-              className="w-8 h-6 object-cover rounded-sm border border-gray-700"
+              className="w-8 h-6 object-cover rounded-sm border border-gray-700 mt-4"
             />
           )}
         </div>
       )}
+
     </nav>
   );
 };

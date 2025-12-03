@@ -6,5 +6,6 @@ export const store = configureStore({
   reducer: {
     casinos: casinosReducer, // key must match useSelector
     country: countryReducer,
+
   },
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -10,10 +10,11 @@ import CertifiedCasinosSection from "../components/CertifiedCasino";
 import RecommendedByExpertSection from "../components/RecommendedByExpert";
 import TopCasinos from "../components/TopCasinos.js";
 import SubscribeSection from "../components/SubscribeSection.js";
-import slotBg from "../assets/images/slots-bg.png";
+import banner from "../assets/images/banner.png";
+import { COLORS } from "../constants/colors";
 import certified from '../assets/images/Certified.png';
 import { fetchAllCasinos } from "../redux/casinosSlice";
-
+import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
 const SLOT_TYPE_TAGS = {
   video: "Video Slots",
   classic: "Classic Slots",
@@ -31,6 +32,14 @@ const Slots = ({ type }) => {
   const [hotSlots, setHotSlots] = useState([]);
   const [expertSlots, setExpertSlots] = useState([]);
   const [certifiedSlots, setCertifiedSlots] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const casinosPerPage = 10;
+  const totalPages = Math.ceil(allCasinos.length / casinosPerPage);
+
+  const currentCasinos = useMemo(() => {
+    const start = (currentPage - 1) * casinosPerPage;
+    return allCasinos.slice(start, start + casinosPerPage);
+  }, [allCasinos, currentPage]);
 
   // Set body background
   useEffect(() => {
@@ -81,8 +90,18 @@ const Slots = ({ type }) => {
 
   if (loadingAll) {
     return (
-      <div className="flex items-center justify-center h-screen bg-black100">
-        <div className="text-white text-2xl">Loading slots...</div>
+      <div className="flex items-center justify-center h-screen" style={{ backgroundColor: COLORS.black }}>
+        <div className="flex flex-col items-center space-y-6">
+
+
+
+          <div className="text-white text-2xl font-bold tracking-wide animate-pulse">
+            Loading casinos...
+          </div>
+
+
+          <div className="w-32 h-1 bg-red-600 rounded-full opacity-50 animate-pulse"></div>
+        </div>
       </div>
     );
   }
@@ -101,14 +120,79 @@ const Slots = ({ type }) => {
 
       <header
         className="relative bg-cover bg-center h-[60vh] min-h-[400px] md:h-screen"
-        style={{ backgroundImage: `url(${slotBg})` }}
+        style={{ backgroundImage: `url(${banner})` }}
       >
-        <div className="absolute inset-0 bg-black/50 bg-gradient-to-t from-black100 to-transparent" />
+        <div className="absolute inset-0 bg-black/20 bg-gradient-to-t from-black100 to-transparent" />
         <div className="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
           <div className="container mx-auto text-center absolute z-10 top-5 h-full flex flex-col justify-center items-center px-2">
-            <div className="mt-32 px-4 w-full flex justify-center">
-              <div className="w-full max-w-2xl">
-                <SearchBox />
+            <h1
+              className="text-2xl md:text-3xl lg:text-4xl max-w-4xl "
+              style={{
+                fontFamily: 'Jaini',
+                lineHeight: '1.2',
+                wordSpacing: '0.1em',
+                fontWeight: '800',
+                fontStyle: 'regular',
+                letterSpacing: '0.05em',
+                color: COLORS.primary,
+              }}
+            >
+              {type ? type.toUpperCase() : "CASINOS"}
+            </h1>
+
+            <h1
+              className="text-3xl md:text-5xl lg:text-6xl max-w-4xl text-white"
+              style={{
+                fontFamily: 'Jaini',
+                lineHeight: '1.2',
+                wordSpacing: '0.1em',
+                fontWeight: '400',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Your Gateway to the Best Online Casinos & Big Wins!
+            </h1>
+            <p
+              className="mt-4 text-md md:text-lg max-w-2xl text-gray-200"
+              style={{
+                fontFamily: 'BigNoodleTitling',
+                lineHeight: '1.4',
+                wordSpacing: '0.1em',
+                fontWeight: '300',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Compare top-rated casino platforms, claim exclusive bonuses, and start playing today!
+            </p>
+            <div className="mt-10">
+              <SearchBox />
+
+            </div>
+            <div className="flex items-center justify-center gap-4 md:gap-24 mt-4 ">
+              <div className="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 text-[#797C83]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#ffff"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z"
+                  />
+                </svg>
+                <span style={{ fontFamily: "poppins", fontWeight: 600, fontSize: "14px", lineHeight: "100%", color: COLORS.white }}>
+                  45M+ Players
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span style={{ fontFamily: "poppins", fontWeight: 600, fontSize: "14px", lineHeight: "100%", color: COLORS.white }}>
+                  23M+ Matches Analyzed
+                </span>
               </div>
             </div>
           </div>
@@ -135,6 +219,21 @@ const Slots = ({ type }) => {
         recentCasinos={filteredData}
         handlePlayClick={handlePlayClick}
       />
+
+      <AllOnlineCasinosSection
+        currentCasinos={currentCasinos}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        casinosPerPage={casinosPerPage}
+        handlePrevPage={() =>
+          setCurrentPage((prev) => Math.max(prev - 1, 1))
+        }
+        handleNextPage={() =>
+          setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+        }
+        setCurrentPage={setCurrentPage}
+      />
+
 
       <SubscribeSection />
       <Footer />

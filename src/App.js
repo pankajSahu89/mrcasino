@@ -18,7 +18,7 @@ import EditBlog from "./pages/EditBlog";
 import CasinoDetail from "./pages/CasinoDetail";
 import { useDispatch } from "react-redux";
 import { setCountryCode } from "./redux/countrySlice";
-
+import ThemePage from "./pages/ThemePage";
 import Login from "./pages/Login";
 
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -67,6 +67,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/casinos-admin" element={<CasinosAdmin />} />
       <Route path="/blogs-admin" element={<BlogsAdmin />} />
+      <Route path="/ThemePage" element={<ThemePage />} />
       <Route path="/settings-admin" element={<SettingsAdmin />} />
       <Route path="/create-casino" element={<CreateCasino />} />
       <Route path="/create-blog" element={<CreateBlog />} />

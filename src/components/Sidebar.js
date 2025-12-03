@@ -6,7 +6,8 @@ import {
   FaCog,
   FaSignOutAlt,
   FaExpand,
-  FaCompress
+  FaCompress,
+  FaPaintBrush
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
@@ -99,6 +100,18 @@ const Sidebar = () => {
             <FaBlog /> <span>Blogs</span>
           </Link>
         </li>
+
+        <li>
+          <Link 
+            to="/ThemePage" 
+            className={`flex items-center space-x-2 p-2 rounded ${
+              location.pathname === "/ThemePage" ? "bg-blue-500 text-white" : "hover:text-blue-400"
+            }`}
+          >
+          <FaPaintBrush /> <span>Theme</span>
+          </Link>
+        </li>
+
         <li>
           <Link 
             to="/settings-admin" 
@@ -119,6 +132,8 @@ const Sidebar = () => {
             <FaSignOutAlt /> <span>Logout</span>
           </button>
         </li>
+
+
       </ul>
     </div>
   );

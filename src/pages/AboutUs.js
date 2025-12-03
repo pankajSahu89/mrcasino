@@ -2,21 +2,22 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Disclaimer from '../assets/images/disclaimer.png';
+import { COLORS } from "../constants/colors";
 
 const AboutUs = () => {
-   document.body.style.backgroundColor = "#1e1e1e";
+   document.body.style.backgroundColor = COLORS.black;
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-8 py-24  text-white min-h-screen">
-        <h1 className="text-4xl font-bold text-center mb-8 text-red-600">
+      <div className="container mx-auto px-8 py-24  text-white min-h-screen" style={{color:COLORS.primary,background:COLORS.black}}>
+        <h1 className="text-4xl font-bold text-center mb-8 ">
           About MR Gamblers
         </h1>
 
         {/* About Section */}
         <section className="mb-12">
-          <div className="bg-[#1e1e1e] rounded-lg p-6 ">
-            <h2 className="text-2xl font-semibold mb-4 text-red-600">
+          <div className=" rounded-lg p-6 ">
+            <h2 className="text-2xl font-semibold mb-4 ">
               Welcome to MR Gamblers
             </h2>
             <p className="mb-4 text-gray-300">
@@ -27,9 +28,9 @@ const AboutUs = () => {
             </p>
 
             <div className="grid md:grid-cols-2 gap-6 mt-8">
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-3 text-red-600">
-                  🎰 Our Features
+              <div className=" p-4 rounded-lg"style={{background:COLORS.lightBlack}}>
+                <h3 className="text-xl font-semibold mb-3 ">
+                   Our Features
                 </h3>
                 <ul className="list-disc pl-5 text-gray-300">
                   <li>2000+ casino games including slots, poker, and live dealers</li>
@@ -40,9 +41,9 @@ const AboutUs = () => {
                 </ul>
               </div>
 
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-3 text-red-600">
-                  🏆 Our Commitment
+              <div className=" p-4 rounded-lg"style={{background:COLORS.lightBlack}}>
+                <h3 className="text-xl font-semibold mb-3 ">
+                   Our Commitment
                 </h3>
                 <p className="text-gray-300">
                   We prioritize responsible gaming through:
@@ -60,17 +61,17 @@ const AboutUs = () => {
 
         {/* Privacy Policy */}
         <section className="mb-12  pt-12">
-          <h2 className="text-3xl font-bold mb-6 text-red-600">
+          <h2 className="text-3xl font-bold mb-6 ">
             Privacy Policy
           </h2>
-          <div className="bg-[#1e1e1e] rounded-lg p-6 ">
+          <div className=" rounded-lg p-6 ">
             <p className="mb-4 text-gray-300">
               Your privacy is crucial to us. This policy outlines how we handle your information:
             </p>
             <div className="space-y-4">
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2 text-red-600">
-                  🔒 Data Collection
+              <div className=" p-4 rounded-lg"style={{background:COLORS.lightBlack}}>
+                <h3 className="text-lg font-semibold mb-2 ">
+                   Data Collection
                 </h3>
                 <p className="text-gray-300">
                   We collect necessary information for account creation, transactions,
@@ -79,9 +80,9 @@ const AboutUs = () => {
                 </p>
               </div>
 
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2 text-red-600">
-                  📊 Data Usage
+              <div className=" p-4 rounded-lg"style={{background:COLORS.lightBlack}}>
+                <h3 className="text-lg font-semibold mb-2 ">
+                   Data Usage
                 </h3>
                 <p className="text-gray-300">
                   Information is used to improve services, process transactions,
@@ -95,13 +96,13 @@ const AboutUs = () => {
 
         {/* Terms & Conditions */}
         <section className="mb-12  pt-12">
-          <h2 className="text-3xl font-bold mb-6 text-red-600">
+          <h2 className="text-3xl font-bold mb-6 ">
             Terms & Conditions
           </h2>
-          <div className="bg-[#1e1e1e] rounded-lg p-6 ">
+          <div className=" rounded-lg p-6 ">
             <div className="space-y-6">
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2 text-red-600">
+              <div className=" p-4 rounded-lg" style={{background:COLORS.lightBlack}}>
+                <h3 className="text-lg font-semibold mb-2 ">
                   1. Eligibility
                 </h3>
                 <p className="text-gray-300">
@@ -110,8 +111,8 @@ const AboutUs = () => {
                 </p>
               </div>
 
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2 text-red-600">
+              <div className=" p-4 rounded-lg"style={{background:COLORS.lightBlack}}>
+                <h3 className="text-lg font-semibold mb-2 ">
                   2. Account Responsibility
                 </h3>
                 <p className="text-gray-300">
@@ -120,8 +121,8 @@ const AboutUs = () => {
                 </p>
               </div>
 
-              <div className="bg-[#181818] p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2 text-red-600">
+              <div className=" p-4 rounded-lg"style={{background:COLORS.lightBlack}}>
+                <h3 className="text-lg font-semibold mb-2 ">
                   3. Bonus Terms
                 </h3>
                 <p className="text-gray-300">
@@ -136,7 +137,7 @@ const AboutUs = () => {
           </div>
         </section>
 
-        <section className="w-full bg-[#DE0F1F] py-8 px-4">
+        <section className="w-full  py-8 px-4" style={{background:COLORS.lightBlack}}>
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6">
 
             {/* Left side with background image */}

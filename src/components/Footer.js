@@ -166,7 +166,7 @@ const Footer = () => {
 
           <div className="flex gap-6 mt-4 md:mt-0">
             <Link
-              to="/terms-of-service"
+              to="/terms-and-conditions"
               className=" font-normal text-[14px] leading-none hover:text-white"
             >
               Terms of Service

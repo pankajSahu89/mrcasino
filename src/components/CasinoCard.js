@@ -106,7 +106,7 @@ const CasinoCard = ({
                   className="text-white text-base sm:text-lg font-Medium"
                   style={{ fontFamily: 'Oswald', lineHeight: '100%' }}
                 >
-                  {rating}.0
+                  {rating}
                 </p>
 
                 <div className="flex">

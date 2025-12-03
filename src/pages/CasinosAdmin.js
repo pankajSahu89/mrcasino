@@ -1,11 +1,10 @@
-
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllCasinos, deleteCasino, updateCasino } from "../api/casinos";
 import Sidebar from "../components/Sidebar";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+
 const CasinosAdmin = () => {
   const [casinos, setCasinos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,15 +12,13 @@ const CasinosAdmin = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch casinos sorted by order
   useEffect(() => {
     const fetchCasinos = async () => {
       try {
         const data = await getAllCasinos();
-        const sortedCasinos = [...data].sort((a, b) => a.order - b.order);
-        setCasinos(sortedCasinos);
+        setCasinos([...data].sort((a, b) => a.order - b.order));
       } catch (err) {
-        setError(err.message || "Failed to load casinos");
+        setError("Failed to load casinos");
       } finally {
         setLoading(false);
       }
@@ -33,140 +30,87 @@ const CasinosAdmin = () => {
     try {
       await deleteCasino(id);
       setCasinos(casinos.filter((casino) => casino._id !== id));
-    } catch (err) {
-      setError(err.message || "Failed to delete casino");
+    } catch {
+      setError("Failed to delete casino");
     }
   };
 
-  // const onDragEnd = async (result) => {
-  //   if (!result.destination) return;
-  //   if (result.source.index === result.destination.index) return;
-
-  //   setIsUpdating(true);
-
-  //   try {
-  //     // Create new ordered array
-  //     const newCasinos = Array.from(casinos);
-  //     const [movedCasino] = newCasinos.splice(result.source.index, 1);
-  //     newCasinos.splice(result.destination.index, 0, movedCasino);
-
-  //     // Update order numbers sequentially starting from 1
-  //     const updatedCasinos = newCasinos.map((casino, index) => ({
-  //       ...casino,
-  //       order: index + 1,
-  //     }));
-
-  //     // Optimistic UI update
-  //     setCasinos(updatedCasinos);
-
-  //     // Update the moved casino's order in the backend
-  //     await updateCasinoOrder(movedCasino._id, result.destination.index + 1);
-
-  //     // If you want to update all orders (more reliable but heavier):
-  //     // await Promise.all(updatedCasinos.map(casino =>
-  //     //   updateCasinoOrder(casino._id, casino.order)
-  //     // ));
-  //   } catch (err) {
-  //     setError(err.message || "Failed to update order");
-  //     // Revert to previous state if update fails
-  //     const data = await getCasinos();
-  //     const sortedCasinos = [...data].sort((a, b) => a.order - b.order);
-  //     setCasinos(sortedCasinos);
-  //   } finally {
-  //     setIsUpdating(false);
-  //   }
-  // };
-
   const onDragEnd = async (result) => {
     if (!result.destination) return;
-    if (result.source.index === result.destination.index) return;
 
     setIsUpdating(true);
-    const originalCasinos = [...casinos];
+    const original = [...casinos];
 
     try {
-      // Create new ordered array
-      const newCasinos = Array.from(casinos);
-      const [movedCasino] = newCasinos.splice(result.source.index, 1);
-      newCasinos.splice(result.destination.index, 0, movedCasino);
+      const reordered = [...casinos];
+      const [moved] = reordered.splice(result.source.index, 1);
+      reordered.splice(result.destination.index, 0, moved);
 
-      // Get the new order value from the destination index
-      const newOrder = result.destination.index + 1;
-
-      // Optimistic UI update with actual order values
-      const updatedCasinos = newCasinos.map((casino, index) => ({
-        ...casino,
-        order: index + 1,
+      const updated = reordered.map((item, i) => ({
+        ...item,
+        order: i + 1,
       }));
 
-      setCasinos(updatedCasinos);
+      setCasinos(updated);
 
-      // Update backend with the new order for the moved casino only
-      await updateCasino(movedCasino._id, { order: newOrder });
+      await updateCasino(moved._id, { order: result.destination.index + 1 });
 
-      // Refresh the list from server to get final order values
       const data = await getAllCasinos();
-      setCasinos(data.sort((a, b) => a.order - b.order));
+      setCasinos([...data].sort((a, b) => a.order - b.order));
     } catch (err) {
-      setError(err.message || "Failed to update order");
-      setCasinos(originalCasinos);
+      setCasinos(original);
+      setError("Order update failed");
     } finally {
       setIsUpdating(false);
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex">
+      <div className="flex bg-[#0f1115] min-h-screen text-white">
         <Sidebar />
-        <div className="flex-1 p-6 flex items-center justify-center">
-          <div>Loading casinos...</div>
-        </div>
+        <div className="flex-1 flex items-center justify-center">Loading casinos...</div>
       </div>
     );
-
-  if (error)
-    return (
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1 p-6 flex items-center justify-center">
-          <div className="text-red-500">{error}</div>
-        </div>
-      </div>
-    );
+  }
 
   return (
-    <div className="flex">
+    <div className="flex bg-[#0f1115] text-white min-h-screen">
       <Sidebar />
-      <div className="flex-1 p-6">
-        <h2 className="text-2xl font-bold mb-6">Manage Casinos</h2>
-        <button
-          className="bg-green-500 text-white px-4 py-2 rounded mb-4 hover:bg-green-600 transition"
-          onClick={() => navigate("/create-casino")}
-          disabled={isUpdating}
-        >
-          {isUpdating ? "Updating..." : "Create Casino"}
-        </button>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
 
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <div className="flex-1 p-6 md:p-10">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold">Manage Casinos</h2>
+
+          <button
+            onClick={() => navigate("/create-casino")}
+            disabled={isUpdating}
+            className={`px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-green-700 shadow-lg transition-all 
+              hover:scale-105 hover:shadow-green-500/30 ${isUpdating ? "opacity-50" : ""}`}
+          >
+            {isUpdating ? "Updating..." : "+ Add Casino"}
+          </button>
+        </div>
+
+        <div className="rounded-xl border border-white/10 bg-[#1a1d23] shadow-xl overflow-hidden backdrop-blur-xl">
           <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="casinos">
+            <Droppable droppableId="casinoList">
               {(provided) => (
                 <table
-                  className="w-full"
-                  {...provided.droppableProps}
                   ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="w-full text-left"
                 >
-                  <thead className="bg-gray-200">
+                  <thead className="bg-[#262b33] border-b border-white/10">
                     <tr>
-                      <th className="p-3 text-left w-24">Order</th>
-                      <th className="p-3 text-left">Logo</th>
-                      <th className="p-3 text-left">Name</th>
-                      <th className="p-3 text-left">Rating</th>
-                      <th className="p-3 text-left">Actions</th>
+                      <th className="p-4 text-gray-300 w-24">Order</th>
+                      <th className="p-4 text-gray-300">Logo</th>
+                      <th className="p-4 text-gray-300">Name</th>
+                      <th className="p-4 text-gray-300">Rating</th>
+                      <th className="p-4 text-gray-300">Actions</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {casinos.map((casino, index) => (
                       <Draggable
@@ -179,66 +123,53 @@ const CasinosAdmin = () => {
                           <tr
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            className={`border-b hover:bg-gray-50 ${isUpdating ? "opacity-50" : ""
-                              }`}
+                            className={`border-b border-white/10 hover:bg-white/5 transition-all ${
+                              isUpdating ? "opacity-40" : ""
+                            }`}
                           >
-                            <td className="p-3" {...provided.dragHandleProps}>
-                              <div className="flex items-center">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5 text-gray-400 mr-2"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                </svg>
-                                {index + 1}
+                            <td className="p-4 font-semibold text-white" {...provided.dragHandleProps}>
+                              <div className="flex items-center space-x-2 cursor-grab active:cursor-grabbing">
+                                <span className="text-gray-400 text-lg">☰</span>
+                                <span>{index + 1}</span>
                               </div>
                             </td>
-                            <td className="p-3">
-                              <img
-                                src={casino.logo}
-                                alt={casino.name}
-                                className="h-10"
-                              />
+
+                            <td className="p-4">
+                              <img src={casino.logo} alt={casino.name} className="h-10 rounded" />
                             </td>
-                            <td className="p-3">{casino.name}</td>
-                            <td className="p-3">{casino.rating} ⭐</td>
-                            <td className="p-3">
+
+                            <td className="p-4">{casino.name}</td>
+
+                            <td className="p-4 text-yellow-400">{casino.rating} ⭐</td>
+
+                            <td className="p-4">
                               <button
-                                className="bg-red-500 text-white px-3 py-1 rounded mr-2 hover:bg-red-600 transition disabled:opacity-50"
+                                className="px-3 py-1 mr-2 rounded-lg bg-red-600 hover:bg-red-700 shadow-md hover:scale-110 transition-all"
+                                disabled={isUpdating}
                                 onClick={() => {
                                   Swal.fire({
-                                    title: 'Are you sure?',
-                                    text: "Do you really want to delete this casino? This action cannot be undone.",
-                                    icon: 'warning',
+                                    title: "Delete casino?",
+                                    text: "This action cannot be undone.",
+                                    icon: "warning",
                                     showCancelButton: true,
-                                    confirmButtonColor: '#d33',
-                                    cancelButtonColor: '#3085d6',
-                                    confirmButtonText: 'Yes, delete it!',
-                                    cancelButtonText: 'Cancel',
-                                  }).then((result) => {
-                                    if (result.isConfirmed) {
+                                    confirmButtonColor: "#d33",
+                                    cancelButtonColor: "#3085d6",
+                                    confirmButtonText: "Delete",
+                                  }).then((r) => {
+                                    if (r.isConfirmed) {
                                       handleDelete(casino._id);
-                                      Swal.fire(
-                                        'Deleted!',
-                                        'The casino has been deleted.',
-                                        'success'
-                                      );
+                                      Swal.fire("Deleted!", "Casino removed.", "success");
                                     }
                                   });
                                 }}
-                                disabled={isUpdating}
                               >
                                 Delete
                               </button>
 
                               <button
-                                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition disabled:opacity-50"
-                                onClick={() =>
-                                  navigate(`/edit-casino/${casino._id}`)
-                                }
+                                onClick={() => navigate(`/edit-casino/${casino._id}`)}
                                 disabled={isUpdating}
+                                className="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 shadow-md hover:scale-110 transition-all"
                               >
                                 Edit
                               </button>
@@ -254,6 +185,8 @@ const CasinosAdmin = () => {
             </Droppable>
           </DragDropContext>
         </div>
+
+        {error && <div className="text-red-400 mt-4">{error}</div>}
       </div>
     </div>
   );

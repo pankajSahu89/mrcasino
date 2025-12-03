@@ -7,10 +7,11 @@ import {
   FaSignOutAlt,
   FaExpand,
   FaCompress,
-  FaPaintBrush
+  FaPaintBrush,
+  FaChartLine
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
-
+import { COLORS } from "../constants/colors";
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="sticky top-0 h-[100dvh] bg-gray-900 text-white p-5 overflow-y-auto">
+    <div className="sticky top-0 h-[100dvh] text-white p-5 overflow-y-auto"style={{backgroundColor:COLORS.mediumBlack}}>
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-2xl font-bold">Admin Panel</h2>
         <button 
@@ -98,6 +99,16 @@ const Sidebar = () => {
             }`}
           >
             <FaBlog /> <span>Blogs</span>
+          </Link>
+        </li>
+        <li>
+          <Link 
+            to="/seo-page" 
+            className={`flex items-center space-x-2 p-2 rounded ${
+              location.pathname === "/seo-page" ? "bg-blue-500 text-white" : "hover:text-blue-400"
+            }`}
+          >
+          <FaChartLine /> <span>SEO Setting</span>
           </Link>
         </li>
 

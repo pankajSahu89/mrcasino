@@ -19,6 +19,7 @@ import CasinoDetail from "./pages/CasinoDetail";
 import { useDispatch } from "react-redux";
 import { setCountryCode } from "./redux/countrySlice";
 import ThemePage from "./pages/ThemePage";
+import SeoPage from "./pages/SEOPage";
 import Login from "./pages/Login";
 
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -68,6 +69,7 @@ function App() {
       <Route path="/casinos-admin" element={<CasinosAdmin />} />
       <Route path="/blogs-admin" element={<BlogsAdmin />} />
       <Route path="/ThemePage" element={<ThemePage />} />
+      <Route path="/seo-page" element={<SeoPage />} />
       <Route path="/settings-admin" element={<SettingsAdmin />} />
       <Route path="/create-casino" element={<CreateCasino />} />
       <Route path="/create-blog" element={<CreateBlog />} />

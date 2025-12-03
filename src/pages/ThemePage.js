@@ -67,11 +67,11 @@ const ColorPage = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1 p-6 bg-gray-50 min-h-screen">
-        <h2 className="text-2xl font-bold mb-6">Manage Colors</h2>
+      <div className="flex-1 p-6 bg-[#0f1115] min-h-screen text-white">
+       <h1 className="text-3xl font-bold mb-6"> Theme Manager</h1>
 
         {/* Add/Edit Form */}
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+        <div className="bg-[#1a1d23] shadow-md rounded-lg p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4">
             {editId ? "Edit Color" : "Add New Color"}
           </h3>
@@ -80,13 +80,19 @@ const ColorPage = () => {
             className="flex flex-col sm:flex-row gap-4 items-center"
           >
             <input
-              type="text"
-              placeholder="Variable name (e.g. --primary)"
-              value={variable}
-              onChange={(e) => setVariable(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
+  type="text"
+  placeholder="Variable name (e.g. --primary)"
+  value={variable}
+  onChange={(e) => setVariable(e.target.value)}
+  className="
+    border border-gray-300 rounded 
+    px-3 py-2 w-full sm:w-1/2 
+    placeholder-black 
+    text-black
+    focus:outline-none focus:ring-2 focus:ring-blue-400
+  "
+  required
+/>
             <input
               type="color"
               value={hexCode}
@@ -108,9 +114,9 @@ const ColorPage = () => {
         </div>
 
         {/* Colors Table */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="bg-[#1a1d23] shadow-md rounded-lg overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-200">
+            <thead className="bg-[#1a1d33]">
               <tr>
                 <th className="p-3 text-left">Preview</th>
                 <th className="p-3 text-left">Variable</th>
@@ -121,7 +127,7 @@ const ColorPage = () => {
             <tbody>
               {colors.length > 0 ? (
                 colors.map((color) => (
-                  <tr key={color._id} className="border-b hover:bg-gray-50">
+                  <tr key={color._id} className="border-b hover:bg-gray-800">
                     <td className="p-3">
                       <div
                         className="w-8 h-8 rounded border"

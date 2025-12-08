@@ -42,6 +42,7 @@ const RecommendedByExpertSection = ({ certifiedCasinos, handlePlayClick }) => {
                             minimumDeposit={casino.paymentInfo?.minimumDeposit || "$0"}
                             visits={`${casino.visits || 0}`}
                             licences={casino.generalInfo?.licences || "Curacao"}
+                            withdrawalMethods={casino.paymentInfo?.withdrawalMethods || "Visa, MasterCard, Skrill, Neteller"}
                             onClick={() => handlePlayClick(casino.name)}
                         />
                             ))}

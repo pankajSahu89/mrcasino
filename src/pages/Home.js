@@ -198,8 +198,18 @@ const Home = () => {
 
     // Sections logic (UNCHANGED)
     const sections = useMemo(() => {
-        if (filteredHomeCasinos.length === 0) return {};
-
+        if (!Array.isArray(filteredHomeCasinos) || filteredHomeCasinos.length === 0) {
+            return {
+                casinos: [],
+                bonuses: [],
+                games: [],
+                slots: [],
+                betting: [],
+                certified: [],
+                recommended: [],
+                recent: [],
+            };
+        }
         const casinoTags = [
             "Crypto Casino",
             "Online Casino",

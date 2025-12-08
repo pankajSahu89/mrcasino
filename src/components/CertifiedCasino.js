@@ -44,6 +44,7 @@ const CertifiedCasinosSection = ({ certifiedCasinos, handlePlayClick, certified 
                     depositBonus={casino.depositBonus || "Up to €1000 + 200 Free Spins"}
                     welcomeBonus={casino.welcomeBonus || "200% Match Bonus"}
                     minimumDeposit={casino.paymentInfo?.minimumDeposit || "$0"}
+                     withdrawalMethods={casino.paymentInfo?.withdrawalMethods || "Visa, MasterCard, Skrill, Neteller"}
                     visits={`${casino.visits || 0}`}
                     licences={casino.generalInfo?.licences || "Curacao"}
                     onClick={() => handlePlayClick(casino.name)}

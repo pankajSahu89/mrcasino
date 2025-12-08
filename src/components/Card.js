@@ -1,7 +1,8 @@
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { PAYMENT_LOGOS } from "../utils/paymentLogos";
+const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, visits, minimumDeposit, licences, withdrawalMethods, }) => {
 
-const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, visits, minimumDeposit, licences }) => {
   return (
     <div
       onClick={onClick}
@@ -96,14 +97,37 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
 
 
         {/* RIGHT ICONS */}
-        <div className="flex gap-1">
-          <div className="w-8 h-6 rounded bg-gray-600"></div>
-          <div className="w-8 h-6 rounded bg-gray-600"></div>
-          <div className="w-8 h-6 rounded bg-gray-600"></div>
-          <div className="w-8 h-6 rounded bg-gray-600"></div>
-          <div className="w-8 h-6 rounded bg-gray-600"></div>
+        {/* RIGHT ICONS */}
+        <div className="flex gap-2 items-center">
+          {(() => {
+            // Get all logos
+            const logos = Object.values(PAYMENT_LOGOS);
 
+            // Shuffle array (Fisher–Yates)
+            const shuffled = [...logos];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            // Take first 5 icons
+            return shuffled.slice(0, 5).map((logo, index) => (
+              <div
+                key={index}
+                className="w-7 h-5 flex items-center justify-center rounded bg-white"
+              >
+                <img
+                  src={logo}
+                  alt="payment"
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                />
+              </div>
+            ));
+          })()}
         </div>
+
+
 
       </div>
       <div className="flex items-center justify-between mt-3">
@@ -220,17 +244,17 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
 
         {/* Titles Row */}
         <div className="flex justify-between w-full">
-        
+
           <p className="flex-1 text-left"
             style={{ fontFamily: "Oswald", fontWeight: 500, fontSize: 12, color: COLORS.primary }}>
-            Min Deposit <span style={{color:COLORS.white, marginLeft:12,fontSize:10}}> {minimumDeposit}</span>
+            Min Deposit <span style={{ color: COLORS.white, marginLeft: 12, fontSize: 10 }}> {minimumDeposit}</span>
           </p>
 
           <p className="flex-1 text-center"
             style={{ fontFamily: "Oswald", fontWeight: 500, fontSize: 12, color: COLORS.primary }}>
-            Wagering<span style={{color:COLORS.white, marginLeft:12,fontSize:10}}> 40x</span>
+            Wagering<span style={{ color: COLORS.white, marginLeft: 12, fontSize: 10 }}> 40x</span>
           </p>
-    
+
         </div>
       </div>
 

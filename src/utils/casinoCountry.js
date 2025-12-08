@@ -30,7 +30,9 @@ const EU_CODES = new Set([
   "DE", 
   "IE", 
   "NL",
-  "SE", 
+  "SE",
+  "CH",
+  "GB",
 ]);
 
 const normaliseCode = (code) =>

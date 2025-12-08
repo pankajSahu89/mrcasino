@@ -8,7 +8,9 @@ import {
   FaExpand,
   FaCompress,
   FaPaintBrush,
-  FaChartLine
+  FaChartLine,
+  FaUserPlus,
+  FaClipboardList,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { COLORS } from "../constants/colors";
@@ -113,6 +115,26 @@ const Sidebar = () => {
         </li>
 
         <li>
+          <Link 
+            to="/Subscribers" 
+            className={`flex items-center space-x-2 p-2 rounded ${
+              location.pathname === "/Subscribers" ? "bg-blue-500 text-white" : "hover:text-blue-400"
+            }`}
+          >
+          <FaClipboardList /> <span>Subscribers</span>
+          </Link>
+        </li>
+         <li>
+          <Link 
+            to="/UserLogs" 
+            className={`flex items-center space-x-2 p-2 rounded ${
+              location.pathname === "/UserLogs" ? "bg-blue-500 text-white" : "hover:text-blue-400"
+            }`}
+          >
+          <FaUserPlus /> <span>User Logs</span>
+          </Link>
+        </li>
+         <li>
           <Link 
             to="/ThemePage" 
             className={`flex items-center space-x-2 p-2 rounded ${

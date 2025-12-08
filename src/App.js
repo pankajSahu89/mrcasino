@@ -14,6 +14,8 @@ import SettingsAdmin from "./pages/SettingsAdmin";
 import CreateCasino from "./pages/CreateCasino";
 import CreateBlog from "./pages/CreateBlog";
 import EditCasino from "./pages/EditCasino";
+import Subscriber from "./pages/Subscribers";
+import UserLogs from "./pages/UserLogs";
 import EditBlog from "./pages/EditBlog";
 import CasinoDetail from "./pages/CasinoDetail";
 import { useDispatch } from "react-redux";
@@ -77,6 +79,8 @@ function App() {
       <Route path="/edit-blog/:id" element={<EditBlog />} />
       <Route path="/casino" element={<CasinoDetail />} />
       <Route path="/casinos/:slug" element={<CasinoDetail />} />
+      <Route path="/Subscribers" element={<Subscriber />} />
+      <Route path="/UserLogs" element={<UserLogs />} />
 
       {/* Filtered Casinos */}
       <Route path="/casinos/crypto" element={<Casinos type="crypto" />} />

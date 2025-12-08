@@ -1,15 +1,17 @@
 import React, { useEffect, useState, Suspense, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 // 🌟 IMPORT HELMET HERE 🌟
-import { Helmet } from "react-helmet"; 
+import { Helmet } from "react-helmet";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
-import certified from "../assets/images/Certified.png"; 
+import certified from "../assets/images/Certified.png";
 import { COLORS } from "../constants/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHomeCasinos, fetchAllCasinos } from "../redux/casinosSlice";
 import { setCountryCode } from "../redux/countrySlice";
 import { filterCasinosByCountry } from "../utils/casinoCountry";
+import { createVisitorLog } from "../api/visitorLog";
+import API from "../api/axios";
 
 // --- Lazy-loaded components (UNCHANGED) ---
 const NewOnMrGamblers = React.lazy(() => import("../components/NewOnMrGamblers.js"));
@@ -25,9 +27,9 @@ const CookieConsent = React.lazy(() => import("../components/CookieConsent"));
 
 // --- Default/Fallback SEO State for Robustness ---
 const defaultSeoState = {
-    seo: { 
-        title: "MR. Gambler - Top Online Casino Reviews & Bonuses", 
-        description: "Your trusted source for unbiased casino reviews, exclusive bonuses, and expert gambling guides. Play safe and smart with MR. Gambler.", 
+    seo: {
+        title: "MR. Gambler - Top Online Casino Reviews & Bonuses",
+        description: "Your trusted source for unbiased casino reviews, exclusive bonuses, and expert gambling guides. Play safe and smart with MR. Gambler.",
         keywords: "online casino, casino reviews, casino bonuses, free spins, no deposit bonus",
         canonical: "https://mrgambler.com",
         author: "MR. Gambler Team",
@@ -64,7 +66,7 @@ const generateSchema = (seo, faqs) => {
             })),
         };
     }
-    
+
     if (schemaType === "WebSite") {
         return {
             ...baseSchema,
@@ -118,22 +120,42 @@ const Home = () => {
         return filteredAllCasinos.slice(start, start + casinosPerPage);
     }, [filteredAllCasinos, currentPage]);
 
-    // Ensure we have a country code (reuse Navbar logic as fallback)
     useEffect(() => {
         if (countryCode) return;
-        const fetchCountry = async () => {
+
+        const controller = new AbortController();
+
+        requestIdleCallback(async () => {
             try {
-                const res = await fetch("https://ipwho.is/");
+                const res = await fetch("https://ipwho.is/", {
+                    signal: controller.signal,
+                });
                 const data = await res.json();
+
                 if (data?.country_code) {
                     dispatch(setCountryCode(data.country_code));
                 }
+
+                if (data?.success) {
+                    createVisitorLog({
+                        ip: data.ip,
+                        type: data.type,
+                        country: data.country,
+                        country_code: data.country_code,
+                        city: data.city,
+                        region: data.region,
+                        isp: data.connection?.isp,
+                    });
+                }
             } catch (err) {
-                console.error("Country fetch error (Home):", err);
+                console.error("Visitor log error:", err);
             }
-        };
-        fetchCountry();
+        });
+
+        return () => controller.abort();
     }, [countryCode, dispatch]);
+
+
 
 
     useEffect(() => {
@@ -288,7 +310,7 @@ const Home = () => {
             </div>
         );
     }
-    
+
     const currentSchema = generateSchema(seoData.seo, seoData.faqs);
 
     return (

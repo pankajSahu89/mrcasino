@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { filterCasinosByCountry } from "../utils/casinoCountry";
 
 import Navbar from '../components/Navbar';
 import SearchBox from '../components/searchbox';
@@ -27,6 +28,7 @@ const Slots = ({ type }) => {
   const dispatch = useDispatch();
 
   const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
+  const countryCode = useSelector((state) => state.country?.code);
 
   const [filteredData, setFilteredData] = useState([]);
   const [hotSlots, setHotSlots] = useState([]);
@@ -34,12 +36,19 @@ const Slots = ({ type }) => {
   const [certifiedSlots, setCertifiedSlots] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const casinosPerPage = 10;
-  const totalPages = Math.ceil(allCasinos.length / casinosPerPage);
+  const filteredAllCasinos = useMemo(
+    () => filterCasinosByCountry(allCasinos, countryCode),
+    [allCasinos, countryCode]
+  );
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredAllCasinos.length / casinosPerPage)
+  );
 
   const currentCasinos = useMemo(() => {
     const start = (currentPage - 1) * casinosPerPage;
-    return allCasinos.slice(start, start + casinosPerPage);
-  }, [allCasinos, currentPage]);
+    return filteredAllCasinos.slice(start, start + casinosPerPage);
+  }, [filteredAllCasinos, currentPage]);
 
   // Set body background
   useEffect(() => {
@@ -56,23 +65,23 @@ const Slots = ({ type }) => {
 
   // Filter slots whenever allCasinos or type changes
   useEffect(() => {
-    if (!allCasinos || allCasinos.length === 0) return;
+    if (!filteredAllCasinos || filteredAllCasinos.length === 0) return;
 
     let tagFiltered = [];
 
     if (!type || typeof type !== "string") {
-      tagFiltered = allCasinos;
+      tagFiltered = filteredAllCasinos;
     } else {
       const tag = SLOT_TYPE_TAGS[type];
 
       if (!tag) {
         const normalizedType = type.replace(/-/g, '').toLowerCase();
-        tagFiltered = allCasinos.filter(slot =>
+        tagFiltered = filteredAllCasinos.filter(slot =>
           Array.isArray(slot.tags) &&
           slot.tags.some(tag => tag?.replace(/-/g, '').toLowerCase().includes(normalizedType))
         );
       } else {
-        tagFiltered = allCasinos.filter(
+        tagFiltered = filteredAllCasinos.filter(
           slot => Array.isArray(slot.tags) && slot.tags.includes(tag)
         );
       }
@@ -82,7 +91,7 @@ const Slots = ({ type }) => {
     setHotSlots(tagFiltered.filter(slot => slot.hotCasino === true).slice(0, 4));
     setExpertSlots(tagFiltered.filter(slot => slot.recommendedByExperts === true).slice(0, 4));
     setCertifiedSlots(tagFiltered.filter(slot => slot.certifiedCasino === true).slice(0, 4));
-  }, [allCasinos, type]);
+  }, [filteredAllCasinos, type]);
 
   const handlePlayClick = (name) => {
     navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchAllCasinos } from "../redux/casinosSlice";
+import { filterCasinosByCountry } from "../utils/casinoCountry";
 import Navbar from '../components/Navbar';
 import casinoBg from '../assets/images/casino-bg.png';
 import SearchBox from '../components/searchbox';
@@ -21,20 +22,29 @@ const Casinos = ({ type }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
+  const countryCode = useSelector((state) => state.country?.code);
 
 
-  const [filteredData, setFilteredData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
   const [hotCasinos, setHotCasinos] = useState([]);
   const [recommendedByExperts, setRecommendedByExperts] = useState([]);
   const [certifiedCasinos, setCertifiedCasinos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const casinosPerPage = 10;
-    const totalPages = Math.ceil(allCasinos.length / casinosPerPage);
+
+    const filteredAllCasinos = useMemo(
+      () => filterCasinosByCountry(allCasinos, countryCode),
+      [allCasinos, countryCode]
+    );
+    const totalPages = Math.max(
+      1,
+      Math.ceil(filteredAllCasinos.length / casinosPerPage)
+    );
   
     const currentCasinos = useMemo(() => {
       const start = (currentPage - 1) * casinosPerPage;
-      return allCasinos.slice(start, start + casinosPerPage);
-    }, [allCasinos, currentPage]);
+      return filteredAllCasinos.slice(start, start + casinosPerPage);
+    }, [filteredAllCasinos, currentPage]);
   
   useEffect(() => {
     // If Redux store is empty, fetch all casinos
@@ -50,10 +60,10 @@ const Casinos = ({ type }) => {
   }, []);
 
   useEffect(() => {
-    if (!allCasinos || allCasinos.length === 0) return;
+    if (!filteredAllCasinos || filteredAllCasinos.length === 0) return;
 
     // Filter casinos based on type and flags
-    const tagFiltered = allCasinos.filter(
+    const tagFiltered = filteredAllCasinos.filter(
       casino =>
         Array.isArray(casino.tags) &&
         (!type || casino.tags.some(tag => tag.toLowerCase().includes(type.toLowerCase())))
@@ -68,7 +78,7 @@ const Casinos = ({ type }) => {
     setRecommendedByExperts(recExperts.slice(0, 4));
     setCertifiedCasinos(certified.slice(0, 4));
 
-  }, [allCasinos, type]);
+  }, [filteredAllCasinos, type]);
 
   const handlePlayClick = (name) => {
     navigate(`/casinos/${name.toLowerCase().replace(/\s+/g, "-")}`);

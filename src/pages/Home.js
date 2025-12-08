@@ -8,6 +8,8 @@ import certified from "../assets/images/Certified.png";
 import { COLORS } from "../constants/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHomeCasinos, fetchAllCasinos } from "../redux/casinosSlice";
+import { setCountryCode } from "../redux/countrySlice";
+import { filterCasinosByCountry } from "../utils/casinoCountry";
 
 // --- Lazy-loaded components (UNCHANGED) ---
 const NewOnMrGamblers = React.lazy(() => import("../components/NewOnMrGamblers.js"));
@@ -81,6 +83,8 @@ const Home = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const countryCode = useSelector((state) => state.country?.code);
+    console.log("User Country Code:", countryCode);
     const { homeCasinos, allCasinos, loadingHome, error } = useSelector(
         (state) => state.casinos || {}
     );
@@ -91,15 +95,45 @@ const Home = () => {
 
     const [activeSection, setActiveSection] = useState("casinos");
 
+    // Country based filtering for all/home casinos
+    const filteredHomeCasinos = useMemo(
+        () => filterCasinosByCountry(homeCasinos, countryCode),
+        [homeCasinos, countryCode]
+    );
+    const filteredAllCasinos = useMemo(
+        () => filterCasinosByCountry(allCasinos, countryCode),
+        [allCasinos, countryCode]
+    );
+
     // Pagination (UNCHANGED)
     const [currentPage, setCurrentPage] = useState(1);
     const casinosPerPage = 10;
-    const totalPages = Math.ceil(allCasinos.length / casinosPerPage);
+    const totalPages = Math.max(
+        1,
+        Math.ceil(filteredAllCasinos.length / casinosPerPage)
+    );
 
     const currentCasinos = useMemo(() => {
         const start = (currentPage - 1) * casinosPerPage;
-        return allCasinos.slice(start, start + casinosPerPage);
-    }, [allCasinos, currentPage]);
+        return filteredAllCasinos.slice(start, start + casinosPerPage);
+    }, [filteredAllCasinos, currentPage]);
+
+    // Ensure we have a country code (reuse Navbar logic as fallback)
+    useEffect(() => {
+        if (countryCode) return;
+        const fetchCountry = async () => {
+            try {
+                const res = await fetch("https://ipwho.is/");
+                const data = await res.json();
+                if (data?.country_code) {
+                    dispatch(setCountryCode(data.country_code));
+                }
+            } catch (err) {
+                console.error("Country fetch error (Home):", err);
+            }
+        };
+        fetchCountry();
+    }, [countryCode, dispatch]);
 
 
     useEffect(() => {
@@ -142,7 +176,7 @@ const Home = () => {
 
     // Sections logic (UNCHANGED)
     const sections = useMemo(() => {
-        if (homeCasinos.length === 0) return {};
+        if (filteredHomeCasinos.length === 0) return {};
 
         const casinoTags = [
             "Crypto Casino",
@@ -189,7 +223,9 @@ const Home = () => {
         ];
 
         const filterByTags = (tags) =>
-            homeCasinos.filter((c) => c.tags?.some((t) => tags.includes(t))).slice(0, 4);
+            filteredHomeCasinos
+                .filter((c) => c.tags?.some((t) => tags.includes(t)))
+                .slice(0, 4);
 
         return {
             casinos: filterByTags(casinoTags),
@@ -197,13 +233,17 @@ const Home = () => {
             games: filterByTags(gameTags),
             slots: filterByTags(slotTags),
             betting: filterByTags(bettingTags),
-            certified: homeCasinos.filter((c) => c.certifiedCasino).slice(0, 4),
-            recommended: homeCasinos.filter((c) => c.recommendedByExperts).slice(0, 4),
-            recent: [...homeCasinos]
+            certified: filteredHomeCasinos
+                .filter((c) => c.certifiedCasino)
+                .slice(0, 4),
+            recommended: filteredHomeCasinos
+                .filter((c) => c.recommendedByExperts)
+                .slice(0, 4),
+            recent: [...filteredHomeCasinos]
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .slice(0, 4),
         };
-    }, [homeCasinos]);
+    }, [filteredHomeCasinos]);
 
     const getCurrentSectionData = () => {
         switch (activeSection) {

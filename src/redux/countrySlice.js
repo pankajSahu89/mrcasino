@@ -4,10 +4,12 @@ const countrySlice = createSlice({
   name: "country",
   initialState: {
     code: "",
+    name: "",
   },
   reducers: {
     setCountryCode(state, action) {
       state.code = action.payload;
+      state.name = action.payload; 
     },
   },
 });

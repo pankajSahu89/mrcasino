@@ -15,6 +15,7 @@ const CasinoCard = ({
   number,
   overview,
   minimumDeposit,
+ 
 }) => {
   const starCount = Math.floor(rating);
   const totalStars = 5;

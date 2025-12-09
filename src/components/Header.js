@@ -16,7 +16,7 @@ const LazyImage = ({ src, alt, className = "", width, height }) => (
   />
 );
 
-const Header = () => {
+const Header = ({ recentCasinos, handlePlayClick, countryName }) => {
   const [bgLoaded, setBgLoaded] = useState(false);
 
   useEffect(() => {
@@ -150,32 +150,69 @@ const Header = () => {
           </div>
 
           {/* RIGHT SECTION – CARDS */}
+
           <div className="hidden lg:flex justify-center items-center space-x-6 lg:mt-0">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`bg-[#1C171D] rounded-xl w-[168px] text-center text-white shadow-xl relative ${i !== 1 ? (i === 2 ? "hidden md:block" : "hidden lg:block") : ""}`}
-              >
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-3 py-1 rounded-md">
-                  #{i}
-                </span>
-                <div className={`pt-8 text-sm ${i === 1 ? "text-lg" : i === 3 ? "text-xs" : ""}`}>India</div>
-                <div className="flex justify-center mt-4">
-                  <LazyImage src={stage} alt={`Stage ${i}`} width={80} height={80} className={`w-20 h-20 ${i === 2 ? "w-16 h-16" : i === 3 ? "w-12 h-12" : ""}`} />
-                </div>
-                <p className={`mt-4 ${i === 1 ? "text-xl" : i === 2 ? "text-md" : "text-sm"}`}>
-                  {i === 1 ? "Red Stag Casino" : i === 2 ? "888 Casino" : "Ninlay Casino"}
-                </p>
-                <p className={`text-blue-400 mt-1 ${i === 1 ? "text-lg" : i === 2 ? "text-sm" : "text-xs"}`}>5.0 ★★★★★</p>
-                <button
-                  className={`w-full mt-4 py-3 ${i === 1 ? "text-lg" : i === 2 ? "text-md" : "text-xs"} rounded-b-xl`}
-                  style={{ backgroundColor: COLORS.primary }}
+            {recentCasinos.slice(0, 3).map((casino, index) => {
+              const i = index + 1; // rank 1,2,3
+
+              return (
+                <div
+                  key={casino.id || index}
+                  className={`bg-[#1C171D] rounded-xl  ${i === 1 ? "w-[168px]" : i === 3 ? "w-[128px]" : "w-[148px]"} text-center text-white shadow-xl relative 
+                              ${i !== 1 ? (i === 2 ? "hidden md:block" : "hidden lg:block") : ""}`}
                 >
-                  Play Now
-                </button>
-              </div>
-            ))}
+                  {/* Rank Badge */}
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-3 py-1 rounded-md">
+                    #{i}
+                  </span>
+
+                  {/* Country */}
+                  <div className={`pt-8 text-sm ${i === 1 ? "text-lg" : i === 3 ? "text-xs" : ""}`}>
+                    {countryName}
+                  </div>
+
+                  {/* Logo */}
+                  <div className="flex justify-center mt-4">
+                    <div
+                      className={`
+                      rounded-full overflow-hidden
+                      bg-[#2A2A2A]
+                       flex items-center justify-center
+                       ${i === 1 ? "w-20 h-20" : i === 2 ? "w-16 h-16" : "w-12 h-12"}
+                       `}
+                    >
+                      <LazyImage
+                        src={casino.logo || casino.image}
+                        alt={casino.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+
+
+                  {/* Title */}
+                  <p className={`mt-1 ${i === 1 ? "text-xl" : i === 2 ? "text-md" : "text-sm"}`}>
+                    {casino.title}
+                  </p>
+
+                  {/* Rating */}
+                  <p className={`text-blue-400 ${i === 1 ? "text-lg" : i === 2 ? "text-sm" : "text-xs"}`}>
+                    {casino.rating || "5.0"} ★★★★★
+                  </p>
+
+                  {/* Play Button */}
+                  <button
+                    className={`w-full mt-4 py-3 ${i === 1 ? "text-lg" : i === 2 ? "text-md" : "text-xs"} rounded-b-xl`}
+                    style={{ backgroundColor: COLORS.primary }}
+                  >
+                    Play Now
+                  </button>
+                </div>
+              );
+            })}
           </div>
+
+
         </div>
       </div>
     </header>

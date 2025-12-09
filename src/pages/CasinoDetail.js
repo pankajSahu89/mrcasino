@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import bonusesBg from "../assets/images/casino-bg.png";
 import crown from "../assets/images/crown.png";
 import { COLORS } from "../constants/colors";
+import { PAYMENT_LOGOS } from "../utils/paymentLogos";
 
 const CasinoDetail = () => {
   const { slug } = useParams();
@@ -82,136 +83,136 @@ const CasinoDetail = () => {
     return fallback;
   };
 
-const renderTabContent = () => {
-  if (!casino) return null;
+  const renderTabContent = () => {
+    if (!casino) return null;
 
-  const safeJoin = (value, fallback = "") => {
-    if (Array.isArray(value)) return value.join(", ");
-    if (value) return value;
-    return fallback;
-  };
+    const safeJoin = (value, fallback = "") => {
+      if (Array.isArray(value)) return value.join(", ");
+      if (value) return value;
+      return fallback;
+    };
 
-  const titleClass = `text-xl font-semibold inline`; // Base title styling
+    const titleClass = `text-xl font-semibold inline`; // Base title styling
 
-  switch (activeTab) {
-    case "general":
-      return (
-        <div className="space-y-6 mt-4 text-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Website:{" "}
-              </p>
-              <a
-                href={casino.editorView || "#"}
-                className="text-blue-400 underline text-lg ml-1 break-all"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {casino.generalInfo?.website || "Not available"}
-              </a>
-            </div>
+    switch (activeTab) {
+      case "general":
+        return (
+          <div className="space-y-6 mt-4 text-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Website:{" "}
+                </p>
+                <a
+                  href={casino.editorView || "#"}
+                  className="text-blue-400 underline text-lg ml-1 break-all"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {casino.generalInfo?.website || "Not available"}
+                </a>
+              </div>
 
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Languages:{" "}
-              </p>
-              <span className="text-lg ml-1">
-                {safeJoin(casino.generalInfo?.languages, "English")}
-              </span>
-            </div>
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Languages:{" "}
+                </p>
+                <span className="text-lg ml-1">
+                  {safeJoin(casino.generalInfo?.languages, "English")}
+                </span>
+              </div>
 
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Company:{" "}
-              </p>
-              <span className="text-lg ml-1">
-                {casino.generalInfo?.companyName || "Not specified"}
-              </span>
-            </div>
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Company:{" "}
+                </p>
+                <span className="text-lg ml-1">
+                  {casino.generalInfo?.companyName || "Not specified"}
+                </span>
+              </div>
 
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Established:{" "}
-              </p>
-              <span className="text-lg ml-1">
-                {casino.generalInfo?.established || "Not specified"}
-              </span>
-            </div>
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Established:{" "}
+                </p>
+                <span className="text-lg ml-1">
+                  {casino.generalInfo?.established || "Not specified"}
+                </span>
+              </div>
 
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                License:{" "}
-              </p>
-              <span className="text-lg ml-1">
-                {safeJoin(casino.generalInfo?.licences, "Not specified")}
-              </span>
-            </div>
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  License:{" "}
+                </p>
+                <span className="text-lg ml-1">
+                  {safeJoin(casino.generalInfo?.licences, "Not specified")}
+                </span>
+              </div>
 
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Support:{" "}
-              </p>
-              <span className="text-lg ml-1">
-                {casino.responsibleGaming?.support || "Not specified"}
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-
-    case "payment":
-      return (
-        <div className="space-y-6 mt-4 text-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Minimum Deposit:{" "}
-              </p>
-              <span className="text-lg text-gray-300 ml-1">
-                {casino.paymentInfo?.minimumDeposit || "0"}
-              </span>
-            </div>
-
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Deposit Methods:{" "}
-              </p>
-              <span className="text-lg text-gray-300 ml-1">
-                {safeJoin(
-                  casino.paymentInfo?.withdrawalMethods,
-                  "Various methods available"
-                )}
-              </span>
-            </div>
-
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Withdrawal Time:{" "}
-              </p>
-              <span className="text-lg text-gray-300 ml-1">
-                {casino.paymentInfo?.withdrawalTime || "Not specified"}
-              </span>
-            </div>
-
-            <div>
-              <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
-                Currencies:{" "}
-              </p>
-              <span className="text-lg text-gray-300 ml-1">
-                {casino.paymentInfo?.fees || "Not specified"}
-              </span>
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Support:{" "}
+                </p>
+                <span className="text-lg ml-1">
+                  {casino.responsibleGaming?.support || "Not specified"}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
 
-    case "games":
-      return (
-        <div className="flex flex-col items-center justify-center mt-4">
-          <div className="text-gray-100 w-full max-w-md text-center space-y-2">
-            {Array.isArray(casino.generalInfo?.casinoType)
-              ? casino.generalInfo.casinoType.map((item, index) => (
+      case "payment":
+        return (
+          <div className="space-y-6 mt-4 text-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Minimum Deposit:{" "}
+                </p>
+                <span className="text-lg text-gray-300 ml-1">
+                  {casino.paymentInfo?.minimumDeposit || "0"}
+                </span>
+              </div>
+
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Deposit Methods:{" "}
+                </p>
+                <span className="text-lg text-gray-300 ml-1">
+                  {safeJoin(
+                    casino.paymentInfo?.withdrawalMethods,
+                    "Various methods available"
+                  )}
+                </span>
+              </div>
+
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Withdrawal Time:{" "}
+                </p>
+                <span className="text-lg text-gray-300 ml-1">
+                  {casino.paymentInfo?.withdrawalTime || "Not specified"}
+                </span>
+              </div>
+
+              <div>
+                <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
+                  Currencies:{" "}
+                </p>
+                <span className="text-lg text-gray-300 ml-1">
+                  {casino.paymentInfo?.fees || "Not specified"}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "games":
+        return (
+          <div className="flex flex-col items-center justify-center mt-4">
+            <div className="text-gray-100 w-full max-w-md text-center space-y-2">
+              {Array.isArray(casino.generalInfo?.casinoType)
+                ? casino.generalInfo.casinoType.map((item, index) => (
                   <p
                     key={index}
                     className="text-lg font-medium text-white"
@@ -219,15 +220,15 @@ const renderTabContent = () => {
                     {item}
                   </p>
                 ))
-              : <p className="text-lg font-medium text-gray-300">No information</p>}
+                : <p className="text-lg font-medium text-gray-300">No information</p>}
+            </div>
           </div>
-        </div>
-      );
+        );
 
-    case "responsible":
-      return (
-        <div className="space-y-6 mt-4 text-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      case "responsible":
+        return (
+          <div className="space-y-6 mt-4 text-gray-100">
+
             <div>
               <p className={`${titleClass}`} style={{ color: COLORS.primary }}>
                 Games:{" "}
@@ -236,14 +237,14 @@ const renderTabContent = () => {
                 {safeJoin(casino.responsibleGaming?.tools, "Not specified")}
               </span>
             </div>
-          </div>
-        </div>
-      );
 
-    default:
-      return null;
-  }
-};
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
 
 
   if (loading) {
@@ -430,12 +431,34 @@ const renderTabContent = () => {
                           Payment Methods
                         </span>
 
-                        <div className="flex gap-2 mt-1">
-                          <div className="w-8 h-6 rounded bg-gray-600"></div>
-                          <div className="w-8 h-6 rounded bg-gray-600"></div>
-                          <div className="w-8 h-6 rounded bg-gray-600"></div>
-                          <div className="w-8 h-6 rounded bg-gray-600"></div>
-                          <div className="w-8 h-6 rounded bg-gray-600"></div>
+                        <div className="flex gap-2 items-center">
+                          {(() => {
+                            // Get all logos
+                            const logos = Object.values(PAYMENT_LOGOS);
+
+                            // Shuffle array (Fisher–Yates)
+                            const shuffled = [...logos];
+                            for (let i = shuffled.length - 1; i > 0; i--) {
+                              const j = Math.floor(Math.random() * (i + 1));
+                              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                            }
+
+                            // Take first 5 icons
+                            return shuffled.slice(0, 5).map((logo, index) => (
+                              <div
+                                key={index}
+                                className="w-7 h-5 flex items-center justify-center rounded bg-white overflow-hidden"
+                              >
+                                <img
+                                  src={logo}
+                                  alt="payment"
+                                  className="w-full h-full object-contain"
+                                  loading="lazy"
+                                />
+                              </div>
+
+                            ));
+                          })()}
                         </div>
 
                       </div>
@@ -602,8 +625,8 @@ const renderTabContent = () => {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`text-left px-4 py-6 rounded-lg text-[16px] font-semibold leading-[100%] tracking-[0%] font-poppins ${activeTab === tab
-                    ? "text-white"
-                    : "text-white hover:text-blue-500"
+                  ? "text-white"
+                  : "text-white hover:text-blue-500"
                   }`}
 
                 style={
@@ -631,7 +654,7 @@ const renderTabContent = () => {
       </section>
 
       {/* New Rich Text Content Section */}
-      <h1 className="text-3xl lg:text-6xl font-bold  mt-10 lg:mt-20 text-center" style={{color:COLORS.primary}}>
+      <h1 className="text-3xl lg:text-6xl font-bold  mt-10 lg:mt-20 text-center" style={{ color: COLORS.primary }}>
         Editor's View
       </h1>
       {

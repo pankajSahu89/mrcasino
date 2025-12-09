@@ -45,8 +45,7 @@ const AllOnlineCasinosSection = ({
                             visits={`${casino.visits || 0}`}
                             overview={casino.overview || "Explore a wide range of games and exciting bonuses at this top-rated online casino."}
                             minimumDeposit={casino.paymentInfo?.minimumDeposit || "$0"}
-
-
+                            wagering={casino.wagering || "$20"}
                         />
                     ))}
                 </div>

@@ -86,7 +86,8 @@ const Home = () => {
     const navigate = useNavigate();
 
     const countryCode = useSelector((state) => state.country?.code);
-    console.log("User Country Code:", countryCode);
+    const countryName = useSelector((state) => state.country?.name);
+   
     const { homeCasinos, allCasinos, loadingHome, error } = useSelector(
         (state) => state.casinos || {}
     );
@@ -131,9 +132,11 @@ const Home = () => {
                     signal: controller.signal,
                 });
                 const data = await res.json();
+               
 
                 if (data?.country_code) {
                     dispatch(setCountryCode(data.country_code));
+                    dispatch(setCountryCode(data.country_name));
                 }
 
                 if (data?.success) {
@@ -368,7 +371,11 @@ const Home = () => {
             {/* ------------------------------- */}
 
             <Navbar />
-            <Header />
+            <Header 
+              recentCasinos={sections.recommended}
+              countryName={countryName}
+              handlePlayClick={handlePlayClick}
+            />
 
             <Suspense
                 fallback={

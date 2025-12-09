@@ -97,7 +97,7 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
 
 
         {/* RIGHT ICONS */}
-        {/* RIGHT ICONS */}
+
         <div className="flex gap-2 items-center">
           {(() => {
             // Get all logos
@@ -114,7 +114,7 @@ const Card = ({ title, rating, bgImage, onClick, depositBonus, welcomeBonus, vis
             return shuffled.slice(0, 5).map((logo, index) => (
               <div
                 key={index}
-                className="w-7 h-5 flex items-center justify-center rounded bg-white"
+                className="w-7 h-5 flex items-center justify-center rounded bg-white overflow-hidden"
               >
                 <img
                   src={logo}

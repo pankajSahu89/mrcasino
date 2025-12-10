@@ -13,7 +13,7 @@ import { filterCasinosByCountry } from "../utils/casinoCountry";
 import { createVisitorLog } from "../api/visitorLog";
 import API from "../api/axios";
 
-const NewOnMrGamblers = React.lazy(() => import("../components/NewOnMrGamblers.js"));
+const NewOncasinotrees = React.lazy(() => import("../components/NewOnMrGamblers.js"));
 const AreYouIn = React.lazy(() => import("../components/AreYouIn.js"));
 const HotCasinoSection = React.lazy(() => import("../components/HotCasinoSection.js"));
 const RecommendedByExpertSection = React.lazy(() => import("../components/RecommendedByExpert.js"));
@@ -30,7 +30,7 @@ const defaultSeoState = {
         title: "MR. Gambler - Top Online Casino Reviews & Bonuses",
         description: "Your trusted source for unbiased casino reviews, exclusive bonuses, and expert gambling guides. Play safe and smart with MR. Gambler.",
         keywords: "online casino, casino reviews, casino bonuses, free spins, no deposit bonus",
-        canonical: "https://mrgambler.com",
+        canonical: "https://casinotree.com",
         author: "MR. Gambler Team",
         robotsIndex: "index",
         robotsFollow: "follow",
@@ -385,7 +385,7 @@ const Home = () => {
                     </div>
                 }
             >
-                <NewOnMrGamblers
+                <NewOncasinotrees
                     activeSection={activeSection}
                     handleSectionChange={setActiveSection}
                     getCurrentSectionData={getCurrentSectionData}

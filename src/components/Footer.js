@@ -40,7 +40,7 @@ const Footer = () => {
                 color: COLORS.primary,
               }}
             >
-              MR GAMBLERS
+              Casino TreeS
             </h2>
 
             <p className="text-gray-300 leading-6 max-w-[360px]">
@@ -135,7 +135,7 @@ const Footer = () => {
                 }}
               >
                 <FontAwesomeIcon icon={faEnvelope} />
-                support@mrgamblers.com
+                support@casinotrees.com
               </p>
 
               <p
@@ -161,7 +161,7 @@ const Footer = () => {
         {/* ---------- BOTTOM SECTION ---------- */}
         <div className="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between text-gray-400 text-sm">
           <p className="font-poppins font-normal text-[14px] leading-none">
-            © 2025 Mr Gamblers. All rights reserved. Gambling can be addictive
+            © 2025 Casino Trees. All rights reserved. Gambling can be addictive
           </p>
 
           <div className="flex gap-6 mt-4 md:mt-0">

@@ -2,7 +2,7 @@ import React from "react";
 import { COLORS } from "../constants/colors";
 import Card from "./Card";
 
-const NewOnMrGamblers = ({
+const NewOncasinotrees = ({
     activeSection,
     handleSectionChange,
     getCurrentSectionData,
@@ -23,7 +23,7 @@ const NewOnMrGamblers = ({
                     letterSpacing: "0%",
                 }}
             >
-                NEW ON MR GAMBLERS
+                NEW ON Casino TreeS
             </h2>
 
 
@@ -105,4 +105,4 @@ const NewOnMrGamblers = ({
     );
 };
 
-export default NewOnMrGamblers;
+export default NewOncasinotrees;

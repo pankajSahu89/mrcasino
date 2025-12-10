@@ -11,17 +11,17 @@ const AboutUs = () => {
       <Navbar />
       <div className="container mx-auto px-8 py-24  text-white min-h-screen" style={{color:COLORS.primary,background:COLORS.black}}>
         <h1 className="text-4xl font-bold text-center mb-8 ">
-          About MR Gamblers
+          About Casino Trees
         </h1>
 
         {/* About Section */}
         <section className="mb-12">
           <div className=" rounded-lg p-6 ">
             <h2 className="text-2xl font-semibold mb-4 ">
-              Welcome to MR Gamblers
+              Welcome to Casino Trees
             </h2>
             <p className="mb-4 text-gray-300">
-              At MR Gamblers, we're redefining online casino entertainment with
+              At Casino Trees, we're redefining online casino entertainment with
               cutting-edge gaming experiences. Established in 2020, we've become
               a trusted name in online gambling, offering premium casino games
               with fairness and transparency.

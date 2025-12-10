@@ -47,7 +47,7 @@ const AreYouIn = () => {
             letterSpacing: "0",
           }}
         >
-          TABLE GAMING AT MR GAMBLERS
+          TABLE GAMING AT Casino TreeS
         </p>
 
         {/* Game icons */}

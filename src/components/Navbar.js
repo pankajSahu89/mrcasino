@@ -139,7 +139,7 @@ const Navbar = () => {
                         color: COLORS.primary,
                       }}
                     >
-                      MR GAMBLERS
+                      Casino TreeS
                     </h2>
 
         {/* Mobile Hamburger */}

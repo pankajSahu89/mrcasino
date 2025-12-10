@@ -17,7 +17,7 @@ function PrivacyPolicy() {
       <div className="max-w-5xl mx-auto mt-20 mb-10 p-6" style={{ color: "white",backgroundColor: COLORS.black}}>
         <h1 className="text-3xl font-bold mb-4" style={{color:COLORS.primary}}>Privacy Policy</h1>
         <p className="mb-4">
-          At Mr Gamblers, we are committed to respecting your privacy and protecting your personal information. This Privacy Policy explains how we collect, store, use, and disclose your personal data when you interact with our website and services.
+          At Casino Trees, we are committed to respecting your privacy and protecting your personal information. This Privacy Policy explains how we collect, store, use, and disclose your personal data when you interact with our website and services.
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-2 "style={{color:COLORS.primary}}>1. Information We Collect</h2>
@@ -86,7 +86,7 @@ function PrivacyPolicy() {
         <p className="mb-4">
           For any questions, please contact us:
         </p>
-        <p>Email: <a href="mailto:support@mrgambler.com" className="text-blue-400 underline">support@mrgambler.com</a></p>
+        <p>Email: <a href="mailto:support@casinotree.com" className="text-blue-400 underline">support@casinotree.com</a></p>
 
         
       </div>

@@ -19,7 +19,7 @@ const RecentlyAddedSection = ({ recentCasinos, handlePlayClick }) => {
                             }}
                         >
 
-                            Recently Added on MR Gamblers
+                            Recently Added on Casino Trees
                         </h2>
                     </div>
 

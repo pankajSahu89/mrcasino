@@ -16,7 +16,7 @@ function ResponsibleGambling() {
       <div className="max-w-5xl mx-auto p-6 mt-20 mb-10 text-white" style={{ backgroundColor: "#1d1d1d" }}>
         <h1 className="text-3xl font-bold mb-4 text-red-600">Responsible Gambling</h1>
         <p className="mb-4">
-          At Mr Gamblers, we are committed to promoting responsible gambling. Gambling should be a source of entertainment and not a means to earn money. We strive to create a safe and enjoyable environment for our users.
+          At Casino Trees, we are committed to promoting responsible gambling. Gambling should be a source of entertainment and not a means to earn money. We strive to create a safe and enjoyable environment for our users.
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-2 text-red-600">1. Know Your Limits</h2>

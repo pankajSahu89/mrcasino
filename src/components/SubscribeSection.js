@@ -71,7 +71,7 @@ const SubscribeSection = () => {
           </h2>
 
           <p className="text-gray-300 text-lg leading-relaxed">
-            Subscribe to receive the latest news and updates about MR GAMBLERS.
+            Subscribe to receive the latest news and updates about Casino TreeS.
             We promise not to spam you!
           </p>
 

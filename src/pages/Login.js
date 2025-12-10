@@ -47,7 +47,7 @@ const Login = () => {
 
           <div className="max-w-sm w-full">
             <h2 className="text-4xl font-semibold text-center mb-2">
-              MR GAMBLERS
+              Casino TreeS
             </h2>
             <p className="text-center text-lg mb-6">Nice to see you again</p>
 

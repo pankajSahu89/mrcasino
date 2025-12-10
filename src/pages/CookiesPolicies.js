@@ -16,7 +16,7 @@ function CookiesPolicy() {
       <div className="max-w-5xl mx-auto p-6 mt-20 mb-10 text-white" style={{ backgroundColor: "#1d1d1d" }}>
         <h1 className="text-3xl font-bold mb-4 text-red-600">Cookies Policy</h1>
         <p className="mb-4">
-          This Cookies Policy explains how Mr Gamblers uses cookies and similar technologies to recognize you when you visit our websites. It explains what these technologies are, why we use them, and your rights to control our use of them.
+          This Cookies Policy explains how Casino Trees uses cookies and similar technologies to recognize you when you visit our websites. It explains what these technologies are, why we use them, and your rights to control our use of them.
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-2 text-red-600">1. What Are Cookies?</h2>
@@ -24,7 +24,7 @@ function CookiesPolicy() {
           Cookies are small data files placed on your device when you visit a website. They are widely used by website owners to make their websites work, or to work more efficiently, as well as to provide reporting information.
         </p>
         <p className="mb-4">
-          Cookies set by the website owner (in this case, Mr Gamblers) are called "first-party cookies". Cookies set by parties other than the website owner are called "third-party cookies".
+          Cookies set by the website owner (in this case, Casino Trees) are called "first-party cookies". Cookies set by parties other than the website owner are called "third-party cookies".
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-2 text-red-600">2. Why We Use Cookies</h2>
@@ -70,7 +70,7 @@ function CookiesPolicy() {
 
         <h2 className="text-xl font-semibold mt-6 mb-2 text-red-600">7. Where You Can Get More Information</h2>
         <p className="mb-4">
-          If you have any questions about our use of cookies or other technologies, please email us at <a href="mailto:support@mrgambler.com" className="text-blue-400 underline">support@mrgambler.com</a>.
+          If you have any questions about our use of cookies or other technologies, please email us at <a href="mailto:support@casinotree.com" className="text-blue-400 underline">support@casinotree.com</a>.
         </p>
 
         

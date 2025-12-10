@@ -42,7 +42,8 @@ const Navbar = () => {
         { name: "Newest Casino", path: "/casinos/newest" },
         { name: "Online Casino", path: "/casinos/online" },
         { name: "Certified Casino", path: "/casinos/certified" },
-        { name: "Mobile Casino", path: "/casinos/mobile" }
+        { name: "Mobile Casino", path: "/casinos/mobile" },
+        { name: "Country Wise", path: "/countryWise" },
       ],
     },
     {

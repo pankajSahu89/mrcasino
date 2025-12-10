@@ -8,6 +8,8 @@ import categoriesImg3 from "../assets/images/image3.png";
 import categoriesImg4 from "../assets/images/image4.png";
 import categoriesImg5 from "../assets/images/image5.png";
 import categoriesImg6 from "../assets/images/image6.png";
+import categoriesImg7 from "../assets/images/casino.png";
+import categoriesImg8 from "../assets/images/country.png";
 
 const HotCasinoSection = ({ filteredCertified = [] }) => {
     const [hotCasinos, setHotCasinos] = useState([]);
@@ -19,6 +21,8 @@ const HotCasinoSection = ({ filteredCertified = [] }) => {
         { icon: categoriesImg4, label: "Bonuses", link: "/betting/bonuses" },
         { icon: categoriesImg5, label: "Mobile Casinos", link: "/casinos/mobile" },
         { icon: categoriesImg6, label: "Instant Play", link: "/games/lottery" },
+        { icon: categoriesImg7, label: "Crypto Casino", link: "/casinos/crypto" },
+        { icon: categoriesImg8, label: "Country Wise", link: "/countryWise" },
     ];
 
     useEffect(() => {
@@ -54,7 +58,7 @@ const HotCasinoSection = ({ filteredCertified = [] }) => {
                 </h2>
 
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-3 grid-rows-2 gap-6 sm:gap-12 md:gap-12">
+                    <div className="grid grid-cols-2 grid-rows-2 gap-8 sm:grid-cols-4 sm:gap-12 md:gap-12">
                         {categories.map((category, index) => (
                             <CategoryCard
                                 key={index}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { COLORS } from "../constants/colors";
 import homeCard from "../assets/images/home-card.gif";
-import stage from "../assets/images/redstag.png";
+
 
 // LazyImage component for standard <img>
 const LazyImage = ({ src, alt, className = "", width, height }) => (

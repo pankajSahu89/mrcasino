@@ -23,6 +23,7 @@ import { setCountryCode } from "./redux/countrySlice";
 import ThemePage from "./pages/ThemePage";
 import SeoPage from "./pages/SEOPage";
 import Login from "./pages/Login";
+import CountryWise from "./pages/CountryWise";
 
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndCondition";
@@ -81,6 +82,7 @@ function App() {
       <Route path="/casinos/:slug" element={<CasinoDetail />} />
       <Route path="/Subscribers" element={<Subscriber />} />
       <Route path="/UserLogs" element={<UserLogs />} />
+      
 
       {/* Filtered Casinos */}
       <Route path="/casinos/crypto" element={<Casinos type="crypto" />} />
@@ -88,6 +90,7 @@ function App() {
       <Route path="/casinos/certified" element={<Casinos type="certified" />} />
       <Route path="/casinos/mobile" element={<Casinos type="mobile" />} />
       <Route path="/casinos/newest" element={<Casinos type="newest" />} />
+      <Route path="/countryWise" element={<CountryWise />} />
 
       {/* Bonus Types */}
       <Route path="/bonuses/latest" element={<Bonuses type="latest" />} />

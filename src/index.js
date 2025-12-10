@@ -5,7 +5,7 @@ import App from "./App";
 import "./index.css";
 import { initGA } from "./utils/analytics";
 import { AuthProvider } from "./context/AuthContext";
-import { loadThemeColors } from "./constants/colors";
+import ChatBotButton from "./components/ChatBotButton"; 
 
 // Redux
 import { Provider } from "react-redux";
@@ -21,6 +21,10 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <App />
+
+        {/* Floating Chatbot Button */}
+        <ChatBotButton />
+
       </AuthProvider>
     </BrowserRouter>
   </Provider>

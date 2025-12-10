@@ -13,7 +13,6 @@ import { filterCasinosByCountry } from "../utils/casinoCountry";
 import { createVisitorLog } from "../api/visitorLog";
 import API from "../api/axios";
 
-// --- Lazy-loaded components (UNCHANGED) ---
 const NewOnMrGamblers = React.lazy(() => import("../components/NewOnMrGamblers.js"));
 const AreYouIn = React.lazy(() => import("../components/AreYouIn.js"));
 const HotCasinoSection = React.lazy(() => import("../components/HotCasinoSection.js"));

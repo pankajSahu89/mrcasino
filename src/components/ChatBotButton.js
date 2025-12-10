@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import notificationSound from "../assets/notification.mp3";
 
 import axios from "axios";
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+const GROQ_API_KEY = "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";
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.1-8b-instant";
 const systemMessage = {

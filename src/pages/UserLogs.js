@@ -4,7 +4,7 @@ import { getAllVisitorLogs } from "../api/visitorLog";
 import { FaSyncAlt } from "react-icons/fa";
 
 const countryOptions = [
-  "Global",
+  "International",
   // North America
   "Canada",
   "United States",
@@ -31,7 +31,7 @@ const LOGS_PER_PAGE = 10;
 const UserLogsAdmin = () => {
   const [logs, setLogs] = useState([]);
   const [searchIP, setSearchIP] = useState("");
-  const [filterCountry, setFilterCountry] = useState("Global");
+  const [filterCountry, setFilterCountry] = useState("International");
   const [currentPage, setCurrentPage] = useState(1);
 
 
@@ -53,7 +53,7 @@ const UserLogsAdmin = () => {
     return logs.filter((log) => {
       const matchesIP = log.ip?.includes(searchIP);
       const matchesCountry =
-        filterCountry === "Global" ? true : log.country === filterCountry;
+        filterCountry === "International" ? true : log.country === filterCountry;
       return matchesIP && matchesCountry;
     });
   }, [logs, searchIP, filterCountry]);

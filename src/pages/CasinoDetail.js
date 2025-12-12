@@ -240,6 +240,75 @@ const CasinoDetail = () => {
 
           </div>
         );
+      case "proscons":
+  return (
+    <div className="mt-6 text-gray-100">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative">
+
+        {/* Vertical Divider */}
+        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gray-700"></div>
+
+        {/* PROS SECTION */}
+        <div className="pr-6">
+          <h3
+            className="text-2xl font-semibold mb-5 flex items-center gap-2"
+            style={{ color: COLORS.primary }}
+          >
+            <span className="text-3xl"></span> Pros
+          </h3>
+
+          {casino.pros?.length > 0 ? (
+            <ul className="space-y-4">
+              {casino.pros.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-3 border border-green-500/10 p-4 rounded-xl shadow-md"
+                >
+                  <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500 text-white text-sm font-bold">
+                    ✓
+                  </span>
+                  <span className="text-lg leading-snug">{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-400 text-lg">No pros added.</p>
+          )}
+        </div>
+
+        {/* CONS SECTION */}
+        <div className="pl-6">
+          <h3
+            className="text-2xl font-semibold mb-5 flex items-center gap-2"
+            style={{ color: COLORS.Red }}
+          >
+            <span className="text-3xl"></span> Cons
+          </h3>
+
+          {casino.cons?.length > 0 ? (
+            <ul className="space-y-4">
+              {casino.cons.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-3 border border-red-500/10 p-4 rounded-xl shadow-md"
+                >
+                  <span className="flex items-center justify-center w-7 h-7 rounded-full bg-red-500 text-white text-sm font-bold">
+                    ✕
+                  </span>
+                  <span className="text-lg leading-snug">{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-400 text-lg">No cons added.</p>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+
 
       default:
         return null;
@@ -517,7 +586,7 @@ const CasinoDetail = () => {
                         <span className="text-xl">💳</span>
                         <div className="text-center">
                           <p className="text-sm text-white">Minimum Deposit</p>
-                          <p className="text-xs text-white font-semibold">
+                          <p className="text-lg text-white font-semibold">
                             {casino.minimumDeposit || "€10"}
                           </p>
                         </div>
@@ -528,7 +597,7 @@ const CasinoDetail = () => {
                         <span className="text-xl">🎯</span>
                         <div className="text-center">
                           <p className="text-sm text-white">Wagering</p>
-                          <p className="text-xs text-white font-semibold">
+                          <p className="text-lg text-white font-semibold">
                             {casino.wagering || "40x"}
                           </p>
                         </div>
@@ -620,7 +689,7 @@ const CasinoDetail = () => {
         <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row gap-6">
           {/* Left Tabs */}
           <div className="flex flex-col w-full  border border-blue-500 lg:w-1/4 rounded-lg  space-y-8">
-            {["general", "payment", "games", "responsible"].map((tab) => (
+            {["general", "payment", "games", "responsible", "proscons"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -632,15 +701,16 @@ const CasinoDetail = () => {
                 style={
                   activeTab === tab
                     ? {
-                      background: "linear-gradient(89.97deg, #267BDC -18.4%, rgba(38, 123, 220, 0) 78.98%)",
+                      background: "linear-gradient(89.97deg, #267BDC -18.4%, rgba(38, 123, 220, 0) 88.98%)",
                     }
                     : {}
                 }
               >
-                {tab === "general" && "General Info"}
-                {tab === "payment" && "Banking Info"}
-                {tab === "games" && "Deposit Bonuses"}
-                {tab === "responsible" && "Games"}
+                {tab === "general" && "Key Details"}
+                {tab === "payment" && "Payment Options"}
+                {tab === "games" && "Deals & Bonuses"}
+                {tab === "responsible" && "Game Catalog"}
+                {tab === "proscons" && "Pros & Cons"}
               </button>
             ))}
           </div>

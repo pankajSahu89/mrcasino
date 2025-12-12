@@ -25,7 +25,7 @@ const Casinos = ({ type }) => {
     const [loadingAll, setLoadingAll] = useState(false);
     const [error, setError] = useState(null);
     const [allCasinos, setAllCasinos] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState("Global");
+    const [selectedCountry, setSelectedCountry] = useState("International");
 
 
     const [filteredData, setFilteredData] = useState([]);
@@ -76,7 +76,7 @@ const Casinos = ({ type }) => {
     }, []);
 
     useEffect(() => {
-        if (selectedCountry === "Global") {
+        if (selectedCountry === "International") {
             setCasinos(allCasinos);
             return;
         }
@@ -235,7 +235,7 @@ const Casinos = ({ type }) => {
 
                                 >
                                     {[
-                                        "Global",
+                                        "International",
                                         "Canada",
                                         "United States",
                                         "Australia",

@@ -30,7 +30,7 @@ const Header = ({ recentCasinos, handlePlayClick, countryName }) => {
       className="relative bg-cover bg-center h-[60vh] min-h-[500px] md:h-screen transition-opacity duration-700"
       style={{
         backgroundImage: bgLoaded
-          ? `url(${require("../assets/images/home-bg.png")})`
+          ? `url(${require("../assets/images/home_banner.png")})`
           : "none",
         opacity: bgLoaded ? 1 : 0,
       }}
@@ -202,6 +202,7 @@ const Header = ({ recentCasinos, handlePlayClick, countryName }) => {
 
                   {/* Play Button */}
                   <button
+                    onClick={() => handlePlayClick(casino.name)}
                     className={`w-full mt-4 py-3 ${i === 1 ? "text-lg" : i === 2 ? "text-md" : "text-xs"} rounded-b-xl`}
                     style={{ backgroundColor: COLORS.primary }}
                   >

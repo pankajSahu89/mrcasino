@@ -35,7 +35,7 @@ function TermsAndConditions() {
         <ul className="list-disc pl-6 mb-4">
           <li>For any unlawful purpose.</li>
           <li>To solicit others to perform or participate in any unlawful acts.</li>
-          <li>To violate any international, federal, provincial, or state regulations or laws.</li>
+          <li>To violate any International, federal, provincial, or state regulations or laws.</li>
           <li>To infringe upon or violate our intellectual property rights or the intellectual property rights of others.</li>
           <li>To submit false or misleading information.</li>
           <li>To upload or transmit viruses or any other type of malicious code.</li>

@@ -8,6 +8,7 @@ import certified from "../assets/images/Certified.png";
 import { COLORS } from "../constants/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHomeCasinos, fetchAllCasinos } from "../redux/casinosSlice";
+import { fetchBlogs } from "../redux/blogsSlice";
 import { setCountryCode } from "../redux/countrySlice";
 import { filterCasinosByCountry } from "../utils/casinoCountry";
 import { createVisitorLog } from "../api/visitorLog";
@@ -23,6 +24,7 @@ const AllOnlineCasinosSection = React.lazy(() => import("../components/AllOnline
 const SubscribeSection = React.lazy(() => import("../components/SubscribeSection.js"));
 const Footer = React.lazy(() => import("../components/Footer"));
 const CookieConsent = React.lazy(() => import("../components/CookieConsent"));
+const HotNewsSection = React.lazy(() => import("../components/HotNewsSection.js"));
 
 // --- Default/Fallback SEO State for Robustness ---
 const defaultSeoState = {
@@ -86,6 +88,7 @@ const Home = () => {
 
     const countryCode = useSelector((state) => state.country?.code);
     const countryName = useSelector((state) => state.country?.name);
+    const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
    
     const { homeCasinos, allCasinos, loadingHome, error } = useSelector(
         (state) => state.casinos || {}
@@ -164,6 +167,7 @@ const Home = () => {
         // 1. Fetch Casino Data
         dispatch(fetchHomeCasinos());
         dispatch(fetchAllCasinos());
+        dispatch(fetchBlogs());
 
         // 2. Fetch SEO Data
         const fetchSeoData = async () => {
@@ -424,7 +428,7 @@ const Home = () => {
                     }
                     setCurrentPage={setCurrentPage}
                 />
-
+                <HotNewsSection news={blogs} />
                 <SubscribeSection />
                 <Footer />
                 <CookieConsent />

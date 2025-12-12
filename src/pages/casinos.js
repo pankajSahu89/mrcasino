@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -17,35 +17,36 @@ import certified from '../assets/images/Certified.png';
 import banner from '../assets/images/banner.png';
 import { COLORS } from "../constants/colors";
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
-
+import HotNewsSection from "../components/HotNewsSection.js";
 const Casinos = ({ type }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
+  const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
   const countryCode = useSelector((state) => state.country?.code);
 
 
-    const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [hotCasinos, setHotCasinos] = useState([]);
   const [recommendedByExperts, setRecommendedByExperts] = useState([]);
   const [certifiedCasinos, setCertifiedCasinos] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const casinosPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const casinosPerPage = 10;
 
-    const filteredAllCasinos = useMemo(
-      () => filterCasinosByCountry(allCasinos, countryCode),
-      [allCasinos, countryCode]
-    );
-    const totalPages = Math.max(
-      1,
-      Math.ceil(filteredAllCasinos.length / casinosPerPage)
-    );
-  
-    const currentCasinos = useMemo(() => {
-      const start = (currentPage - 1) * casinosPerPage;
-      return filteredAllCasinos.slice(start, start + casinosPerPage);
-    }, [filteredAllCasinos, currentPage]);
-  
+  const filteredAllCasinos = useMemo(
+    () => filterCasinosByCountry(allCasinos, countryCode),
+    [allCasinos, countryCode]
+  );
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredAllCasinos.length / casinosPerPage)
+  );
+
+  const currentCasinos = useMemo(() => {
+    const start = (currentPage - 1) * casinosPerPage;
+    return filteredAllCasinos.slice(start, start + casinosPerPage);
+  }, [filteredAllCasinos, currentPage]);
+
   useEffect(() => {
     // If Redux store is empty, fetch all casinos
     if (!allCasinos || allCasinos.length === 0) {
@@ -73,6 +74,7 @@ const Casinos = ({ type }) => {
     const recExperts = tagFiltered.filter(casino => casino.recommendedByExperts === true);
     const certified = tagFiltered.filter(casino => casino.certifiedCasino === true);
 
+
     setFilteredData(tagFiltered.slice(0, 4));
     setHotCasinos(hot.slice(0, 4));
     setRecommendedByExperts(recExperts.slice(0, 4));
@@ -86,20 +88,20 @@ const Casinos = ({ type }) => {
 
   if (loadingAll) {
     return (
-         <div className="flex items-center justify-center h-screen" style={{ backgroundColor: COLORS.black }}>
-           <div className="flex flex-col items-center space-y-6">
-   
-   
-           
-             <div className="text-white text-2xl font-bold tracking-wide animate-pulse">
-               Loading casinos...
-             </div>
-   
-            
-             <div className="w-32 h-1 bg-red-600 rounded-full opacity-50 animate-pulse"></div>
-           </div>
-         </div>
-       );
+      <div className="flex items-center justify-center h-screen" style={{ backgroundColor: COLORS.black }}>
+        <div className="flex flex-col items-center space-y-6">
+
+
+
+          <div className="text-white text-2xl font-bold tracking-wide animate-pulse">
+            Loading casinos...
+          </div>
+
+
+          <div className="w-32 h-1 bg-red-600 rounded-full opacity-50 animate-pulse"></div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -229,7 +231,7 @@ const Casinos = ({ type }) => {
         }
         setCurrentPage={setCurrentPage}
       />
-
+      <HotNewsSection news={blogs} />
       <SubscribeSection />
 
       <Footer />

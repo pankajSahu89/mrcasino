@@ -16,6 +16,7 @@ import { COLORS } from "../constants/colors";
 import certified from "../assets/images/Certified.png";
 import { fetchAllCasinos } from "../redux/casinosSlice";
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
+import HotNewsSection from "../components/HotNewsSection.js";
 const BETTING_TYPE_TAGS = {
     sports: "Sports Betting",
     "new-sites": "New Betting Sites",
@@ -30,7 +31,7 @@ const Betting = ({ type }) => {
 
     const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
     const countryCode = useSelector((state) => state.country?.code);
-
+    const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
     const [filteredData, setFilteredData] = useState([]);
     const [hot, setHot] = useState([]);
     const [expert, setExpert] = useState([]);
@@ -234,7 +235,7 @@ const Betting = ({ type }) => {
                 setCurrentPage={setCurrentPage}
             />
 
-
+            <HotNewsSection news={blogs} />
             <SubscribeSection />
             <Footer />
         </>

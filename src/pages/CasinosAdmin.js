@@ -44,62 +44,62 @@ const CasinosAdmin = () => {
     }
   };
   const calculateCompletion = (casino) => {
-  const requiredFields = [
+    const requiredFields = [
 
-    casino.name,
-    casino.logo,
-    casino.rating,
-    casino.slug,
-    casino.overview,
-
-    
-    casino.welcomeBonus,
-    casino.depositBonus,
+      casino.name,
+      casino.logo,
+      casino.rating,
+      casino.slug,
+      casino.overview,
 
 
-    casino.tags?.length,
-    casino.availableCountries?.length,
-
-    casino.generalInfo?.website,
-    casino.generalInfo?.languages,
-    casino.generalInfo?.established,
-    casino.generalInfo?.licences,
-    casino.generalInfo?.affiliateProgram,
-    casino.generalInfo?.companyName,
-    casino.generalInfo?.casinoType?.length,
-    casino.generalInfo?.features?.length,
-
-    casino.paymentInfo?.minimumDeposit,
-    casino.paymentInfo?.withdrawalMethods,
-    casino.paymentInfo?.withdrawalTime,
-    casino.paymentInfo?.fees,
-
-    casino.games?.slots || casino.games?.liveCasino || casino.games?.sportsBetting,
-
-    casino.responsibleGaming?.tools?.length,
-    casino.responsibleGaming?.support,
-
-    casino.generalDescription,
-    casino.paymentDescription,
-    casino.customerSupportDescription,
-    casino.responsibleGamblingDescription,
+      casino.welcomeBonus,
+      casino.depositBonus,
 
 
-    casino.editorView,
-    casino.visits,
-    casino.order,
-   
-  ];
+      casino.tags?.length,
+      casino.availableCountries?.length,
 
-  const filled = requiredFields.filter(
-    (value) =>
-      value !== undefined &&
-      value !== null &&
-      value !== 0
-  ).length;
+      casino.generalInfo?.website,
+      casino.generalInfo?.languages,
+      casino.generalInfo?.established,
+      casino.generalInfo?.licences,
+      casino.generalInfo?.affiliateProgram,
+      casino.generalInfo?.companyName,
+      casino.generalInfo?.casinoType?.length,
+      casino.generalInfo?.features?.length,
 
-  return Math.round((filled / requiredFields.length) * 100);
-};
+      casino.paymentInfo?.minimumDeposit,
+      casino.paymentInfo?.withdrawalMethods,
+      casino.paymentInfo?.withdrawalTime,
+      casino.paymentInfo?.fees,
+
+      casino.games?.slots || casino.games?.liveCasino || casino.games?.sportsBetting,
+
+      casino.responsibleGaming?.tools?.length,
+      casino.responsibleGaming?.support,
+
+      casino.generalDescription,
+      casino.paymentDescription,
+      casino.customerSupportDescription,
+      casino.responsibleGamblingDescription,
+
+
+      casino.editorView,
+      casino.visits,
+      casino.order,
+
+    ];
+
+    const filled = requiredFields.filter(
+      (value) =>
+        value !== undefined &&
+        value !== null &&
+        value !== 0
+    ).length;
+
+    return Math.round((filled / requiredFields.length) * 100);
+  };
 
 
   const onDragEnd = async (result) => {
@@ -179,7 +179,7 @@ const CasinosAdmin = () => {
         </div>
 
         {/* TABLE CARD */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 shadow-2xl overflow-hidden backdrop-blur-xl">
+        <div className="border rounded-2xl border-white/10 bg-[#10131a] overflow-x-auto">
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="casinoList">
               {(provided) => (
@@ -195,6 +195,7 @@ const CasinosAdmin = () => {
                       <th className="p-4 text-gray-300">Name</th>
                       <th className="p-4 text-gray-300">Rating</th>
                       <th className="p-4 text-gray-300">Completion</th>
+                      <th className="p-4 text-gray-300">Status</th>
                       <th className="p-4 text-gray-300">Actions</th>
                     </tr>
                   </thead>
@@ -250,6 +251,36 @@ const CasinosAdmin = () => {
                                 );
                               })()}
                             </td>
+                            <td className="p-4">
+                              <label className="inline-flex items-center cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  className="sr-only peer"
+                                  checked={casino.enabled === 1}
+                                  onChange={async () => {
+                                    const newStatus = casino.enabled === 1 ? 0 : 1;
+                                    try {
+                                      await updateCasino(casino._id, { enabled: newStatus });
+                                      setCasinos((prev) =>
+                                        prev.map((c) =>
+                                          c._id === casino._id ? { ...c, enabled: newStatus } : c
+                                        )
+                                      );
+                                    } catch {
+                                      Swal.fire("Error", "Failed to update status", "error");
+                                    }
+                                  }}
+                                />
+
+                                {/* SWITCH UI */}
+                                <div className="w-12 h-6 bg-gray-500 peer-checked:bg-green-500 rounded-full peer transition-colors"></div>
+
+                                {/* CIRCLE */}
+                                <div className="w-6 h-6 bg-white rounded-full shadow-md -ml-12 peer-checked:translate-x-6 transform transition-transform"></div>
+                              </label>
+                            </td>
+
+
                             <td className="p-4 flex gap-2">
                               <button
                                 className="px-4 py-1 rounded-lg bg-red-600 hover:bg-red-700 transition"

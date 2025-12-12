@@ -11,9 +11,14 @@ export const fetchHomeCasinos = createAsyncThunk(
     }
 
     const response = await getHomeCasinos();
-    return { cached: false, data: response };
+
+    // Keep only enabled casinos
+    const filtered = response.filter(casino => casino.enabled === 1);
+
+    return { cached: false, data: filtered };
   }
 );
+
 
 export const fetchAllCasinos = createAsyncThunk(
   "casinos/fetchAllCasinos",
@@ -25,9 +30,14 @@ export const fetchAllCasinos = createAsyncThunk(
     }
 
     const response = await apiGetAllCasinos();
-    return { cached: false, data: response };
+
+    // Only keep enabled = 1
+    const filtered = response.filter(casino => casino.enabled === 1);
+
+    return { cached: false, data: filtered };
   }
 );
+
 
 const casinosSlice = createSlice({
   name: "casinos",

@@ -4,8 +4,10 @@ import {
   faFacebook,
   faInstagram,
   faYoutube,
+  faTelegram,
+
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhone, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { COLORS } from "../constants/colors";
 
@@ -136,6 +138,34 @@ const Footer = () => {
               >
                 <FontAwesomeIcon icon={faEnvelope} />
                 support@casinotrees.com
+              </p>
+              <p
+                className="flex items-center gap-3 text-gray-300 mt-3"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 400,
+                  fontSize: "16px",
+                  lineHeight: "100%",
+                  letterSpacing: "0.04em",
+                  verticalAlign: "middle",
+                }}
+              >
+                <FontAwesomeIcon icon={faTelegram} />
+                @casinotrees_support
+              </p>
+              <p
+                className="flex items-center gap-3 text-gray-300 mt-3"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 400,
+                  fontSize: "16px",
+                  lineHeight: "100%",
+                  letterSpacing: "0.04em",
+                  verticalAlign: "middle",
+                }}
+              >
+                <FontAwesomeIcon icon={faUsers} />
+                casinotrees@teams.com
               </p>
 
               <p

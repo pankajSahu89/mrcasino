@@ -64,8 +64,8 @@ const ALL_COUNTRIES = [
   "European Countries (General)",
   // Asia
   "India",
-  // Other/Global
-  "Global",
+  // Other/International
+  "International",
 ];
 
 const EditCasino = () => {
@@ -79,6 +79,8 @@ const EditCasino = () => {
     welcomeBonus: "",
     order: 0,
     tags: [],
+     pros: [],        
+  cons: [],      
     availableCountries: [],
     hotCasino: false,
     recommendedByExperts: false,
@@ -127,6 +129,29 @@ const EditCasino = () => {
   const [newFeature, setNewFeature] = useState("");
   const [newCasinoType, setNewCasinoType] = useState("");
   const [newTool, setNewTool] = useState("");
+   const [newPro, setNewPro] = useState("");
+const [newCon, setNewCon] = useState("");
+const handleAddPro = () => {
+  if (!newPro.trim()) return;
+  setCasino({ ...casino, pros: [...casino.pros, newPro.trim()] });
+  setNewPro("");
+};
+
+const handleRemovePro = (index) => {
+  const updated = casino.pros.filter((_, i) => i !== index);
+  setCasino({ ...casino, pros: updated });
+};
+
+const handleAddCon = () => {
+  if (!newCon.trim()) return;
+  setCasino({ ...casino, cons: [...casino.cons, newCon.trim()] });
+  setNewCon("");
+};
+
+const handleRemoveCon = (index) => {
+  const updated = casino.cons.filter((_, i) => i !== index);
+  setCasino({ ...casino, cons: updated });
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -223,24 +248,24 @@ const EditCasino = () => {
   };
 
   const handleAddFeature = () => {
-  const newFeatures = newFeature
-    .split(",")
-    .map((f) => f.trim())
-    .filter(
-      (f) => f && !casino.generalInfo.features.includes(f)
-    );
+    const newFeatures = newFeature
+      .split(",")
+      .map((f) => f.trim())
+      .filter(
+        (f) => f && !casino.generalInfo.features.includes(f)
+      );
 
-  if (newFeatures.length > 0) {
-    setCasino((prev) => ({
-      ...prev,
-      generalInfo: {
-        ...prev.generalInfo,
-        features: [...prev.generalInfo.features, ...newFeatures],
-      },
-    }));
-    setNewFeature("");
-  }
-};
+    if (newFeatures.length > 0) {
+      setCasino((prev) => ({
+        ...prev,
+        generalInfo: {
+          ...prev.generalInfo,
+          features: [...prev.generalInfo.features, ...newFeatures],
+        },
+      }));
+      setNewFeature("");
+    }
+  };
 
 
   const handleRemoveFeature = (featureToRemove) => {
@@ -255,25 +280,25 @@ const EditCasino = () => {
     }));
   };
 
-   const handleAddCasinoType = () => {
-  if (newCasinoType.trim()) {
-    const newTypes = newCasinoType
-      .split(',')
-      .map(type => type.trim())
-      .filter(type => type && !casino.generalInfo.casinoType.includes(type));
+  const handleAddCasinoType = () => {
+    if (newCasinoType.trim()) {
+      const newTypes = newCasinoType
+        .split(',')
+        .map(type => type.trim())
+        .filter(type => type && !casino.generalInfo.casinoType.includes(type));
 
-    if (newTypes.length > 0) {
-      setCasino((prev) => ({
-        ...prev,
-        generalInfo: {
-          ...prev.generalInfo,
-          casinoType: [...prev.generalInfo.casinoType, ...newTypes],
-        },
-      }));
+      if (newTypes.length > 0) {
+        setCasino((prev) => ({
+          ...prev,
+          generalInfo: {
+            ...prev.generalInfo,
+            casinoType: [...prev.generalInfo.casinoType, ...newTypes],
+          },
+        }));
+      }
+      setNewCasinoType("");
     }
-    setNewCasinoType("");
-  }
-};
+  };
 
   const handleRemoveCasinoType = (typeToRemove) => {
     setCasino((prev) => ({
@@ -288,25 +313,25 @@ const EditCasino = () => {
   };
 
   const handleAddTool = () => {
-  const newTools = newTool
-    .split(",")
-    .map((t) => t.trim())
-    .filter(
-      (t) => t && !casino.responsibleGaming.tools.includes(t)
-    );
+    const newTools = newTool
+      .split(",")
+      .map((t) => t.trim())
+      .filter(
+        (t) => t && !casino.responsibleGaming.tools.includes(t)
+      );
 
-  if (newTools.length > 0) {
-    setCasino((prev) => ({
-      ...prev,
-      responsibleGaming: {
-        ...prev.responsibleGaming,
-        tools: [...prev.responsibleGaming.tools, ...newTools],
-      },
-    }));
-    setNewTool("");
-  }
-};
- 
+    if (newTools.length > 0) {
+      setCasino((prev) => ({
+        ...prev,
+        responsibleGaming: {
+          ...prev.responsibleGaming,
+          tools: [...prev.responsibleGaming.tools, ...newTools],
+        },
+      }));
+      setNewTool("");
+    }
+  };
+
 
   const handleRemoveTool = (toolToRemove) => {
     setCasino((prev) => ({
@@ -1060,62 +1085,62 @@ const EditCasino = () => {
   // );
 
   return (
-  <div className="flex bg-[#0f1115] min-h-screen text-gray-100">
-    <Sidebar />
-    <div className="flex-1 p-6">
-      <h2 className="text-3xl font-bold mb-6 text-white">Edit Casino</h2>
-      {error && <div className="text-red-400 mb-4">{error}</div>}
-      <form
-        onSubmit={handleSubmit}
-        className="bg-gray-900 p-8 rounded-xl shadow-2xl space-y-8"
-      >
-        {/* Basic Info */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Basic Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Casino Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Logo</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition duration-150"
-              />
-              {casino.logo && (
-                <img src={casino.logo} alt="Preview" className="h-20 mt-4 rounded-lg border border-gray-700" />
-              )}
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Rating (0-5)
-              </label>
-              <input
-                type="number"
-                name="rating"
-                min="0"
-                max="5"
-                step="0.1"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.rating}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {/* The commented out 'Order' section remains commented */}
-            {/* <div>
+    <div className="flex bg-[#0f1115] min-h-screen text-gray-100">
+      <Sidebar />
+      <div className="flex-1 p-6">
+        <h2 className="text-3xl font-bold mb-6 text-white">Edit Casino</h2>
+        {error && <div className="text-red-400 mb-4">{error}</div>}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-900 p-8 rounded-xl shadow-2xl space-y-8"
+        >
+          {/* Basic Info */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Basic Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Casino Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">Logo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition duration-150"
+                />
+                {casino.logo && (
+                  <img src={casino.logo} alt="Preview" className="h-20 mt-4 rounded-lg border border-gray-700" />
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Rating (0-5)
+                </label>
+                <input
+                  type="number"
+                  name="rating"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.rating}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              {/* The commented out 'Order' section remains commented */}
+              {/* <div>
               <label className="block text-sm font-medium mb-1 text-gray-300">Order</label>
               <input
                 type="number"
@@ -1130,346 +1155,236 @@ const EditCasino = () => {
                 Current order range: 1 - {maxOrder + 1}
               </p>
             </div> */}
-            
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="hotCasino"
-                checked={casino.hotCasino}
-                onChange={(e) =>
-                  setCasino({ ...casino, hotCasino: e.target.checked })
-                }
-                className="h-5 w-5 text-red-500 focus:ring-red-400 border-gray-600 rounded bg-gray-700"
-              />
-              <label
-                htmlFor="hotCasino"
-                className="ml-3 block text-base text-gray-300"
-              >
-                Hot Casino
-              </label>
-            </div>
 
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="recommendedByExperts"
-                checked={casino.recommendedByExperts}
-                onChange={(e) =>
-                  setCasino({
-                    ...casino,
-                    recommendedByExperts: e.target.checked,
-                  })
-                }
-                className="h-5 w-5 text-red-500 focus:ring-red-400 border-gray-600 rounded bg-gray-700"
-              />
-              <label
-                htmlFor="recommendedByExperts"
-                className="ml-3 block text-base text-gray-300"
-              >
-                Recommended by Experts
-              </label>
-            </div>
-
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="certifiedCasino"
-                checked={casino.certifiedCasino}
-                onChange={(e) =>
-                  setCasino({ ...casino, certifiedCasino: e.target.checked })
-                }
-                className="h-5 w-5 text-red-500 focus:ring-red-400 border-gray-600 rounded bg-gray-700"
-              />
-              <label
-                htmlFor="certifiedCasino"
-                className="ml-3 block text-base text-gray-300"
-              >
-                Certified Casino
-              </label>
-            </div>
-          </div>
-        </div>
-        
-        {/* General Info */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">General Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Website
-              </label>
-              <input
-                type="text"
-                name="generalInfo.website"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.generalInfo.website}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Languages
-              </label>
-              <input
-                type="text"
-                name="generalInfo.languages"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.generalInfo.languages}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Established
-              </label>
-              <input
-                type="text"
-                name="generalInfo.established"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.generalInfo.established}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Licences
-              </label>
-              <input
-                type="text"
-                name="generalInfo.licences"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.generalInfo.licences}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Affiliate Program
-              </label>
-              <input
-                type="text"
-                name="generalInfo.affiliateProgram"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.generalInfo.affiliateProgram}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Company Name
-              </label>
-              <input
-                type="text"
-                name="generalInfo.companyName"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.generalInfo.companyName}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Affiliate Program Link
-              </label>
-              <input
-                type="text"
-                name="editorView"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.editorView}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Visits</label>
-              <input
-                type="number"
-                name="visits"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.visits}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          {/* Casino Type */}
-          <div className="mt-6">
-            <label className="block text-sm font-medium mb-2 text-gray-300">
-              Deposit Bonuses
-            </label>
-            <div className="flex gap-4 mb-3">
-              <input
-                type="text"
-                value={newCasinoType}
-                onChange={(e) => setNewCasinoType(e.target.value)}
-                className="flex-1 p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                placeholder="Add Deposit Bonuses"
-              />
-              <button
-                type="button"
-                onClick={handleAddCasinoType}
-                className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition duration-150"
-              >
-                Add
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {casino.generalInfo.casinoType.map((type) => (
-                <div
-                  key={type}
-                  className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm"
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="hotCasino"
+                  checked={casino.hotCasino}
+                  onChange={(e) =>
+                    setCasino({ ...casino, hotCasino: e.target.checked })
+                  }
+                  className="h-5 w-5 text-red-500 focus:ring-red-400 border-gray-600 rounded bg-gray-700"
+                />
+                <label
+                  htmlFor="hotCasino"
+                  className="ml-3 block text-base text-gray-300"
                 >
-                  <span>{type}</span>
-                  <button
-                    type="button"
-                    className="ml-3 text-red-400 hover:text-red-300 transition"
-                    onClick={() => handleRemoveCasinoType(type)}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+                  Hot Casino
+                </label>
+              </div>
 
-          {/* Features */}
-          <div className="mt-6">
-            <label className="block text-sm font-medium mb-2 text-gray-300">Features</label>
-            <div className="flex gap-4 mb-3">
-              <input
-                type="text"
-                value={newFeature}
-                onChange={(e) => setNewFeature(e.target.value)}
-                className="flex-1 p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                placeholder="Add feature"
-              />
-              <button
-                type="button"
-                onClick={handleAddFeature}
-                className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition duration-150"
-              >
-                Add
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {casino.generalInfo.features.map((feature) => (
-                <div
-                  key={feature}
-                  className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm"
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="recommendedByExperts"
+                  checked={casino.recommendedByExperts}
+                  onChange={(e) =>
+                    setCasino({
+                      ...casino,
+                      recommendedByExperts: e.target.checked,
+                    })
+                  }
+                  className="h-5 w-5 text-red-500 focus:ring-red-400 border-gray-600 rounded bg-gray-700"
+                />
+                <label
+                  htmlFor="recommendedByExperts"
+                  className="ml-3 block text-base text-gray-300"
                 >
-                  <span>{feature}</span>
-                  <button
-                    type="button"
-                    className="ml-3 text-red-400 hover:text-red-300 transition"
-                    onClick={() => handleRemoveFeature(feature)}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+                  Recommended by Experts
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="certifiedCasino"
+                  checked={casino.certifiedCasino}
+                  onChange={(e) =>
+                    setCasino({ ...casino, certifiedCasino: e.target.checked })
+                  }
+                  className="h-5 w-5 text-red-500 focus:ring-red-400 border-gray-600 rounded bg-gray-700"
+                />
+                <label
+                  htmlFor="certifiedCasino"
+                  className="ml-3 block text-base text-gray-300"
+                >
+                  Certified Casino
+                </label>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Payment Info */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Payment Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Minimum Deposit
-              </label>
-              <input
-                type="text"
-                name="paymentInfo.minimumDeposit"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.paymentInfo.minimumDeposit}
-                onChange={handleChange}
-              />
+          {/* General Info */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">General Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Website
+                </label>
+                <input
+                  type="text"
+                  name="generalInfo.website"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.generalInfo.website}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Languages
+                </label>
+                <input
+                  type="text"
+                  name="generalInfo.languages"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.generalInfo.languages}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Established
+                </label>
+                <input
+                  type="text"
+                  name="generalInfo.established"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.generalInfo.established}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Licences
+                </label>
+                <input
+                  type="text"
+                  name="generalInfo.licences"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.generalInfo.licences}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Affiliate Program
+                </label>
+                <input
+                  type="text"
+                  name="generalInfo.affiliateProgram"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.generalInfo.affiliateProgram}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  name="generalInfo.companyName"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.generalInfo.companyName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Affiliate Program Link
+                </label>
+                <input
+                  type="text"
+                  name="editorView"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.editorView}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">Visits</label>
+                <input
+                  type="number"
+                  name="visits"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.visits}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Deposit Methods
-              </label>
-              <input
-                type="text"
-                name="paymentInfo.withdrawalMethods"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.paymentInfo.withdrawalMethods}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Withdrawal Time
-              </label>
-              <input
-                type="text"
-                name="paymentInfo.withdrawalTime"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.paymentInfo.withdrawalTime}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Currencies</label>
-              <input
-                type="text"
-                name="paymentInfo.fees"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.paymentInfo.fees}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-        </div>
 
-        {/* Games Section - Assuming this section remains commented out in the actual component logic */}
-        {/* <div className="mb-6">...</div> */}
-
-        {/* Responsible Gaming */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Responsible Gaming</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Support
+            {/* Casino Type */}
+            <div className="mt-6">
+              <label className="block text-sm font-medium mb-2 text-gray-300">
+                Deposit Bonuses
               </label>
-              <input
-                type="text"
-                name="responsibleGaming.support"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.responsibleGaming.support}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">Games</label>
               <div className="flex gap-4 mb-3">
                 <input
                   type="text"
-                  value={newTool}
-                  onChange={(e) => setNewTool(e.target.value)}
+                  value={newCasinoType}
+                  onChange={(e) => setNewCasinoType(e.target.value)}
                   className="flex-1 p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                  placeholder="Add game"
+                  placeholder="Add Deposit Bonuses"
                 />
                 <button
                   type="button"
-                  onClick={handleAddTool}
+                  onClick={handleAddCasinoType}
                   className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition duration-150"
                 >
                   Add
                 </button>
               </div>
               <div className="flex flex-wrap gap-3">
-                {casino.responsibleGaming.tools.map((tool) => (
+                {casino.generalInfo.casinoType.map((type) => (
                   <div
-                    key={tool}
+                    key={type}
                     className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm"
                   >
-                    <span>{tool}</span>
+                    <span>{type}</span>
                     <button
                       type="button"
                       className="ml-3 text-red-400 hover:text-red-300 transition"
-                      onClick={() => handleRemoveTool(tool)}
+                      onClick={() => handleRemoveCasinoType(type)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="mt-6">
+              <label className="block text-sm font-medium mb-2 text-gray-300">Features</label>
+              <div className="flex gap-4 mb-3">
+                <input
+                  type="text"
+                  value={newFeature}
+                  onChange={(e) => setNewFeature(e.target.value)}
+                  className="flex-1 p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  placeholder="Add feature"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddFeature}
+                  className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition duration-150"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {casino.generalInfo.features.map((feature) => (
+                  <div
+                    key={feature}
+                    className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm"
+                  >
+                    <span>{feature}</span>
+                    <button
+                      type="button"
+                      className="ml-3 text-red-400 hover:text-red-300 transition"
+                      onClick={() => handleRemoveFeature(feature)}
                     >
                       ×
                     </button>
@@ -1478,195 +1393,389 @@ const EditCasino = () => {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Rich Text Editor for Descriptions (Note: Editor styling depends on the specific Editor component used, which may need external configuration) */}
-        <div className="mb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Editor View</h3>
-          {/* Note: The 'Editor' component itself (from tinyMCE or similar) would need to be configured for a dark theme via its 'init' prop or external CSS. The container styles are dark. */}
-          <div className="border border-gray-700 rounded-lg overflow-hidden">
-            <Editor
-              apiKey="sgqonpylyxmnpot9w1fgdcaq8fh1l86kcoyb8we397c0ni4m"
-              value={casino.content}
-              init={{
-                ...editorConfig,
-                skin: 'oxide-dark', // Add this for TinyMCE dark theme skin
-                content_css: 'dark', // Add this for TinyMCE dark theme content CSS
-              }}
-              onEditorChange={(content) => setCasino({ ...casino, content })}
-            />
-          </div>
-        </div>
+          <section>
+            <h3 className="text-2xl font-bold mb-6 border-b border-gray-700 pb-3">Pros & Cons</h3>
 
-        {/* Overview */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Overview</h3>
-          <textarea
-            name="overview"
-            className="w-full p-4 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-            rows="5"
-            value={casino.overview}
-            onChange={handleChange}
-            placeholder="Enter a brief overview of the casino"
-          ></textarea>
-        </div>
+            {/* Pros */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium mb-2 text-gray-300">Pros (Click add to append)</label>
 
-        {/* Bonuses */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Bonuses</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Deposit Bonus
-              </label>
-              <input
-                type="text"
-                name="depositBonus"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.depositBonus}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-300">
-                Welcome Bonus
-              </label>
-              <input
-                type="text"
-                name="welcomeBonus"
-                className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-                value={casino.welcomeBonus}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Tags */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Casino Type</h3>
-          <div className="mb-6">
-            <label className="block text-base font-medium mb-3 text-gray-300">
-              Available Tags
-            </label>
-            <div className="flex flex-wrap gap-3">
-              {ALL_TAGS.map((tag) => (
+              <div className="flex gap-4 mb-4">
+                <input
+                  type="text"
+                  value={newPro}
+                  onChange={(e) => setNewPro(e.target.value)}
+                  className="flex-1 p-3 border-none rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:ring-blue-500 focus:ring-2"
+                  placeholder="e.g., Fast withdrawals"
+                />
                 <button
-                  key={tag}
                   type="button"
-                  onClick={() => handleAddTag(tag)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition duration-150 ${casino.tags.includes(tag)
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                    }`}
-                  disabled={casino.tags.includes(tag)}
+                  onClick={handleAddPro}
+                  className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 shadow-md"
                 >
-                  {tag}
+                  Add
                 </button>
-              ))}
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {casino.pros.map((pro, index) => (
+                  <div
+                    key={index}
+                    className="bg-green-500/20 text-green-300 px-4 py-1.5 rounded-full flex items-center font-medium text-sm border border-green-500/50"
+                  >
+                    <span>{pro}</span>
+                    <button
+                      type="button"
+                      className="ml-2 text-red-400 hover:text-red-300 font-bold text-lg"
+                      onClick={() => handleRemovePro(index)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Cons */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium mb-2 text-gray-300">Cons (Click add to append)</label>
+
+              <div className="flex gap-4 mb-4">
+                <input
+                  type="text"
+                  value={newCon}
+                  onChange={(e) => setNewCon(e.target.value)}
+                  className="flex-1 p-3 border-none rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:ring-blue-500 focus:ring-2"
+                  placeholder="e.g., Limited game providers"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddCon}
+                  className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 shadow-md"
+                >
+                  Add
+                </button>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {casino.cons.map((con, index) => (
+                  <div
+                    key={index}
+                    className="bg-red-500/20 text-red-300 px-4 py-1.5 rounded-full flex items-center font-medium text-sm border border-red-500/50"
+                  >
+                    <span>{con}</span>
+                    <button
+                      type="button"
+                      className="ml-2 text-red-400 hover:text-red-300 font-bold text-lg"
+                      onClick={() => handleRemoveCon(index)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Payment Info */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Payment Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Minimum Deposit
+                </label>
+                <input
+                  type="text"
+                  name="paymentInfo.minimumDeposit"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.paymentInfo.minimumDeposit}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Deposit Methods
+                </label>
+                <input
+                  type="text"
+                  name="paymentInfo.withdrawalMethods"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.paymentInfo.withdrawalMethods}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Withdrawal Time
+                </label>
+                <input
+                  type="text"
+                  name="paymentInfo.withdrawalTime"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.paymentInfo.withdrawalTime}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">Currencies</label>
+                <input
+                  type="text"
+                  name="paymentInfo.fees"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.paymentInfo.fees}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
           </div>
-          <div>
-            <label className="block text-base font-medium mb-3 text-gray-300">
-              Selected Tags
-            </label>
-            {casino.tags.length === 0 ? (
-              <p className="text-gray-500">No tags selected</p>
-            ) : (
+
+          {/* Games Section - Assuming this section remains commented out in the actual component logic */}
+          {/* <div className="mb-6">...</div> */}
+
+          {/* Responsible Gaming */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Responsible Gaming</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Support
+                </label>
+                <input
+                  type="text"
+                  name="responsibleGaming.support"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.responsibleGaming.support}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">Games</label>
+                <div className="flex gap-4 mb-3">
+                  <input
+                    type="text"
+                    value={newTool}
+                    onChange={(e) => setNewTool(e.target.value)}
+                    className="flex-1 p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                    placeholder="Add game"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddTool}
+                    className="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition duration-150"
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {casino.responsibleGaming.tools.map((tool) => (
+                    <div
+                      key={tool}
+                      className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm"
+                    >
+                      <span>{tool}</span>
+                      <button
+                        type="button"
+                        className="ml-3 text-red-400 hover:text-red-300 transition"
+                        onClick={() => handleRemoveTool(tool)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Rich Text Editor for Descriptions (Note: Editor styling depends on the specific Editor component used, which may need external configuration) */}
+          <div className="mb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Editor View</h3>
+            {/* Note: The 'Editor' component itself (from tinyMCE or similar) would need to be configured for a dark theme via its 'init' prop or external CSS. The container styles are dark. */}
+            <div className="border border-gray-700 rounded-lg overflow-hidden">
+              <Editor
+                apiKey="sgqonpylyxmnpot9w1fgdcaq8fh1l86kcoyb8we397c0ni4m"
+                value={casino.content}
+                init={{
+                  ...editorConfig,
+                  skin: 'oxide-dark', // Add this for TinyMCE dark theme skin
+                  content_css: 'dark', // Add this for TinyMCE dark theme content CSS
+                }}
+                onEditorChange={(content) => setCasino({ ...casino, content })}
+              />
+            </div>
+          </div>
+
+          {/* Overview */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Overview</h3>
+            <textarea
+              name="overview"
+              className="w-full p-4 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+              rows="5"
+              value={casino.overview}
+              onChange={handleChange}
+              placeholder="Enter a brief overview of the casino"
+            ></textarea>
+          </div>
+
+          {/* Bonuses */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Bonuses</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Deposit Bonus
+                </label>
+                <input
+                  type="text"
+                  name="depositBonus"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.depositBonus}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-gray-300">
+                  Welcome Bonus
+                </label>
+                <input
+                  type="text"
+                  name="welcomeBonus"
+                  className="w-full p-3 border border-gray-700 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                  value={casino.welcomeBonus}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Tags */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Casino Type</h3>
+            <div className="mb-6">
+              <label className="block text-base font-medium mb-3 text-gray-300">
+                Available Tags
+              </label>
               <div className="flex flex-wrap gap-3">
-                {casino.tags.map((tag) => (
-                  <div
+                {ALL_TAGS.map((tag) => (
+                  <button
                     key={tag}
-                    className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm font-medium"
-                  >
-                    <span>{tag}</span>
-                    <button
-                      type="button"
-                      className="ml-3 text-red-400 hover:text-red-300 transition"
-                      onClick={() => handleRemoveTag(tag)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Countries */}
-        <div className="border-b border-gray-700 pb-6">
-          <h3 className="text-2xl font-semibold mb-6 ">Available Countries</h3>
-          <div className="mb-6">
-            <label className="block text-base font-medium mb-3 text-gray-300">
-              Available Countries
-            </label>
-            <div className="flex flex-wrap gap-3">
-              {ALL_COUNTRIES.map((country) => (
-                <button
-                  key={country}
-                  type="button"
-                  onClick={() => handleAddCountry(country)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition duration-150 ${casino.availableCountries.includes(country)
+                    type="button"
+                    onClick={() => handleAddTag(tag)}
+                    className={`px-4 py-2 rounded-full text-sm font-semibold transition duration-150 ${casino.tags.includes(tag)
                       ? "bg-green-600 text-white"
                       : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                    }`}
-                  disabled={casino.availableCountries.includes(country)}
-                >
-                  {country}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <label className="block text-base font-medium mb-3 text-gray-300">
-              Selected Countries
-            </label>
-            {casino.availableCountries.length === 0 ? (
-              <p className="text-gray-500">No countries selected</p>
-            ) : (
-              <div className="flex flex-wrap gap-3">
-                {casino.availableCountries.map((country) => (
-                  <div
-                    key={country}
-                    className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm font-medium"
+                      }`}
+                    disabled={casino.tags.includes(tag)}
                   >
-                    <span>{country}</span>
-                    <button
-                      type="button"
-                      className="ml-3 text-red-400 hover:text-red-300 transition"
-                      onClick={() => handleRemoveCountry(country)}
-                    >
-                      ×
-                    </button>
-                  </div>
+                    {tag}
+                  </button>
                 ))}
               </div>
-            )}
+            </div>
+            <div>
+              <label className="block text-base font-medium mb-3 text-gray-300">
+                Selected Tags
+              </label>
+              {casino.tags.length === 0 ? (
+                <p className="text-gray-500">No tags selected</p>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  {casino.tags.map((tag) => (
+                    <div
+                      key={tag}
+                      className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm font-medium"
+                    >
+                      <span>{tag}</span>
+                      <button
+                        type="button"
+                        className="ml-3 text-red-400 hover:text-red-300 transition"
+                        onClick={() => handleRemoveTag(tag)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Submit Button */}
-        <div className="pt-6 flex space-x-4">
-          <button
-            type="submit"
-            className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-150 disabled:bg-green-800 disabled:opacity-50"
-            disabled={loading}
-          >
-            {loading ? "Updating..." : "Update Casino"}
-          </button>
-          <button
-            type="button"
-            className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-150"
-            onClick={() => navigate("/casinos-admin")}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
+          {/* Countries */}
+          <div className="border-b border-gray-700 pb-6">
+            <h3 className="text-2xl font-semibold mb-6 ">Available Countries</h3>
+            <div className="mb-6">
+              <label className="block text-base font-medium mb-3 text-gray-300">
+                Available Countries
+              </label>
+              <div className="flex flex-wrap gap-3">
+                {ALL_COUNTRIES.map((country) => (
+                  <button
+                    key={country}
+                    type="button"
+                    onClick={() => handleAddCountry(country)}
+                    className={`px-4 py-2 rounded-full text-sm font-semibold transition duration-150 ${casino.availableCountries.includes(country)
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      }`}
+                    disabled={casino.availableCountries.includes(country)}
+                  >
+                    {country}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="block text-base font-medium mb-3 text-gray-300">
+                Selected Countries
+              </label>
+              {casino.availableCountries.length === 0 ? (
+                <p className="text-gray-500">No countries selected</p>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  {casino.availableCountries.map((country) => (
+                    <div
+                      key={country}
+                      className="bg-blue-900 text-white px-4 py-2 rounded-full flex items-center text-sm font-medium"
+                    >
+                      <span>{country}</span>
+                      <button
+                        type="button"
+                        className="ml-3 text-red-400 hover:text-red-300 transition"
+                        onClick={() => handleRemoveCountry(country)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="pt-6 flex space-x-4">
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-150 disabled:bg-green-800 disabled:opacity-50"
+              disabled={loading}
+            >
+              {loading ? "Updating..." : "Update Casino"}
+            </button>
+            <button
+              type="button"
+              className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-150"
+              onClick={() => navigate("/casinos-admin")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default EditCasino;

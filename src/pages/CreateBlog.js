@@ -9,7 +9,7 @@ const CreateBlog = () => {
     title: "",
     author: "",
     content: "",
-    publishDate: new Date().toLocaleDateString("en-CA"),
+    publishDate: new Date().toLocaleDateString("en-CA"), 
   });
 
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const CreateBlog = () => {
           <div>
             <label className="block text-sm font-semibold mb-1">Content</label>
             <Editor
-              apiKey="your-tinymce-api-key"
+              apiKey="qmt427jjiza088glb2sjc6w1700id5wq110jxbs05c9nhuy4"
               value={blog.content}
               onEditorChange={handleEditorChange}
               init={{

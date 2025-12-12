@@ -51,8 +51,8 @@ const CountryCasinoList = () => {
 
   // Filter casinos by selected country
   const filterCasinosByCountry = (casinos, country) => {
-    // If "Global" is selected, show all casinos
-    if (country === "Global") {
+    // If "International" is selected, show all casinos
+    if (country === "International") {
       setFilteredCasinos(casinos);
       return;
     }

@@ -16,6 +16,7 @@ import { COLORS } from "../constants/colors";
 import certified from '../assets/images/Certified.png';
 import { fetchAllCasinos } from "../redux/casinosSlice";
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
+import HotNewsSection from "../components/HotNewsSection.js";
 const SLOT_TYPE_TAGS = {
   video: "Video Slots",
   classic: "Classic Slots",
@@ -29,7 +30,7 @@ const Slots = ({ type }) => {
 
   const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
   const countryCode = useSelector((state) => state.country?.code);
-
+  const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
   const [filteredData, setFilteredData] = useState([]);
   const [hotSlots, setHotSlots] = useState([]);
   const [expertSlots, setExpertSlots] = useState([]);
@@ -242,7 +243,7 @@ const Slots = ({ type }) => {
         }
         setCurrentPage={setCurrentPage}
       />
-
+      <HotNewsSection news={blogs} />
 
       <SubscribeSection />
       <Footer />

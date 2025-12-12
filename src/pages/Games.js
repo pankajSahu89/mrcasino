@@ -16,7 +16,7 @@ import SubscribeSection from "../components/SubscribeSection.js";
 import certified from '../assets/images/Certified.png';
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
 import { fetchAllCasinos } from "../redux/casinosSlice";
-
+import HotNewsSection from "../components/HotNewsSection.js";
 const TYPE_TO_TAG_MAP = {
   'casino': 'Casino Games',
   'table': 'Table Games',
@@ -35,7 +35,7 @@ const Games = ({ type }) => {
   // Redux store
   const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
   const countryCode = useSelector((state) => state.country?.code);
-
+  const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
   const [filteredData, setFilteredData] = useState([]);
   const [hotCasinos, setHotCasinos] = useState([]);
   const [recommendedByExperts, setRecommendedByExperts] = useState([]);
@@ -247,7 +247,7 @@ const Games = ({ type }) => {
         }
         setCurrentPage={setCurrentPage}
       />
-
+      <HotNewsSection news={blogs} />
       <SubscribeSection />
       <Footer />
     </>

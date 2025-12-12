@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getBlogById, updateBlog } from "../api/blogs";
 import { uploadImage } from "../api/upload";
 import Sidebar from "../components/Sidebar";
+import { Editor } from "@tinymce/tinymce-react";
 
 const EditBlog = () => {
   const { id } = useParams();
@@ -142,16 +143,29 @@ const EditBlog = () => {
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-1">Content</label>
-            <textarea
-              name="content"
-              className="w-full p-2 border rounded h-64"
+          <div>
+            <label className="block text-sm font-semibold mb-1">Content</label>
+            <Editor
+              apiKey="qmt427jjiza088glb2sjc6w1700id5wq110jxbs05c9nhuy4"
               value={blog.content}
               onChange={handleChange}
-              required
-            ></textarea>
+              init={{
+                height: 300,
+                menubar: false,
+                plugins: [
+                  "advlist autolink lists link image charmap preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic backcolor | " +
+                  "alignleft aligncenter alignright alignjustify | " +
+                  "bullist numlist outdent indent | removeformat | help",
+              }}
+            />
           </div>
+
+         
 
           <div className="mb-6">
             <label className="block text-sm font-medium mb-1">Thumbnail</label>

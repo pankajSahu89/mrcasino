@@ -17,6 +17,8 @@ import certified from "../assets/images/Certified.png";
 import { fetchAllCasinos } from "../redux/casinosSlice";
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
 import HotNewsSection from "../components/HotNewsSection.js";
+import CasinoGuide from "../components/CasinosGuide.js";
+import casinosData from "../data/casinosData";
 const BETTING_TYPE_TAGS = {
     sports: "Sports Betting",
     "new-sites": "New Betting Sites",
@@ -38,6 +40,9 @@ const Betting = ({ type }) => {
     const [certifiedData, setCertifiedData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const casinosPerPage = 10;
+    const id = type; // Example: 'crypto', 'live', etc.
+
+    const casino = casinosData.find(item => item.id === id);
     const filteredAllCasinos = useMemo(
         () => filterCasinosByCountry(allCasinos, countryCode),
         [allCasinos, countryCode]
@@ -236,6 +241,13 @@ const Betting = ({ type }) => {
             />
 
             <HotNewsSection news={blogs} />
+
+            {casino && casino.sections ? ( // Check if casino exists AND has sections
+                <CasinoGuide data={casino} />
+            ) : (
+                // Optionally render a fallback or nothing if data is missing for this type
+                <p>Casino guide data not found for this type.</p>
+            )}
             <SubscribeSection />
             <Footer />
         </>

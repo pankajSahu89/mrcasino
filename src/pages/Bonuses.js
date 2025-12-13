@@ -17,6 +17,8 @@ import certified from '../assets/images/Certified.png';
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
 import HotNewsSection from "../components/HotNewsSection.js";
 import { fetchAllCasinos } from "../redux/casinosSlice";
+import CasinoGuide from "../components/CasinosGuide.js";
+import casinosData from "../data/casinosData";
 
 const TYPE_TO_TAG_MAP = {
   'latest': 'Latest Bonus',
@@ -42,6 +44,9 @@ const Bonuses = ({ type }) => {
   const [certifiedCasinos, setCertifiedCasinos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const casinosPerPage = 10;
+  const id = type; // Example: 'crypto', 'live', etc.
+
+  const casino = casinosData.find(item => item.id === id);
   const filteredAllCasinos = useMemo(
     () => filterCasinosByCountry(allCasinos, countryCode),
     [allCasinos, countryCode]
@@ -251,6 +256,13 @@ const Bonuses = ({ type }) => {
         setCurrentPage={setCurrentPage}
       />
       <HotNewsSection news={blogs} />
+
+      {casino && casino.sections ? ( // Check if casino exists AND has sections
+        <CasinoGuide data={casino} />
+      ) : (
+        // Optionally render a fallback or nothing if data is missing for this type
+        <p>Casino guide data not found for this type.</p>
+      )}
 
       <SubscribeSection />
       <Footer />

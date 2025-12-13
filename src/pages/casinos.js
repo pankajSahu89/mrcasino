@@ -18,20 +18,24 @@ import banner from '../assets/images/banner.png';
 import { COLORS } from "../constants/colors";
 import AllOnlineCasinosSection from "../components/AllOnlineCasinosSection.js";
 import HotNewsSection from "../components/HotNewsSection.js";
+import CasinoGuide from "../components/CasinosGuide.js";
+import casinosData from "../data/casinosData";
+
 const Casinos = ({ type }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { allCasinos, loadingAll, error } = useSelector((state) => state.casinos || {});
   const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
   const countryCode = useSelector((state) => state.country?.code);
-
-
   const [filteredData, setFilteredData] = useState([]);
   const [hotCasinos, setHotCasinos] = useState([]);
   const [recommendedByExperts, setRecommendedByExperts] = useState([]);
   const [certifiedCasinos, setCertifiedCasinos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const casinosPerPage = 10;
+ const id = type; // Example: 'crypto', 'live', etc.
+  const casino = casinosData.find(item => item.id === id);
 
   const filteredAllCasinos = useMemo(
     () => filterCasinosByCountry(allCasinos, countryCode),
@@ -231,7 +235,15 @@ const Casinos = ({ type }) => {
         }
         setCurrentPage={setCurrentPage}
       />
+      
       <HotNewsSection news={blogs} />
+
+     {casino && casino.sections ? ( // Check if casino exists AND has sections
+          <CasinoGuide data={casino} />
+      ) : (
+          // Optionally render a fallback or nothing if data is missing for this type
+          <p>Casino guide data not found for this type.</p>
+      )}
       <SubscribeSection />
 
       <Footer />

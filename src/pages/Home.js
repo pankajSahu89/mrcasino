@@ -12,6 +12,7 @@ import { fetchBlogs } from "../redux/blogsSlice";
 import { setCountryCode } from "../redux/countrySlice";
 import { filterCasinosByCountry } from "../utils/casinoCountry";
 import { createVisitorLog } from "../api/visitorLog";
+
 import API from "../api/axios";
 
 const NewOncasinotrees = React.lazy(() => import("../components/NewOnMrGamblers.js"));
@@ -25,6 +26,7 @@ const SubscribeSection = React.lazy(() => import("../components/SubscribeSection
 const Footer = React.lazy(() => import("../components/Footer"));
 const CookieConsent = React.lazy(() => import("../components/CookieConsent"));
 const HotNewsSection = React.lazy(() => import("../components/HotNewsSection.js"));
+
 
 // --- Default/Fallback SEO State for Robustness ---
 const defaultSeoState = {
@@ -89,7 +91,7 @@ const Home = () => {
     const countryCode = useSelector((state) => state.country?.code);
     const countryName = useSelector((state) => state.country?.name);
     const { blogs, loading: loadingBlogs } = useSelector((state) => state.blogs);
-   
+
     const { homeCasinos, allCasinos, loadingHome, error } = useSelector(
         (state) => state.casinos || {}
     );
@@ -134,7 +136,7 @@ const Home = () => {
                     signal: controller.signal,
                 });
                 const data = await res.json();
-               
+
 
                 if (data?.country_code) {
                     dispatch(setCountryCode(data.country_code));
@@ -331,7 +333,7 @@ const Home = () => {
 
     return (
         <>
-            {/* 🌟 HELMET IMPLEMENTATION 🌟 */}
+
             <Helmet>
                 <title>{seoData.seo.title}</title>
                 <meta name="description" content={seoData.seo.description} />
@@ -374,10 +376,10 @@ const Home = () => {
             {/* ------------------------------- */}
 
             <Navbar />
-            <Header 
-              recentCasinos={sections.recommended}
-              countryName={countryName}
-              handlePlayClick={handlePlayClick}
+            <Header
+                recentCasinos={sections.recommended}
+                countryName={countryName}
+                handlePlayClick={handlePlayClick}
             />
 
             <Suspense
@@ -429,6 +431,8 @@ const Home = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 <HotNewsSection news={blogs} />
+
+             
                 <SubscribeSection />
                 <Footer />
                 <CookieConsent />

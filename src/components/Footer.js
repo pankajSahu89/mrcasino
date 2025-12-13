@@ -10,7 +10,8 @@ import {
 import { faEnvelope, faPhone, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { COLORS } from "../constants/colors";
-
+import Logo from "../assets/images/logo.png"
+import LogoName from "../assets/images/logo_name.png"
 const Footer = () => {
   return (
     <footer
@@ -26,25 +27,29 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-[1.5fr_3fr] gap-12">
 
           {/* ---------- LEFT COLUMN ---------- */}
-          <div className="flex flex-col gap-4">
-            <h2
-              className="flex items-center justify-center w-fit"
-              style={{
-                height: "38px",
-                background: COLORS.white,
-                borderTopLeftRadius: "20px",
-                borderBottomRightRadius: "20px",
-                padding: "8px 20px",
-                fontFamily: "BigNoodleTitling",
-                fontSize: "28px",
-                fontWeight: "300",
-                letterSpacing: "0.1em",
-                color: COLORS.primary,
-              }}
-            >
-              Casino TreeS
-            </h2>
-
+          <div className="flex flex-col ">
+            <div className="flex flex-ROW gap-4 mb-2">
+              <img
+                className="flex items-center justify-center w-fit"
+                src={Logo}
+                alt="Casino Trees"
+                style={{
+                  height: "100%",
+                  maxHeight: "72px",
+                  objectFit: "contain",
+                }}
+              />
+              <img
+                className="flex items-center justify-center mt-2 w-fit"
+                src={LogoName}
+                alt="Casino Trees"
+                style={{
+                  height: "100%",
+                  maxHeight: "48px",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
             <p className="text-gray-300 leading-6 max-w-[360px]">
               Your Gateway to the Best Online Casinos & Big Wins!
               <br />

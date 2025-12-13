@@ -5,6 +5,8 @@ import { COLORS } from "../constants/colors";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setCountryCode } from "../redux/countrySlice";
+import Logo from "../assets/images/logo.png"
+import LogoName from "../assets/images/logo_name.png"
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -124,23 +126,28 @@ const Navbar = () => {
         className="max-w-[1440px] mx-auto flex justify-between items-center px-4 sm:px-6 md:px-16 py-4"
       >
         {/* Logo */}
-         <h2
-                      className="flex items-center justify-center w-fit"
-                      style={{
-                        height: "38px",
-                        background: COLORS.white,
-                        borderTopLeftRadius: "20px",
-                        borderBottomRightRadius: "20px",
-                        padding: "8px 20px",
-                        fontFamily: "BigNoodleTitling",
-                        fontSize: "28px",
-                        fontWeight: "300",
-                        letterSpacing: "0.1em",
-                        color: COLORS.primary,
-                      }}
-                    >
-                      Casino TreeS
-                    </h2>
+        <div className="flex flex-ROW gap-4">
+          <img
+            className="flex items-center justify-center w-fit"
+            src={Logo}
+            alt="Casino Trees"
+            style={{
+              height: "100%",
+              maxHeight: "48px",
+              objectFit: "contain",
+            }}
+          />
+          <img
+            className="flex items-center justify-center mt-1 w-fit"
+            src={LogoName}
+            alt="Casino Trees"
+            style={{
+              height: "100%",
+              maxHeight: "36px",
+              objectFit: "contain",
+            }}
+          />
+        </div>
 
         {/* Mobile Hamburger */}
         <div className="md:hidden text-3xl" onClick={toggleMobileMenu}>
@@ -197,18 +204,18 @@ const Navbar = () => {
                     item.path === location.pathname ||
                     item.submenu.some(sub => sub.path === location.pathname)
                   ) && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        left: "36px",
-                        bottom: "-6px",
-                        width: "8px",
-                        height: "3px",
-                        backgroundColor: COLORS.primary,
-                        borderRadius: "9999px",
-                      }}
-                    ></span>
-                  )}
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "36px",
+                          bottom: "-6px",
+                          width: "8px",
+                          height: "3px",
+                          backgroundColor: COLORS.primary,
+                          borderRadius: "9999px",
+                        }}
+                      ></span>
+                    )}
                 </span>
               </Link>
 

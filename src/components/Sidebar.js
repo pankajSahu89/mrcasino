@@ -11,6 +11,8 @@ import {
   FaChartLine,
   FaUserPlus,
   FaClipboardList,
+  FaBullhorn,
+
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { COLORS } from "../constants/colors";
@@ -100,7 +102,17 @@ const Sidebar = () => {
               location.pathname === "/blogs-admin" ? "bg-blue-500 text-white" : "hover:text-blue-400"
             }`}
           >
-            <FaBlog /> <span>Blogs</span>
+            <FaBullhorn /> <span>Blogs</span>
+          </Link>
+        </li>
+         <li>
+          <Link 
+            to="/banners" 
+            className={`flex items-center space-x-2 p-2 rounded ${
+              location.pathname === "/blogs-admin" ? "bg-blue-500 text-white" : "hover:text-blue-400"
+            }`}
+          >
+            <FaBlog /> <span>Ad Banners</span>
           </Link>
         </li>
         <li>

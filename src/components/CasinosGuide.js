@@ -30,7 +30,7 @@ const CasinoGuide = ({ data }) => {
     if (!data || sections.length === 0) return null;
 
     return (
-        <section className="mx-auto px-20  py-10" style={{ backgroundColor: COLORS.black }}>
+        <section className="mx-auto px-4 sm:px-8 md:px-20 py-10"style={{ backgroundColor: COLORS.black }}>
             <h2
                 className="text-white text-center mb-4 text-4xl sm:text-5xl md:text-6xl"
                 style={{
@@ -46,7 +46,7 @@ const CasinoGuide = ({ data }) => {
 
             <div className="flex flex-col md:flex-row gap-6 p-4">
                 {/* LEFT: TABLE OF CONTENTS */}
-                <aside className="w-full md:w-1/4  border border-[#267BDC] rounded-xl p-4 mb-6 sticky top-20 h-[80vh] overflow-y-auto">
+                <aside className="hidden md:block w-full md:w-1/4  border border-[#267BDC] rounded-xl p-4 mb-6 sticky top-20 h-[80vh] overflow-y-auto">
                     <h3 className="text-white text-2xl  font-semibold mb-4">Contents</h3>
                     <ul className="space-y-2">
                         {sections.map((section, index) => (
@@ -79,7 +79,7 @@ const CasinoGuide = ({ data }) => {
                 </aside>
 
                 {/* RIGHT: CONTENT */}
-                <main className="w-full md:w-3/4 mb-6  p-6 space-y-10">
+                <main className="w-full md:w-3/4 mb-6 p-4 md:p-6 space-y-10 mx-auto">
                     {sections.map((section, index) => (
                         <div
                             key={section.id}

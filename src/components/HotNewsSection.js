@@ -56,7 +56,7 @@ const HotNewsSection = ({ news = [] }) => {
         </div>
 
         {/* RIGHT SIDE SMALL BLOG CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1  sm:grid-cols-2 gap-6">
           {news.slice(1).map((item, idx) => (
             <div
               key={idx}

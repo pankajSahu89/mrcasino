@@ -24,7 +24,7 @@ import ThemePage from "./pages/ThemePage";
 import SeoPage from "./pages/SEOPage";
 import Login from "./pages/Login";
 import CountryWise from "./pages/CountryWise";
-
+import AdminBanners from "./pages/AdminBanners";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndCondition";
 import CookiesPolicy from "./pages/CookiesPolicies";
@@ -82,6 +82,7 @@ function App() {
       <Route path="/casinos/:slug" element={<CasinoDetail />} />
       <Route path="/Subscribers" element={<Subscriber />} />
       <Route path="/UserLogs" element={<UserLogs />} />
+      <Route path="/banners" element={<AdminBanners />} />
       
 
       {/* Filtered Casinos */}

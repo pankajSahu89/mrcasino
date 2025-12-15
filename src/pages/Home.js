@@ -12,7 +12,7 @@ import { fetchBlogs } from "../redux/blogsSlice";
 import { setCountryCode } from "../redux/countrySlice";
 import { filterCasinosByCountry } from "../utils/casinoCountry";
 import { createVisitorLog } from "../api/visitorLog";
-
+import CasinoAdPopup from "../components/CasinoAdPopup.js";
 import API from "../api/axios";
 
 const NewOncasinotrees = React.lazy(() => import("../components/NewOnMrGamblers.js"));
@@ -95,6 +95,7 @@ const Home = () => {
     const { homeCasinos, allCasinos, loadingHome, error } = useSelector(
         (state) => state.casinos || {}
     );
+    const [showAd, setShowAd] = useState(true);
 
     // 🌟 SEO STATE 🌟
     const [seoData, setSeoData] = useState(defaultSeoState);
@@ -376,6 +377,7 @@ const Home = () => {
             {/* ------------------------------- */}
 
             <Navbar />
+            <CasinoAdPopup />
             <Header
                 recentCasinos={sections.recommended}
                 countryName={countryName}
@@ -432,7 +434,7 @@ const Home = () => {
                 />
                 <HotNewsSection news={blogs} />
 
-             
+
                 <SubscribeSection />
                 <Footer />
                 <CookieConsent />

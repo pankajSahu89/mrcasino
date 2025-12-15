@@ -7,6 +7,7 @@ import { initGA } from "./utils/analytics";
 import { AuthProvider } from "./context/AuthContext";
 import ChatBotButton from "./components/ChatBotButton"; 
 
+
 // Redux
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
